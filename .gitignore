@@ -1,0 +1,32 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Coverage
+lib-cov
+coverage
+.nyc_output
+
+# Node
+.lock-wscript
+build/Release
+node_modules
+.node_repl_history
+.npm
+
+# Temporary
+.idea
+.DS_Store
+lib
+
+# Visual Studio Code
+.vscode
+
+# Demo configuration
+mailgun.json

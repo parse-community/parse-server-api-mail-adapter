@@ -1,0 +1,55 @@
+{
+  "name": "parse-server-api-mail-adapter",
+  "version": "1.0.0",
+  "description": "API Mail Adapter for Parse Server",
+  "main": "./lib/index.js",
+  "scripts": {
+    "build:watch": "babel src --out-dir lib --source-maps --watch",
+    "build": "babel src --out-dir lib --source-maps",
+    "lint:src": "eslint 'src/**/*.js'",
+    "lint:test": "eslint 'spec/**/*.js'",
+    "lint": "npm run lint:src && npm run lint:test",
+    "test": "nyc --reporter=lcov jasmine",
+    "release": "npm run lint && npm run build && npm test",
+    "posttest": "nyc report --reporter=json && codecov -f coverage/*.json",
+    "demo": "node ./demo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mtrezza/parse-server-api-mail-adapter.git"
+  },
+  "keywords": [
+    "parse",
+    "parse-server",
+    "email-adapter"
+  ],
+  "author": "Manuel Trezza",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mtrezza/parse-server-api-mail-adapter/issues"
+  },
+  "homepage": "https://github.com/mtrezza/parse-server-api-mail-adapter",
+  "files": [
+    "src",
+    "lib",
+    "demo"
+  ],
+  "dependencies": {
+    "mustache": "4.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
+    "@babel/plugin-transform-flow-strip-types": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "codecov": "^3.8.1",
+    "eslint": "^7.17.0",
+    "jasmine": "^3.6.3",
+    "nyc": "^15.1.0",
+    "mailgun.js": "2.0.6"
+  },
+  "engines": {
+    "node": "^14"
+  }
+}
