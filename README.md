@@ -95,9 +95,7 @@ const server = new ParseServer({
                     // A callback that makes the Parse User accessible and allows to return the locale of the user for template localization.
                     localeCallback: async (user) => {
                         return user.get('locale');
-                    },
-                    // Is true if localization of template files should be enabled.
-                    enableLocalization: true
+                    }
                 }
             },
             // The asynronous callback that contains the composed email payload to be passed on to an 3rd party API. The payload may need to be convert specifically for the API; conversion for common APIs is conveniently available in the `ApiPayloadConverter`. Below is an example for the Mailgun client.
