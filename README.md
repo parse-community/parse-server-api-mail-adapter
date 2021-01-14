@@ -99,8 +99,9 @@ const server = new ParseServer({
                     // A callback that makes the Parse User accessible and allows
                     // to return user-customized placeholders that will override
                     // the default template placeholders. It also makes the user
-                    // locale accessible, if it was returned by the `localeCallback`.
-                    placeholderCallback: async ({ user, locale }) => {
+                    // locale accessible, if it was returned by the `localeCallback`,
+                    // and the current placeholders that will be augmented.
+                    placeholderCallback: async ({ user, locale, placeholders }) => {
                         return {
                             phone: user.get('phone');
                         };
@@ -149,12 +150,13 @@ There are different files for different parts of the email:
 Placeholders allow to dynamically insert text into the template file content. The placeholders are filled in according to the key-value definitions returned by the placeholder callback in the adapter configuration.
 
 This is using the [mustache](http://mustache.github.io/mustache.5.html) template syntax. The most commonly used tags are:
-- `{{double-mustache}}`
+- `{{double-mustache}}`: The most basic form of tag; inserts text as HTML escaped by default.
+- `{{{triple-mustache}}}`: Inserts text with unescaped HTML, which is required to insert a URL for example.
 
-    The most basic form of tag; inserts text as HTML escaped by default.
-- `{{{triple-mustache}}}`
-    
-    Inserts text with unescaped HTML, which is required to insert a URL for example.
+By default, the following placeholders are available in the password reset and email verification templates:
+- `appName`: The app name as defined in the Parse Server configuration.
+- `username`: The username of the user who requested the email.
+- `link`: The URL to the password reset or email verification form.
 
 # Localization
 

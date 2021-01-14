@@ -466,6 +466,41 @@ describe('ApiMailAdapter', () => {
             expect(apiCallback.calls.all()[0].args[0].payload.text).not.toContain(templatePlaceholder);
         });
 
+        it('overrides the template placeholder with the email placeholder', async () => {
+            const adapter = new ApiMailAdapter(config);
+            const apiCallback = spyOn(adapter, 'apiCallback').and.callThrough();
+            const email = {
+                templateName: 'customEmailWithPlaceholderCallback',
+                recipient: 'to@example.com',
+                direct: true,
+                placeholders: {
+                    appName: "EmailPlaceholder"
+                }
+            }
+            const template = config.templates[email.templateName];
+            const templatePlaceholder = template.placeholders.appName;
+            const emailPlaceholder = email.placeholders.appName;
+            spyOn(template, 'placeholderCallback').and.callFake(async () => {
+                return {};
+            });
+
+            await adapter._sendMail(email);
+            expect(apiCallback.calls.all()[0].args[0].payload.text).toContain(emailPlaceholder);
+            expect(apiCallback.calls.all()[0].args[0].payload.text).not.toContain(templatePlaceholder);
+        });
+
+        it('makes placeholders accessible in placeholder callback', async () => {
+            const adapter = new ApiMailAdapter(config);
+            const templateName = 'customEmailWithPlaceholderCallback';
+            const template = config.templates[templateName];
+            const email = { templateName, link, appName, user };
+            const placeholderCallback = spyOn(template, 'placeholderCallback').and.callThrough();
+
+            await adapter._sendMail(email);
+            expect(placeholderCallback.calls.all()[0].args[0].placeholders.link).toBe(link);
+            expect(placeholderCallback.calls.all()[0].args[0].placeholders.appName).toBe(appName);
+        });
+
         it('makes user locale accessible in placeholder callback', async () => {
             const adapter = new ApiMailAdapter(config);
             const apiCallback = spyOn(adapter, 'apiCallback').and.callThrough();
