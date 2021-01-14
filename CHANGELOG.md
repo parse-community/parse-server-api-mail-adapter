@@ -5,6 +5,7 @@
 
 ### 🧬 Improvements
 - Added locale to placeholder callback. [#6](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/6). Thanks to [mtrezza](https://github.com/mtrezza).
+- Added current placeholders to placeholder callback. [#7](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/7). Thanks to [mtrezza](https://github.com/mtrezza).
 
 # 1.0.1
 [Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.0...1.0.1)

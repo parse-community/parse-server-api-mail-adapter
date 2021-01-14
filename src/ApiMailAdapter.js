@@ -228,9 +228,12 @@ class ApiMailAdapter extends MailAdapter {
 
     // If placeholder callback is set
     if (placeholderCallback) {
+      
+      // Copy placeholders to prevent any direct changes
+      const placeholderCopy = Object.assign({}, placeholders);
 
       // Add placeholders from callback
-      let callbackPlaceholders = await placeholderCallback({ user, locale });
+      let callbackPlaceholders = await placeholderCallback({ user, locale, placeholders: placeholderCopy });
       callbackPlaceholders = this._validatePlaceholders(callbackPlaceholders);
       Object.assign(placeholders, callbackPlaceholders);
     }
