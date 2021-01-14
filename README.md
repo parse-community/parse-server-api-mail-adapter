@@ -7,14 +7,14 @@ The Parse Server API Mail Adapter enables Parse Server to send emails using any 
 
 # Content
 
-- [Getting Started](#getting-started)
+- [Installation](#Installation)
 - [Demo](#demo)
 - [Configuration](#configuration)
 - [Templates](#templates)
 - [Localization](#localization)
 - [Need help?](#need-help)
 
-# Getting Started
+# Installation
 
 1. Install adapter:
     ```
@@ -61,38 +61,48 @@ const server = new ParseServer({
             sender: 'sender@example.com', 
             // The email templates.
             templates: {
-                // The template used by Parse Server to send an email for password reset; this is a reserved template name.
+                // The template used by Parse Server to send an email for password
+                // reset; this is a reserved template name.
                 passwordResetEmail: {
                     subjectPath: './files/password_reset_email_subject.txt'),
                     textPath: './files/password_reset_email.txt'),
                     htmlPath: './files/password_reset_email.html')
                 },
-                // The template used by Parse Server to send an email for email address verification; this is a reserved template name.
+                // The template used by Parse Server to send an email for email
+                // address verification; this is a reserved template name.
                 verificationEmail: {
                     subjectPath: './files/verification_email_subject.txt'),
                     textPath: './files/verification_email.txt'),
                     htmlPath: './files/verification_email.html')
                 },
-                // A custom email template that can be used when sending emails from Cloud Code; the template name can be choosen freely; it is possible to add various custom templates.
+                // A custom email template that can be used when sending emails
+                // from Cloud Code; the template name can be choosen freely; it
+                // is possible to add various custom templates.
                 customEmail: {
                     subjectPath: './files/custom_email_subject.txt'),
                     textPath: './files/custom_email.txt'),
                     htmlPath: './files/custom_email.html'),
-                    // Placeholders contain the values to be filled into the placeholder keys in the file content. A placeholder `{{appName}}` in the email will be replaced the value defined here.
+                    // Placeholders are filled into the template file contents.
+                    // For example, the placeholder `{{appName}}` in the email
+                    // will be replaced the value defined here.
                     placeholders: {
                         appName: "ExampleApp"
                     },
-                    // Extras to add to the email payload that is accessible in the `apiCallback`.
+                    // Extras to add to the email payload that is accessible in the
+                    // `apiCallback`.
                     extra: {
                         replyTo: 'no-reply@example.com'
                     },
-                    // A callback that makes the Parse User accessible and allows to return user-customized placeholders that will override the default template placeholders.
+                    // A callback that makes the Parse User accessible and allows
+                    // to return user-customized placeholders that will override
+                    // the default template placeholders.
                     placeholderCallback: async (user) => {
                         return {
                             phone: user.get('phone')
                         };
                     },
-                    // A callback that makes the Parse User accessible and allows to return the locale of the user for template localization.
+                    // A callback that makes the Parse User accessible and allows
+                    // to return the locale of the user for template localization.
                     localeCallback: async (user) => {
                         return user.get('locale');
                     }
@@ -112,7 +122,7 @@ const server = new ParseServer({
 });
 ```
 
-## Templates
+# Templates
 
 Emails are composed using templates. A template defines the paths to its content files, for example:
 
@@ -131,6 +141,17 @@ There are different files for different parts of the email:
 - plain-text content (`textPath`)
 - HTML content (`htmlPath`)
 
+# Placeholders
+Placeholders allow to dynamically insert text into the template file content. The placeholders are filled in according to the key-value definitions returned by the placeholder callback in the adapter configuration.
+
+This is using the [mustache](http://mustache.github.io/mustache.5.html) template syntax. The most commonly used tags are:
+- `{{double-mustache}}`
+
+    The most basic form of tag; inserts text as HTML escaped by default.
+- `{{{triple-mustache}}}`
+    
+    Inserts text with unescaped HTML, which is required to insert a URL for example.
+
 # Localization
 
 Localization allows to use a specific template depending on the user locale. To turn on localization for a template, add a `localeCallback` to the template configuration.
@@ -147,7 +168,7 @@ path/
 │   └── example.html     // de localized file
 └── de-AT/               // de-AT locale folder
 │   └── example.html     // de-AT localized file
-````
+```
 
 Files are matched with the user locale in the following order:
 1. Locale match, e.g. locale `de-AT` matches file in folder `de-AT`.
@@ -156,5 +177,5 @@ Files are matched with the user locale in the following order:
 
 # Need help?
 
+- Ask on StackOverflow using the tag [parse-server](https://stackoverflow.com/questions/tagged/parse-server).
 - Search through existing issues or open a new issue.
-- Ask on StackOverflow using the tag `parse-server` and `api-mail-adapter`.
