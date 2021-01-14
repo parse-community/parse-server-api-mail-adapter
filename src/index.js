@@ -4,7 +4,7 @@ import Errors from './Errors';
 
 export default ApiMailAdapter;
 export {
-    ApiPayloadConverter,
-    ApiMailAdapter,
-    Errors,
+  ApiPayloadConverter,
+  ApiMailAdapter,
+  Errors,
 };

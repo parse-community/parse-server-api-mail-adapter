@@ -14,7 +14,7 @@ class ApiMailAdapter extends MailAdapter {
    * @param {Object} options The configuration options.
    */
   constructor(options) {
-    
+
     // Get parameters
     const { sender, templates, apiCallback } = options || {};
 
@@ -38,8 +38,8 @@ class ApiMailAdapter extends MailAdapter {
 
     // Validate templates
     for (const key in templates) {
-        this._validateTemplate(templates[key]);
-    };
+      this._validateTemplate(templates[key]);
+    }
 
     // Set properties
     this.sender = sender;
@@ -53,7 +53,7 @@ class ApiMailAdapter extends MailAdapter {
    * @param {String} link The password reset link.
    * @param {String} appName The app name.
    * @param {String} user The Parse User.
-   * @returns {Promise<Any>} The mail provider API response. 
+   * @returns {Promise<Any>} The mail provider API response.
    */
   sendPasswordResetEmail({ link, appName, user }) {
     return this._sendMail({
@@ -70,7 +70,7 @@ class ApiMailAdapter extends MailAdapter {
    * @param {String} link The email verification link.
    * @param {String} appName The app name.
    * @param {String} user The Parse User.
-   * @returns {Promise<Any>} The mail provider API response. 
+   * @returns {Promise<Any>} The mail provider API response.
    */
   sendVerificationEmail({ link, appName, user }) {
     return this._sendMail({
@@ -111,11 +111,11 @@ class ApiMailAdapter extends MailAdapter {
   /**
    * @function _sendMail
    * @description Sends an email.
-   * @param {Object} email The email to send. 
+   * @param {Object} email The email to send.
    * @returns {Promise} The mail provider API response.
    */
   async _sendMail(email) {
-    
+
     // Define parameters
     let user, message;
     const templateName = email.templateName;
@@ -138,11 +138,11 @@ class ApiMailAdapter extends MailAdapter {
     // 1. Placeholders set in the template (default)
     // 2. Placeholders set in the email
     // 3. Placeholders returned by the placeholder callback
-    let placeholders = template.placeholders || {};
+    const placeholders = template.placeholders || {};
 
     // If the email is sent directly via Cloud Code
     if (email.direct) {
-      
+
       // If recipient is not set
       if (!email.recipient) {
         throw Errors.Error.noRecipient;
@@ -150,15 +150,16 @@ class ApiMailAdapter extends MailAdapter {
 
       // Add placeholders specified in email
       Object.assign(placeholders, email.placeholders || {});
-      
+
       // Set message properties
-      message = Object.assign({
-        from: email.sender || this.sender,
-        to: email.recipient,
-        subject: email.subject,
-        text: email.text,
-        html: email.html
-      },
+      message = Object.assign(
+        {
+          from: email.sender || this.sender,
+          to: email.recipient,
+          subject: email.subject,
+          text: email.text,
+          html: email.html
+        },
         email.extra || {}
       );
 
@@ -166,7 +167,7 @@ class ApiMailAdapter extends MailAdapter {
       // Get email parameters
       const { link, appName } = email;
       user = email.user;
-      
+
       // Add default placeholders for templates
       Object.assign(placeholders, {
         link,
@@ -214,7 +215,7 @@ class ApiMailAdapter extends MailAdapter {
    */
   async _createApiData(options) {
     let { message } = options;
-    const { template, user, placeholders={} } = options;
+    const { template, user, placeholders = {} } = options;
     const { placeholderCallback, localeCallback } = template;
     let locale;
 
@@ -228,7 +229,7 @@ class ApiMailAdapter extends MailAdapter {
 
     // If placeholder callback is set
     if (placeholderCallback) {
-      
+
       // Copy placeholders to prevent any direct changes
       const placeholderCopy = Object.assign({}, placeholders);
 
@@ -239,20 +240,20 @@ class ApiMailAdapter extends MailAdapter {
     }
 
     // Get subject content
-    const subject = message.subject || await this._loadFile(template.subjectPath, locale);
-    
+    const subject = message.subject || await this._loadFile(template.subjectPath, locale);
+
     // If subject is available
     if (subject) {
-      
+
       // Set email subject
       message.subject = subject.toString('utf8');
-      
+
       // Fill placeholders in subject
       message.subject = this._fillPlaceholders(message.subject, placeholders);
     }
 
     // Get text content
-    const text = message.text || await this._loadFile(template.textPath, locale);
+    const text = message.text || await this._loadFile(template.textPath, locale);
 
     // If text content is available
     if (text) {
@@ -265,18 +266,18 @@ class ApiMailAdapter extends MailAdapter {
     }
 
     // Get HTML content
-    const html = message.html || (template.htmlPath ? await this._loadFile(template.htmlPath, locale) : undefined);
-    
+    const html = message.html || (template.htmlPath ? await this._loadFile(template.htmlPath, locale) : undefined);
+
     // If HTML content is available
     if (html) {
-      
+
       // Set email HTML content
       message.html = html.toString('utf8');
 
       // Fill placeholders in HTML
       message.html = this._fillPlaceholders(message.html, placeholders);
     }
-    
+
     // Append any additional message properties;
     // Extras sources override each other in this order:
     // 1. Extras set in the template (default)
@@ -293,13 +294,13 @@ class ApiMailAdapter extends MailAdapter {
 
     // Add optional message properties
     if (message.html) {
-        payload.html = message.html;
+      payload.html = message.html;
     }
     if (message.replyTo) {
-        payload.replyTo = message.replyTo;
+      payload.replyTo = message.replyTo;
     }
 
-    return { payload, locale };
+    return { payload, locale };
   }
 
   /**
@@ -312,17 +313,17 @@ class ApiMailAdapter extends MailAdapter {
    */
   async _loadFile(path, locale) {
 
-      // If localized file should be returned
-      if (locale) {
-          
-        // Get localized file path
-        const localizedFilePath = await this._getLocalizedFilePath(path, locale);
-        path = localizedFilePath;
-      }
-      
-      // Get file content
-      const data = await fs.readFile(path);
-      return data;
+    // If localized file should be returned
+    if (locale) {
+
+      // Get localized file path
+      const localizedFilePath = await this._getLocalizedFilePath(path, locale);
+      path = localizedFilePath;
+    }
+
+    // Get file content
+    const data = await fs.readFile(path);
+    return data;
   }
 
   /**
@@ -388,9 +389,9 @@ class ApiMailAdapter extends MailAdapter {
   /**
    * @function getLocalizedFilePath
    * @description Returns a localized file path matching a given locale.
-   * 
+   *
    * Localized files are placed in subfolders of the given path, for example:
-   * 
+   *
    * root/
    * ├── base/                    // base path to files
    * │   ├── example.html         // default file
@@ -398,12 +399,12 @@ class ApiMailAdapter extends MailAdapter {
    * │   │   └── example.html     // de localized file
    * │   └── de-AT/               // de-AT locale folder
    * │   │   └── example.html     // de-AT localized file
-   * 
+   *
    * Files are matched with the user locale in the following order:
    * 1. Locale match, e.g. locale `de-AT` matches file in folder `de-AT`.
    * 2. Language match, e.g. locale `de-AT` matches file in folder `de`.
    * 3. Default match: file in base folder is returned.
-   * 
+   *
    * @param {String} filePath The file path.
    * @param {String} locale The locale to match.
    * @returns {Promise<String>} The localized file path, or the original file path
@@ -414,21 +415,21 @@ class ApiMailAdapter extends MailAdapter {
       // Get file name and base path
       const file = path.basename(filePath);
       const basePath = path.dirname(filePath);
-      
+
       // If locale is not set return default file
       if (!locale) { return filePath; }
-      
+
       // Check file for locale exists
       const localePath = path.join(basePath, locale, file);
       const localeFileExists = await this._fileExists(localePath);
-      
+
       // If file for locale exists return file
       if (localeFileExists) { return localePath; }
 
       // Check file for language exists
       const languagePath = path.join(basePath, locale.split("-")[0], file);
       const languageFileExists = await this._fileExists(languagePath);
-      
+
       // If file for language exists return file
       if (languageFileExists) { return languagePath; }
 
@@ -436,10 +437,10 @@ class ApiMailAdapter extends MailAdapter {
       return filePath;
 
     } catch (e) {
-        console.log("error in getLocalizedFilePath: " + e);
-        
-        // Return default file path
-        return filePath;
+      console.log("error in getLocalizedFilePath: " + e);
+
+      // Return default file path
+      return filePath;
     }
   }
 
@@ -451,10 +452,10 @@ class ApiMailAdapter extends MailAdapter {
    */
   async _fileExists(path) {
     try {
-        await fs.access(path);
-        return true;
+      await fs.access(path);
+      return true;
     } catch (e) {
-        return false;
+      return false;
     }
   }
 }
