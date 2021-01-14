@@ -1,7 +1,16 @@
 # Changelog
 
 # main
-[Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.3...master)
+[Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.4...master)
+
+# 1.0.4
+[Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.3...1.0.4)
+
+### 🐛 Fixes
+- Fixed failing Parse Server adapter controller validation. [#13](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/13). Thanks to [mtrezza](https://github.com/mtrezza).
+
+### 🧬 Improvements
+- Added lint to CI workflow. [#14](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/14). Thanks to [mtrezza](https://github.com/mtrezza).
 
 # 1.0.3
 [Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.2...1.0.3)
