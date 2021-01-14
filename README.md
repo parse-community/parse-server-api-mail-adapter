@@ -98,8 +98,12 @@ const server = new ParseServer({
                     }
                 }
             },
-            // The asynronous callback that contains the composed email payload to be passed on to an 3rd party API. The payload may need to be convert specifically for the API; conversion for common APIs is conveniently available in the `ApiPayloadConverter`. Below is an example for the Mailgun client.
-            apiCallback: async (payload) => {
+            // The asynronous callback that contains the composed email payload to
+            // be passed on to an 3rd party API and optional meta data. The payload
+            // may need to be converted specifically for the API; conversion for
+            // common APIs is conveniently available in the `ApiPayloadConverter`.
+            // Below is an example for the Mailgun client.
+            apiCallback: async ({ payload, locale }) => {
                 const mailgunPayload = ApiPayloadConverter.mailgun(payload);
                 await mailgunClient.messages.create(mailgunDomain, mailgunPayload);
             }

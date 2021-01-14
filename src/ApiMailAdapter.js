@@ -182,34 +182,37 @@ class ApiMailAdapter extends MailAdapter {
       };
     }
 
-    // Compose email
-    const payload = await this._createPayload({ message, template, placeholders, user });
+    // Create API data
+    const apiData = await this._createApiData({ message, template, placeholders, user });
 
     // Send email
-    return await this.apiCallback(payload);
+    return await this.apiCallback(apiData);
   }
 
   /**
-   * @typedef {Object} CreatePayloadResponse
-   * @property {String} from The sender email address.
-   * @property {String} to The recipient email address.
-   * @property {String} replyTo The reply-to address.
-   * @property {String} subject The subject.
-   * @property {String} text The plain-text content.
-   * @property {String} html The HTML content.
-   * @property {String} message The MIME content.
+   * @typedef {Object} CreateApiDataResponse
+   * @property {Object} payload The generic API payload.
+   * @property {String} payload.from The sender email address.
+   * @property {String} payload.to The recipient email address.
+   * @property {String} payload.replyTo The reply-to address.
+   * @property {String} payload.subject The subject.
+   * @property {String} payload.text The plain-text content.
+   * @property {String} payload.html The HTML content.
+   * @property {String} payload.message The MIME content.
+   * @property {String} [locale] The user locale, if it has been determined via the
+   * locale callback.
    */
   /**
-   * @function _createPayload
-   * @description Creates the API payload.
+   * @function _createApiData
+   * @description Creates the API data, includes the payload and optional meta data.
    * @param {Object} options The payload options.
    * @param {Object} options.message The message to send.
    * @param {Object} options.template The email template to use.
    * @param {Object} [options.placeholders] The email template placeholders.
    * @param {Object} [options.user] The Parse User who is the email recipient.
-   * @returns {Promise<CreatePayloadResponse>} The generic API payload.
+   * @returns {Promise<CreateApiDataResponse>} The API data.
    */
-  async _createPayload(options) {
+  async _createApiData(options) {
     let { message } = options;
     const { template, user, placeholders={} } = options;
     const { placeholderCallback, localeCallback } = template;
@@ -293,7 +296,7 @@ class ApiMailAdapter extends MailAdapter {
         payload.replyTo = message.replyTo;
     }
 
-    return payload;
+    return { payload, locale };
   }
 
   /**

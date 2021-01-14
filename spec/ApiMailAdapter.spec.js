@@ -147,11 +147,11 @@ describe('ApiMailAdapter', () => {
 
             await adapter.sendPasswordResetEmail(options);
             expect(_sendMail.calls.all()[0].args[0]).toEqual(expectedArguments);
-            expect(apiCallback.calls.all()[0].args[0].from).toEqual(config.sender);
-            expect(apiCallback.calls.all()[0].args[0].to).toEqual(user.get('email'));
-            expect(apiCallback.calls.all()[0].args[0].subject).toMatch("Reset");
-            expect(apiCallback.calls.all()[0].args[0].text).toMatch("reset");
-            expect(apiCallback.calls.all()[0].args[0].html).toMatch("reset");
+            expect(apiCallback.calls.all()[0].args[0].payload.from).toEqual(config.sender);
+            expect(apiCallback.calls.all()[0].args[0].payload.to).toEqual(user.get('email'));
+            expect(apiCallback.calls.all()[0].args[0].payload.subject).toMatch("Reset");
+            expect(apiCallback.calls.all()[0].args[0].payload.text).toMatch("reset");
+            expect(apiCallback.calls.all()[0].args[0].payload.html).toMatch("reset");
         });
     });
 
@@ -175,11 +175,11 @@ describe('ApiMailAdapter', () => {
 
             await adapter.sendVerificationEmail(options);
             expect(_sendMail.calls.all()[0].args[0]).toEqual(expectedArguments);
-            expect(apiCallback.calls.all()[0].args[0].from).toEqual(config.sender);
-            expect(apiCallback.calls.all()[0].args[0].to).toEqual(user.get('email'));
-            expect(apiCallback.calls.all()[0].args[0].subject).toMatch("Verification");
-            expect(apiCallback.calls.all()[0].args[0].text).toMatch("verify");
-            expect(apiCallback.calls.all()[0].args[0].html).toMatch("verify");
+            expect(apiCallback.calls.all()[0].args[0].payload.from).toEqual(config.sender);
+            expect(apiCallback.calls.all()[0].args[0].payload.to).toEqual(user.get('email'));
+            expect(apiCallback.calls.all()[0].args[0].payload.subject).toMatch("Verification");
+            expect(apiCallback.calls.all()[0].args[0].payload.text).toMatch("verify");
+            expect(apiCallback.calls.all()[0].args[0].payload.html).toMatch("verify");
         });
     });
 
@@ -216,7 +216,7 @@ describe('ApiMailAdapter', () => {
         it('creates payload with correct properties', async () => {
             const adapter = new ApiMailAdapter(config);
             spyOn(adapter, 'apiCallback').and.callFake(apiResponseSuccess);
-            const _createPayload = spyOn(adapter, '_createPayload').and.callThrough();
+            const _createApiData = spyOn(adapter, '_createApiData').and.callThrough();
             const options = {
                 sender: config.sender,
                 recipient: 'to@example.com',
@@ -235,7 +235,7 @@ describe('ApiMailAdapter', () => {
 
             await expectAsync(adapter.sendMail(options)).toBeResolved();
             
-            const payload = (await _createPayload.calls.all()[0].returnValue);
+            const { payload } = (await _createApiData.calls.all()[0].returnValue);
             expect(payload.from).toMatch(options.sender);
             expect(payload.to).toMatch(options.recipient);
             expect(payload.subject).toMatch(options.subject);
@@ -247,7 +247,7 @@ describe('ApiMailAdapter', () => {
         it('creates payload with correct properties when overriding extras', async () => {
             const adapter = new ApiMailAdapter(config);
             spyOn(adapter, 'apiCallback').and.callFake(apiResponseSuccess);
-            const _createPayload = spyOn(adapter, '_createPayload').and.callThrough();
+            const _createApiData = spyOn(adapter, '_createApiData').and.callThrough();
             const options = {
                 sender: config.sender,
                 recipient: 'to@example.com',
@@ -266,7 +266,7 @@ describe('ApiMailAdapter', () => {
 
             await expectAsync(adapter.sendMail(options)).toBeResolved();
             
-            const payload = (await _createPayload.calls.all()[0].returnValue);
+            const { payload } = (await _createApiData.calls.all()[0].returnValue);
             expect(payload.from).toMatch(options.sender);
             expect(payload.to).toMatch(options.recipient);
             expect(payload.subject).toMatch(options.subject);
@@ -349,7 +349,7 @@ describe('ApiMailAdapter', () => {
             const _loadFile = spyOn(adapter, '_loadFile').and.callThrough();
             const options = { message: {}, template: config.templates.customEmail };
 
-            await adapter._createPayload(options);
+            await adapter._createApiData(options);
             const subjectFileData = await fs.readFile(options.template.subjectPath);
             const textFileData = await fs.readFile(options.template.textPath);
             const htmlFileData = await fs.readFile(options.template.htmlPath);
@@ -371,7 +371,7 @@ describe('ApiMailAdapter', () => {
                 placeholders: { appName: 'ExampleApp' }
             };
 
-            await adapter._createPayload(options);
+            await adapter._createApiData(options);
 
             expect(_fillPlaceholders.calls.all()[0].args[0]).not.toContain('ExampleApp');
             expect(_fillPlaceholders.calls.all()[1].args[0]).not.toContain('ExampleApp');
@@ -418,10 +418,11 @@ describe('ApiMailAdapter', () => {
     describe('localization', () => {
         let adapter;
         let options;
+        let apiCallback;
 
         beforeEach(async () => {
             adapter = new ApiMailAdapter(config);
-            spyOn(adapter, 'apiCallback').and.callFake(apiResponseSuccess);
+            apiCallback = spyOn(adapter, 'apiCallback').and.callFake(apiResponseSuccess);
 
             options = { 
                 message: {},
@@ -432,7 +433,7 @@ describe('ApiMailAdapter', () => {
 
         it('uses user locale variable from user locale callback', async () => {        
             const _loadFile = spyOn(adapter, '_loadFile').and.callThrough();
-            await adapter._createPayload(options);
+            await adapter._createApiData(options);
 
             const subjectFileData = await fs.readFile(path.join(__dirname, 'templates/de-AT/custom_email_subject.txt'));
             const textFileData = await fs.readFile(path.join(__dirname, 'templates/de-AT/custom_email.txt'));
@@ -452,7 +453,7 @@ describe('ApiMailAdapter', () => {
                 return !/\/templates\/de-AT\//.test(path);
             });
             const _loadFile = spyOn(adapter, '_loadFile').and.callThrough();
-            await adapter._createPayload(options);
+            await adapter._createApiData(options);
 
             const subjectFileData = await fs.readFile(path.join(__dirname, 'templates/de/custom_email_subject.txt'));
             const textFileData = await fs.readFile(path.join(__dirname, 'templates/de/custom_email.txt'));
@@ -472,7 +473,7 @@ describe('ApiMailAdapter', () => {
                 return !/\/templates\/de(-AT)?\//.test(path);
             });
             const _loadFile = spyOn(adapter, '_loadFile').and.callThrough();
-            await adapter._createPayload(options);
+            await adapter._createApiData(options);
 
             const subjectFileData = await fs.readFile(path.join(__dirname, 'templates/custom_email_subject.txt'));
             const textFileData = await fs.readFile(path.join(__dirname, 'templates/custom_email.txt'));
@@ -484,6 +485,17 @@ describe('ApiMailAdapter', () => {
             expect(subjectSpyData.toString('utf8')).toEqual(subjectFileData.toString('utf8'));
             expect(textSpyData.toString('utf8')).toEqual(textFileData.toString('utf8'));
             expect(htmlSpyData.toString('utf8')).toEqual(htmlFileData.toString('utf8'));
+        });
+
+        it('makes user locale available in API callback', async () => {
+            const locale = await options.template.localeCallback();
+            const email = {
+                templateName: 'customEmailWithLocaleCallback',
+                recipient: 'to@example.com',
+                direct: true
+            }
+            await adapter._sendMail(email);
+            expect(apiCallback.calls.all()[0].args[0].locale).toContain(locale);
         });
     });
 });
