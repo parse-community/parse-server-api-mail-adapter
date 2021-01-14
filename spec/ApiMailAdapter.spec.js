@@ -38,9 +38,12 @@ const config = {
             subjectPath: path.join(__dirname, 'templates/custom_email_subject.txt'),
             textPath: path.join(__dirname, 'templates/custom_email.txt'),
             htmlPath: path.join(__dirname, 'templates/custom_email.html'),
+            placeholders: {
+                appName: "TemplatePlaceholder"
+            },
             placeholderCallback: () => new Promise((resolve) => {
                 resolve({
-                    appName: 'ExampleApp'
+                    appName: 'CallbackPlaceholder'
                 });
             })
         },
@@ -49,7 +52,21 @@ const config = {
             textPath: path.join(__dirname, 'templates/custom_email.txt'),
             htmlPath: path.join(__dirname, 'templates/custom_email.html'),
             localeCallback: async () => { return 'de-AT'; }
-        }
+        },
+        customEmailWithPlaceholderCallbackAndLocaleCallback: {
+            subjectPath: path.join(__dirname, 'templates/custom_email_subject.txt'),
+            textPath: path.join(__dirname, 'templates/custom_email.txt'),
+            htmlPath: path.join(__dirname, 'templates/custom_email.html'),
+            placeholders: {
+                appName: "TemplatePlaceholder"
+            },
+            placeholderCallback: () => new Promise((resolve) => {
+                resolve({
+                    appName: 'CallbackPlaceholder'
+                });
+            }),
+            localeCallback: async () => { return 'de-AT'; }
+        },
     }
 };
 const examplePayload = {
@@ -447,6 +464,21 @@ describe('ApiMailAdapter', () => {
             await adapter._sendMail(email);
             expect(apiCallback.calls.all()[0].args[0].payload.text).toContain(callbackPlaceholder);
             expect(apiCallback.calls.all()[0].args[0].payload.text).not.toContain(templatePlaceholder);
+        });
+
+        it('makes user locale accessible in placeholder callback', async () => {
+            const adapter = new ApiMailAdapter(config);
+            const apiCallback = spyOn(adapter, 'apiCallback').and.callThrough();
+            const email = {
+                templateName: 'customEmailWithPlaceholderCallbackAndLocaleCallback',
+                recipient: 'to@example.com',
+                direct: true
+            }
+            const template = config.templates[email.templateName];
+            const locale = await template.localeCallback();
+            
+            await adapter._sendMail(email);
+            expect(apiCallback.calls.all()[0].args[0].locale).toBe(locale);
         });
     });
 
