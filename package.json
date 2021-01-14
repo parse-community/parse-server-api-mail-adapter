@@ -1,6 +1,6 @@
 {
   "name": "parse-server-api-mail-adapter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "API Mail Adapter for Parse Server",
   "main": "./lib/index.js",
   "scripts": {
