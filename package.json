@@ -10,7 +10,7 @@
     "lint:test": "eslint 'spec/**/*.js'",
     "lint": "npm run lint:src && npm run lint:test",
     "test": "nyc --reporter=lcov jasmine",
-    "release": "npm run lint && npm run build && npm test",
+    "release": "npm run build && npm test",
     "posttest": "nyc report --reporter=json && codecov -f coverage/*.json",
     "demo": "node ./demo"
   },
@@ -44,7 +44,9 @@
     "@babel/plugin-transform-flow-strip-types": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "codecov": "^3.8.1",
+    "babel-eslint": "10.1.0",
     "eslint": "^7.17.0",
+    "eslint-plugin-flowtype": "^5.2.0",
     "jasmine": "^3.6.3",
     "nyc": "^15.1.0",
     "mailgun.js": "2.0.6"
