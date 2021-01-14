@@ -1,6 +1,6 @@
 {
   "name": "parse-server-api-mail-adapter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "API Mail Adapter for Parse Server",
   "main": "./lib/index.js",
   "scripts": {
@@ -52,6 +52,6 @@
     "mailgun.js": "2.0.6"
   },
   "engines": {
-    "node": "^14"
+    "node": ">=8"
   }
 }
