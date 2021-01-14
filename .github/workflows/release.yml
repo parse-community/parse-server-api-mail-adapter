@@ -19,6 +19,7 @@ jobs:
           restore-keys: |
               ${{ runner.os }}-node-
       - run: npm ci
+      - run: npm run release
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
