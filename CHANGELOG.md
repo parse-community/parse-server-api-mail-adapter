@@ -7,7 +7,7 @@
 [Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.2...1.0.3)
 
 ### 🐛 Fixes
-- Added missing release script invocation when publishing package to npm. [#9](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/9). Thanks to [mtrezza](https://github.com/mtrezza).
+- Added missing release script invocation when publishing package to npm. [#11](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/11). Thanks to [mtrezza](https://github.com/mtrezza).
 
 # 1.0.2
 [Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.1...1.0.2)
