@@ -61,7 +61,7 @@ const config = {
             }
         }
     },
-    apiCallback: async (payload) => {
+    apiCallback: async ({ payload }) => {
         const mailgunPayload = ApiPayloadConverter.mailgun(payload);
         await mailgunClient.messages.create(domain, mailgunPayload);
     }
