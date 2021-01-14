@@ -218,21 +218,21 @@ class ApiMailAdapter extends MailAdapter {
     const { placeholderCallback, localeCallback } = template;
     let locale;
 
-    // If placeholder callback is set
-    if (placeholderCallback) {
-
-      // Add placeholders from callback
-      let callbackPlaceholders = await placeholderCallback(user);
-      callbackPlaceholders = this._validatePlaceholders(callbackPlaceholders);
-      Object.assign(placeholders, callbackPlaceholders);
-    }
-
     // If locale callback is set
     if (localeCallback) {
 
       // Get user locale
       locale = await localeCallback(user);
       locale = this._validateUserLocale(locale);
+    }
+
+    // If placeholder callback is set
+    if (placeholderCallback) {
+
+      // Add placeholders from callback
+      let callbackPlaceholders = await placeholderCallback({ user, locale });
+      callbackPlaceholders = this._validatePlaceholders(callbackPlaceholders);
+      Object.assign(placeholders, callbackPlaceholders);
     }
 
     // Get subject content

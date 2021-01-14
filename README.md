@@ -98,10 +98,11 @@ const server = new ParseServer({
                     },
                     // A callback that makes the Parse User accessible and allows
                     // to return user-customized placeholders that will override
-                    // the default template placeholders.
-                    placeholderCallback: async (user) => {
+                    // the default template placeholders. It also makes the user
+                    // locale accessible, if it was returned by the `localeCallback`.
+                    placeholderCallback: async ({ user, locale }) => {
                         return {
-                            phone: user.get('phone')
+                            phone: user.get('phone');
                         };
                     },
                     // A callback that makes the Parse User accessible and allows
