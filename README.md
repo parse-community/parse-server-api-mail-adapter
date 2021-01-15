@@ -1,4 +1,4 @@
-# parse-server-api-mail-adapter
+# parse-server-api-mail-adapter <!-- omit in toc -->
 
 [![npm version](https://badge.fury.io/js/parse-server-api-mail-adapter.svg)](https://badge.fury.io/js/parse-server-api-mail-adapter)
 [![build status](https://github.com/mtrezza/parse-server-api-mail-adapter/workflows/ci/badge.svg?branch=main)](https://github.com/mtrezza/parse-server-api-mail-adapter/actions?query=workflow%3Aci+branch%3Amain)
@@ -9,12 +9,14 @@
 
 The Parse Server API Mail Adapter enables Parse Server to send emails using any 3rd party API with built-in dynamic templates and localization.
 
-# Content
+# Content <!-- omit in toc -->
 
-- [Installation](#Installation)
+- [Installation](#installation)
 - [Demo](#demo)
 - [Configuration](#configuration)
 - [Templates](#templates)
+- [Placeholders](#placeholders)
+    - [Password Reset and Email Verification](#password-reset-and-email-verification)
 - [Localization](#localization)
 - [Need help?](#need-help)
 
@@ -147,29 +149,33 @@ There are different files for different parts of the email:
 - plain-text content (`textPath`)
 - HTML content (`htmlPath`)
 
+See the [templates](https://github.com/mtrezza/parse-server-api-mail-adapter/tree/main/spec/templates) for examples how placeholders can be used.
+
 # Placeholders
-Placeholders allow to dynamically insert text into the template file content. The placeholders are filled in according to the key-value definitions returned by the placeholder callback in the adapter configuration.
+Placeholders allow to dynamically insert text into the template content. The placeholder values are filled in according to the key-value definitions returned by the placeholder callback in the adapter configuration.
 
 This is using the [mustache](http://mustache.github.io/mustache.5.html) template syntax. The most commonly used tags are:
 - `{{double-mustache}}`: The most basic form of tag; inserts text as HTML escaped by default.
 - `{{{triple-mustache}}}`: Inserts text with unescaped HTML, which is required to insert a URL for example.
 
+### Password Reset and Email Verification
+
 By default, the following placeholders are available in the password reset and email verification templates:
-- `appName`: The app name as defined in the Parse Server configuration.
-- `username`: The username of the user who requested the email.
-- `link`: The URL to the password reset or email verification form.
+- `{{appName}}`: The app name as set in the Parse Server configuration.
+- `{{username}}`: The username of the user who requested the email.
+- `{{link}}`: The URL to the Parse Server endpoint for password reset or email verification.
 
 # Localization
 
 Localization allows to use a specific template depending on the user locale. To turn on localization for a template, add a `localeCallback` to the template configuration.
 
-The locale returned by `localeCallback` will be used to look for locale-specific template files. If the callback return an invalid locale or nothing at all (`undefined`), localization will be ignored and the default files will be used.
+The locale returned by `localeCallback` will be used to look for locale-specific template files. If the callback returns an invalid locale or nothing at all (`undefined`), localization will be ignored and the default files will be used.
 
 The locale-specific files are placed in subfolders with the name of either the whole locale (e.g. `de-AT`), or only the language (e.g. `de`). The locale has to be in format `[language]-[country]` as specified in [IETF BCP 47](https://tools.ietf.org/html/bcp47), e.g. `de-AT`.
 
 Localized files are placed in subfolders of the given path, for example:
-```
-path/
+```js
+base/
 ├── example.html         // default file
 └── de/                  // de language folder
 │   └── example.html     // de localized file
@@ -178,11 +184,11 @@ path/
 ```
 
 Files are matched with the user locale in the following order:
-1. Locale match, e.g. locale `de-AT` matches file in folder `de-AT`.
-2. Language match, e.g. locale `de-AT` matches file in folder `de`.
-3. Default match: file in base folder is returned.
+1. **Locale** (locale `de-AT` matches file in folder `de-AT`)
+2. **Language** (locale `de-AT` matches file in folder `de` if there is no file in folder `de-AT`)
+3. **Default** (default file in base folder is returned if there is no file in folders `de-AT` and `de`)
 
 # Need help?
 
-- Ask on StackOverflow using the tag [parse-server](https://stackoverflow.com/questions/tagged/parse-server).
-- Search through existing issues or open a new issue.
+- Ask on StackOverflow using the [parse-server](https://stackoverflow.com/questions/tagged/parse-server) tag.
+- Search through existing [issues](https://github.com/mtrezza/parse-server-api-mail-adapter/issues) or open a new issue.
