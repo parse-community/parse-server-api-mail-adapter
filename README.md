@@ -4,9 +4,10 @@
 [![build status](https://github.com/mtrezza/parse-server-api-mail-adapter/workflows/ci/badge.svg?branch=main)](https://github.com/mtrezza/parse-server-api-mail-adapter/actions?query=workflow%3Aci+branch%3Amain)
 [![codecov](https://codecov.io/gh/mtrezza/parse-server-api-mail-adapter/branch/main/graph/badge.svg)](https://codecov.io/gh/mtrezza/parse-server-api-mail-adapter)
 [![vulnerabilities](https://snyk.io/test/github/mtrezza/parse-server-api-mail-adapter/badge.svg)](https://snyk.io/test/github/mtrezza/parse-server-api-mail-adapter)
+[![dependency up-to-date](https://img.shields.io/librariesio/release/npm/parse-server-api-mail-adapter)](https://libraries.io/npm/parse-server-api-mail-adapter)
+[![weekly downloads](https://img.shields.io/npm/dw/parse-server-api-mail-adapter)](https://www.npmjs.com/package/parse-server-api-mail-adapter)
 
 The Parse Server API Mail Adapter enables Parse Server to send emails using any 3rd party API with built-in dynamic templates and localization.
-
 
 # Content
 
