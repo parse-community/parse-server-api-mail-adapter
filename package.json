@@ -3,18 +3,6 @@
   "version": "1.0.4",
   "description": "API Mail Adapter for Parse Server",
   "main": "./lib/index.js",
-  "scripts": {
-    "build:watch": "babel src --out-dir lib --source-maps --watch",
-    "build": "babel src --out-dir lib --source-maps",
-    "lint:src": "eslint 'src/**/*.js'",
-    "lint:test": "eslint 'spec/**/*.js'",
-    "lint:fix": "eslint 'spec/**/*.js' --fix && eslint 'spec/**/*.js' --fix",
-    "lint": "npm run lint:src && npm run lint:test",
-    "test": "nyc --reporter=lcov jasmine",
-    "posttest": "nyc report --reporter=json && codecov -f coverage/*.json",
-    "prepare": "npm run build && npm test",
-    "demo": "node ./demo"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mtrezza/parse-server-api-mail-adapter.git"
@@ -39,20 +27,30 @@
     "mustache": "4.1.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
-    "@babel/plugin-transform-flow-strip-types": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "codecov": "^3.8.1",
+    "@babel/cli": "7.13.10",
+    "@babel/core": "7.13.10",
+    "@babel/plugin-proposal-object-rest-spread": "7.13.8",
+    "@babel/plugin-transform-flow-strip-types": "7.13.0",
+    "@babel/preset-env": "7.13.10",
+    "codecov": "3.8.1",
     "babel-eslint": "10.1.0",
-    "eslint": "^7.17.0",
-    "eslint-plugin-flowtype": "^5.2.0",
-    "jasmine": "^3.6.3",
-    "nyc": "^15.1.0",
-    "mailgun.js": "2.0.6"
+    "eslint": "7.21.0",
+    "eslint-plugin-flowtype": "5.3.1",
+    "jasmine": "3.6.4",
+    "nyc": "15.1.0",
+    "mailgun.js": "3.2.1"
   },
   "engines": {
     "node": ">=8"
+  },
+  "scripts": {
+    "build:watch": "babel src --out-dir lib --source-maps --watch",
+    "build": "babel src --out-dir lib --source-maps",
+    "lint": "eslint '{src,spec,demo}/**/*.js'",
+    "lint:fix": "eslint '{src,spec,demo}/**/*.js' --fix",
+    "test": "nyc --reporter=lcov jasmine",
+    "posttest": "nyc report --reporter=json && codecov -f coverage/*.json",
+    "prepare": "npm run build && npm test",
+    "demo": "node ./demo"
   }
 }
