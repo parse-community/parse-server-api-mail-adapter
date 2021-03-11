@@ -8,7 +8,7 @@
     "build": "babel src --out-dir lib --source-maps",
     "lint:src": "eslint 'src/**/*.js'",
     "lint:test": "eslint 'spec/**/*.js'",
-    "lint:fix": "eslint 'spec/**/*.js' --fix && eslint 'spec/**/*.js' --fix",
+    "lint:fix": "eslint 'src/**/*.js' --fix && eslint 'spec/**/*.js' --fix",
     "lint": "npm run lint:src && npm run lint:test",
     "test": "nyc --reporter=lcov jasmine",
     "posttest": "nyc report --reporter=json && codecov -f coverage/*.json",
