@@ -132,7 +132,11 @@ class ApiMailAdapter extends MailAdapter {
     if (!template) {
       throw Errors.Error.noTemplateWithName(templateName);
     }
-
+    
+    // Get user from email object
+    user = email.user;
+    
+    
     // Add template placeholders;
     // Placeholders sources override each other in this order:
     // 1. Placeholders set in the template (default)
@@ -166,7 +170,7 @@ class ApiMailAdapter extends MailAdapter {
     } else {
       // Get email parameters
       const { link, appName } = email;
-      user = email.user;
+      
 
       // Add default placeholders for templates
       Object.assign(placeholders, {
