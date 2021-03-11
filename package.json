@@ -3,18 +3,6 @@
   "version": "1.0.4",
   "description": "API Mail Adapter for Parse Server",
   "main": "./lib/index.js",
-  "scripts": {
-    "build:watch": "babel src --out-dir lib --source-maps --watch",
-    "build": "babel src --out-dir lib --source-maps",
-    "lint:src": "eslint 'src/**/*.js'",
-    "lint:test": "eslint 'spec/**/*.js'",
-    "lint:fix": "eslint 'src/**/*.js' --fix && eslint 'spec/**/*.js' --fix",
-    "lint": "npm run lint:src && npm run lint:test",
-    "test": "nyc --reporter=lcov jasmine",
-    "posttest": "nyc report --reporter=json && codecov -f coverage/*.json",
-    "prepare": "npm run build && npm test",
-    "demo": "node ./demo"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mtrezza/parse-server-api-mail-adapter.git"
@@ -54,5 +42,15 @@
   },
   "engines": {
     "node": ">=8"
+  },
+  "scripts": {
+    "build:watch": "babel src --out-dir lib --source-maps --watch",
+    "build": "babel src --out-dir lib --source-maps",
+    "lint": "eslint '{src,spec,demo}/**/*.js'",
+    "lint:fix": "eslint '{src,spec,demo}/**/*.js' --fix",
+    "test": "nyc --reporter=lcov jasmine",
+    "posttest": "nyc report --reporter=json && codecov -f coverage/*.json",
+    "prepare": "npm run build && npm test",
+    "demo": "node ./demo"
   }
 }

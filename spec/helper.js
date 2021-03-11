@@ -1,6 +1,6 @@
 'use strict';
 
-// Simluate Parse User class
+// Simulate Parse User class
 const Parse = {
   User: class User {
     get(key) {
