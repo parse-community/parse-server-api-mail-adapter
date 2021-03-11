@@ -41,7 +41,7 @@ assignees: ''
 ###  Environment
 <!-- Be specific with versions, don't use "latest" or semver ranges like "~x.y.z" or "^x.y.z". -->
 
-- Mail Adapter version: `FILL_THIS_OUT`
+- API Mail Adapter version: `FILL_THIS_OUT`
 - Parse Server version: `FILL_THIS_OUT`
 
 ### Logs
