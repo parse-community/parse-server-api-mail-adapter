@@ -94,7 +94,7 @@ class ApiMailAdapter extends MailAdapter {
    * @param {String} [extra] Any additional variables to pass to the mail provider API.
    * @returns {Promise<Any>} The mail provider API response.
    */
-  async sendMail({ sender, recipient, subject, text, html, templateName, placeholders, extra }) {
+  async sendMail({ sender, recipient, subject, text, html, templateName, placeholders, extra, user }) {
     return await this._sendMail({
       sender,
       recipient,
@@ -104,6 +104,7 @@ class ApiMailAdapter extends MailAdapter {
       templateName,
       placeholders,
       extra,
+      user,
       direct: true
     });
   }
