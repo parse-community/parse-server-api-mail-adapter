@@ -39,18 +39,18 @@
     "mustache": "4.1.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
-    "@babel/plugin-transform-flow-strip-types": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "codecov": "^3.8.1",
+    "@babel/cli": "7.13.10",
+    "@babel/core": "7.13.10",
+    "@babel/plugin-proposal-object-rest-spread": "7.13.8",
+    "@babel/plugin-transform-flow-strip-types": "7.13.0",
+    "@babel/preset-env": "7.13.10",
+    "codecov": "3.8.1",
     "babel-eslint": "10.1.0",
-    "eslint": "^7.17.0",
-    "eslint-plugin-flowtype": "^5.2.0",
-    "jasmine": "^3.6.3",
-    "nyc": "^15.1.0",
-    "mailgun.js": "2.0.6"
+    "eslint": "7.21.0",
+    "eslint-plugin-flowtype": "5.3.1",
+    "jasmine": "3.6.4",
+    "nyc": "15.1.0",
+    "mailgun.js": "3.2.1"
   },
   "engines": {
     "node": ">=8"
