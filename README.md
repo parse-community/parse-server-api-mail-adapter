@@ -18,6 +18,9 @@ The Parse Server API Mail Adapter enables Parse Server to send emails using any 
 - [Placeholders](#placeholders)
     - [Password Reset and Email Verification](#password-reset-and-email-verification)
 - [Localization](#localization)
+- [Cloud Code](#cloud-code)
+  - [Example](#example)
+  - [Parameters](#parameters)
 - [Need help?](#need-help)
 
 # Installation
@@ -48,7 +51,7 @@ You can modify the script to use any other API you like or debug-step through th
 
 # Configuration
 
-An example configuation to add the API Mail Adapter to Parse Server could look like this:
+An example configuration to add the API Mail Adapter to Parse Server could look like this:
 
 ```js
 // Declare a mail client
@@ -187,6 +190,38 @@ Files are matched with the user locale in the following order:
 1. **Locale** (locale `de-AT` matches file in folder `de-AT`)
 2. **Language** (locale `de-AT` matches file in folder `de` if there is no file in folder `de-AT`)
 3. **Default** (default file in base folder is returned if there is no file in folders `de-AT` and `de`)
+
+# Cloud Code
+
+Sending an email directly from Cloud Code is possible since Parse Server > 4.5.0. This adapter supports this convenience method.
+
+## Example
+
+If the `user` provided has an email address set, it is not necessary to set a `recipient` because the mail adapter will by default use the mail address of the `user`.
+
+```js
+Parse.Cloud.sendEmail({
+  templateName: "next_level_email",
+  placeholders: { gameScore: 100, nextLevel: 2 },
+  user: parseUser // user with email address
+});
+```
+
+## Parameters
+
+| Parameter      | Type         | Optional | Default Value | Example Value               | Description                                                                                    |
+|----------------|--------------|----------|---------------|-----------------------------|------------------------------------------------------------------------------------------------|
+| `sender`       | `String`     |          | -             | `from@example.com`          | The email sender address; overrides the sender address specified in the adapter configuration. |
+| `recipient`    | `String`     |          | -             | `to@example.com`            | The email recipient; if set overrides the email address of the `user`.                         |
+| `subject`      | `String`     |          | -             | `Welcome`                   | The email subject.                                                                             |
+| `text`         | `String`     |          | -             | `Thank you for signing up!` | The plain-text email content.                                                                  |
+| `html`         | `String`     | yes      | `undefined`   | `<html>...</html>`          | The HTML email content.                                                                        |
+| `templateName` | `String`     | yes      | `undefined`   | `customTemplate`            | The template name.                                                                             |
+| `placeholders` | `Object`     | yes      | `{}`          | `{ key: value }`            | The template placeholders.                                                                     |
+| `extra`        | `Object`     | yes      | `{}`          | `{ key: value }`            | Any additional variables to pass to the mail provider API.                                     |
+| `user`         | `Parse.User` | yes      | `undefined`   | -                           | The Parse User that the is the recipient of the email.                                         |
+
+
 
 # Need help?
 
