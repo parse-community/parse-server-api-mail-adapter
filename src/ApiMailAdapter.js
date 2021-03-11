@@ -117,8 +117,10 @@ class ApiMailAdapter extends MailAdapter {
   async _sendMail(email) {
 
     // Define parameters
-    let user, message;
+    let message;
     const templateName = email.templateName;
+    // Get user from email object
+    const user = email.user;
 
     // If template name is not set
     if (!templateName) {
@@ -132,11 +134,7 @@ class ApiMailAdapter extends MailAdapter {
     if (!template) {
       throw Errors.Error.noTemplateWithName(templateName);
     }
-    
-    // Get user from email object
-    user = email.user;
-    
-    
+
     // Add template placeholders;
     // Placeholders sources override each other in this order:
     // 1. Placeholders set in the template (default)
@@ -170,7 +168,6 @@ class ApiMailAdapter extends MailAdapter {
     } else {
       // Get email parameters
       const { link, appName } = email;
-      
 
       // Add default placeholders for templates
       Object.assign(placeholders, {
