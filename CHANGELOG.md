@@ -3,6 +3,15 @@
 # main
 [Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.4...master)
 
+### Breaking Changes
+*(none)*
+
+### Notable Changes
+*(none)*
+
+### Other Changes
+- Fixes undefined `user` in `localeCallback` when sending email via `Parse.Cloud.sendEmail()` (wlky, Manuel Trezza) [#18](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/18)
+
 # 1.0.4
 [Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.3...1.0.4)
 
