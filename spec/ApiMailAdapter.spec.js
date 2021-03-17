@@ -219,12 +219,50 @@ describe('ApiMailAdapter', () => {
         },
         extra: {
           field: "ExampleExtra"
-        }
+        },
+        user: undefined,
       };
       const expectedArguments = Object.assign({}, options, { direct: true });
 
       await expectAsync(adapter.sendMail(options)).toBeResolved();
       expect(_sendMail.calls.all()[0].args[0]).toEqual(expectedArguments);
+    });
+
+    it('passes user to callback when user is passed to sendMail()', async () => {
+      const adapter = new ApiMailAdapter(config);
+      const localeCallbackSpy = spyOn(config.templates.customEmailWithLocaleCallback, 'localeCallback').and.callThrough();
+      const options = {
+        templateName: 'customEmailWithLocaleCallback',
+        user: new Parse.User(),
+      };
+
+      await expectAsync(adapter.sendMail(options)).toBeResolved();
+      expect(localeCallbackSpy.calls.all()[0].args[0].get('locale')).toBe(options.user.get('locale'));
+    });
+
+    it('uses user email if no recipient is passed to sendMail()', async () => {
+      const adapter = new ApiMailAdapter(config);
+      const apiCallbackSpy = spyOn(adapter, 'apiCallback').and.callThrough();
+      const options = {
+        templateName: 'customEmailWithLocaleCallback',
+        user: new Parse.User(),
+      };
+
+      await expectAsync(adapter.sendMail(options)).toBeResolved();
+      expect(apiCallbackSpy.calls.all()[0].args[0].payload.to).toBe(options.user.get('email'));
+    });
+
+    it('overrides user email if recipient is passed to sendMail()', async () => {
+      const adapter = new ApiMailAdapter(config);
+      const apiCallbackSpy = spyOn(adapter, 'apiCallback').and.callThrough();
+      const options = {
+        recipient: 'override@example.com',
+        templateName: 'customEmailWithLocaleCallback',
+        user: new Parse.User(),
+      };
+
+      await expectAsync(adapter.sendMail(options)).toBeResolved();
+      expect(apiCallbackSpy.calls.all()[0].args[0].payload.to).toBe(options.recipient);
     });
   });
 

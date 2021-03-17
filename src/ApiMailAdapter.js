@@ -83,18 +83,19 @@ class ApiMailAdapter extends MailAdapter {
 
   /**
    * @function sendMail
-   * @desciption Sends an email.
+   * @description Sends an email.
    * @param {String} [sender] The email from address.
-   * @param {String} recipient The email recipient.
+   * @param {String} recipient The email recipient; if set overrides the email address of the `user`.
    * @param {String} [subject] The email subject.
    * @param {String} [text] The plain-text email content.
    * @param {String} [html] The HTML email content.
    * @param {String} [templateName] The template name.
-   * @param {String} [placeholders] The template placeholders.
-   * @param {String} [extra] Any additional variables to pass to the mail provider API.
+   * @param {Object} [placeholders] The template placeholders.
+   * @param {Object} [extra] Any additional variables to pass to the mail provider API.
+   * @param {Parse.User} [user] The Parse User that the is the recipient of the email.
    * @returns {Promise<Any>} The mail provider API response.
    */
-  async sendMail({ sender, recipient, subject, text, html, templateName, placeholders, extra }) {
+  async sendMail({ sender, recipient, subject, text, html, templateName, placeholders, extra, user }) {
     return await this._sendMail({
       sender,
       recipient,
@@ -104,6 +105,7 @@ class ApiMailAdapter extends MailAdapter {
       templateName,
       placeholders,
       extra,
+      user,
       direct: true
     });
   }
@@ -117,7 +119,9 @@ class ApiMailAdapter extends MailAdapter {
   async _sendMail(email) {
 
     // Define parameters
-    let user, message;
+    let message;
+    const user = email.user;
+    const userEmail = user ? user.get('email') : undefined;
     const templateName = email.templateName;
 
     // If template name is not set
@@ -144,7 +148,7 @@ class ApiMailAdapter extends MailAdapter {
     if (email.direct) {
 
       // If recipient is not set
-      if (!email.recipient) {
+      if (!email.recipient && !userEmail) {
         throw Errors.Error.noRecipient;
       }
 
@@ -155,7 +159,7 @@ class ApiMailAdapter extends MailAdapter {
       message = Object.assign(
         {
           from: email.sender || this.sender,
-          to: email.recipient,
+          to: email.recipient || userEmail,
           subject: email.subject,
           text: email.text,
           html: email.html
@@ -166,20 +170,19 @@ class ApiMailAdapter extends MailAdapter {
     } else {
       // Get email parameters
       const { link, appName } = email;
-      user = email.user;
 
       // Add default placeholders for templates
       Object.assign(placeholders, {
         link,
         appName,
-        email: user.get('email'),
+        email: userEmail,
         username: user.get('username')
       });
 
       // Set message properties
       message = {
         from: this.sender,
-        to: user.get('email')
+        to: userEmail
       };
     }
 
