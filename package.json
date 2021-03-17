@@ -1,6 +1,6 @@
 {
   "name": "parse-server-api-mail-adapter",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "API Mail Adapter for Parse Server",
   "main": "./lib/index.js",
   "repository": {
@@ -34,8 +34,8 @@
     "@babel/preset-env": "7.13.10",
     "codecov": "3.8.1",
     "babel-eslint": "10.1.0",
-    "eslint": "7.21.0",
-    "eslint-plugin-flowtype": "5.3.1",
+    "eslint": "7.22.0",
+    "eslint-plugin-flowtype": "5.4.0",
     "jasmine": "3.6.4",
     "nyc": "15.1.0",
     "mailgun.js": "3.2.1"
