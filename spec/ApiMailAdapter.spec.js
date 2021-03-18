@@ -630,7 +630,7 @@ describe('ApiMailAdapter', () => {
       expect(htmlSpyData.toString('utf8')).toEqual(htmlFileData.toString('utf8'));
     });
 
-    it('falls back to default file if there is no language or locale match', async function () {
+    it('falls back to default file if there is no language or locale match', async () => {
       // Pretend that there are no files in folders `de-AT` and `de`
       spyOn(adapter, '_fileExists').and.callFake(async (path) => {
         return !/\/templates\/de(-AT)?\//.test(path);
@@ -648,6 +648,16 @@ describe('ApiMailAdapter', () => {
       expect(subjectSpyData.toString('utf8')).toEqual(subjectFileData.toString('utf8'));
       expect(textSpyData.toString('utf8')).toEqual(textFileData.toString('utf8'));
       expect(htmlSpyData.toString('utf8')).toEqual(htmlFileData.toString('utf8'));
+    });
+
+    it('falls back to default file if file reading throws', async () => {
+      const getLocalizedFilePathSpy = spyOn(adapter, '_getLocalizedFilePath').and.callThrough();
+      spyOn(fs, 'access').and.callFake(async () => {
+        throw 'Test file access error';
+      });
+      await adapter._createApiData(options);
+      const file = await getLocalizedFilePathSpy.calls.all()[0].returnValue;
+      expect(file).toMatch(options.template.subjectPath);
     });
 
     it('makes user locale available in API callback', async () => {
