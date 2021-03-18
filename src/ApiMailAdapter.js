@@ -393,7 +393,7 @@ class ApiMailAdapter extends MailAdapter {
    * @function getLocalizedFilePath
    * @description Returns a localized file path matching a given locale.
    *
-   * Localized files are placed in subfolders of the given path, for example:
+   * Localized files are placed in sub-folders of the given path, for example:
    *
    * root/
    * ├── base/                    // base path to files
