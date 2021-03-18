@@ -16,7 +16,7 @@ class Errors extends Error {
       configurationInvalid: new Error('ApiMailAdapter: configuration is missing or invalid.'),
       templatesInvalid: new Error('ApiMailAdapter: templates are missing or invalid.'),
       templateContentPathInvalid: new Error('ApiMailAdapter: template content path is invalid.'),
-      apiCallbackNoFuncion: new Error('ApiMailAdapter: API callback is not a function.'),
+      apiCallbackNoFunction: new Error('ApiMailAdapter: API callback is not a function.'),
       templateCallbackNoFunction: new Error('ApiMailAdapter: placeholder callback is not a function.'),
       localeCallbackNoFunction: new Error('ApiMailAdapter: locale callback is not a function.'),
       templateConfigurationNoName: new Error('ApiMailAdapter: template name is missing.'),

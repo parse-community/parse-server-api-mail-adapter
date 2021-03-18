@@ -123,13 +123,36 @@ describe('ApiMailAdapter', () => {
       }
     });
 
-    it('fails with invalid placeholder callback configuration', async () => {
+    it('fails with invalid placeholder callback', async () => {
       const configs = [
         { apiCallback: df, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds, placeholderCallback: {} } } },
         { apiCallback: df, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds, placeholderCallback: ds } } }
       ];
       for (const config of configs) {
         expect(adapter(config)).toThrow(Errors.Error.templateCallbackNoFunction);
+      }
+    });
+
+    it('fails with missing or invalid API callback', async () => {
+      const configs = [
+        { sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds } } },
+        { apiCallback: null, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds } } },
+        { apiCallback: true, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds } } },
+        { apiCallback: ds, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds } } },
+      ];
+      for (const config of configs) {
+        expect(adapter(config)).toThrow(Errors.Error.apiCallbackNoFunction);
+      }
+    });
+
+    it('fails with invalid locale callback', async () => {
+      const configs = [
+        { apiCallback: df, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds, localeCallback: ds } } },
+        { apiCallback: df, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds, localeCallback: true } } },
+        { apiCallback: df, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds, localeCallback: [] } } },
+      ];
+      for (const config of configs) {
+        expect(adapter(config)).toThrow(Errors.Error.localeCallbackNoFunction);
       }
     });
 
@@ -607,7 +630,7 @@ describe('ApiMailAdapter', () => {
       expect(htmlSpyData.toString('utf8')).toEqual(htmlFileData.toString('utf8'));
     });
 
-    it('falls back to default file if there is no language or locale match', async function () {
+    it('falls back to default file if there is no language or locale match', async () => {
       // Pretend that there are no files in folders `de-AT` and `de`
       spyOn(adapter, '_fileExists').and.callFake(async (path) => {
         return !/\/templates\/de(-AT)?\//.test(path);
@@ -625,6 +648,16 @@ describe('ApiMailAdapter', () => {
       expect(subjectSpyData.toString('utf8')).toEqual(subjectFileData.toString('utf8'));
       expect(textSpyData.toString('utf8')).toEqual(textFileData.toString('utf8'));
       expect(htmlSpyData.toString('utf8')).toEqual(htmlFileData.toString('utf8'));
+    });
+
+    it('falls back to default file if file access throws', async () => {
+      const getLocalizedFilePathSpy = spyOn(adapter, '_getLocalizedFilePath').and.callThrough();
+      spyOn(fs, 'access').and.callFake(async () => {
+        throw 'Test file access error';
+      });
+      await adapter._createApiData(options);
+      const file = await getLocalizedFilePathSpy.calls.all()[0].returnValue;
+      expect(file).toMatch(options.template.subjectPath);
     });
 
     it('makes user locale available in API callback', async () => {

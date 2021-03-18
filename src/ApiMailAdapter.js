@@ -30,7 +30,7 @@ class ApiMailAdapter extends MailAdapter {
 
     // Ensure API callback is set
     if (typeof apiCallback !== 'function') {
-      throw Errors.Error.apiClientCallbackNoFuncion;
+      throw Errors.Error.apiCallbackNoFunction;
     }
 
     // Initialize
@@ -311,7 +311,7 @@ class ApiMailAdapter extends MailAdapter {
    * @description Loads a file's content.
    * @param {String} path The file path.
    * @param {String} locale The locale if a localized version of the file should be
-   * loaded if available, or `undefined` if no localiziation should occur.
+   * loaded if available, or `undefined` if no localization should occur.
    * @returns {Promise<Buffer>} The file content.
    */
   async _loadFile(path, locale) {
@@ -393,7 +393,7 @@ class ApiMailAdapter extends MailAdapter {
    * @function getLocalizedFilePath
    * @description Returns a localized file path matching a given locale.
    *
-   * Localized files are placed in subfolders of the given path, for example:
+   * Localized files are placed in sub-folders of the given path, for example:
    *
    * root/
    * ├── base/                    // base path to files
@@ -414,37 +414,29 @@ class ApiMailAdapter extends MailAdapter {
    * if a localized file could not be determined.
    */
   async _getLocalizedFilePath(filePath, locale) {
-    try {
-      // Get file name and base path
-      const file = path.basename(filePath);
-      const basePath = path.dirname(filePath);
+    // Get file name and base path
+    const file = path.basename(filePath);
+    const basePath = path.dirname(filePath);
 
-      // If locale is not set return default file
-      if (!locale) { return filePath; }
+    // If locale is not set return default file
+    if (!locale) { return filePath; }
 
-      // Check file for locale exists
-      const localePath = path.join(basePath, locale, file);
-      const localeFileExists = await this._fileExists(localePath);
+    // Check file for locale exists
+    const localePath = path.join(basePath, locale, file);
+    const localeFileExists = await this._fileExists(localePath);
 
-      // If file for locale exists return file
-      if (localeFileExists) { return localePath; }
+    // If file for locale exists return file
+    if (localeFileExists) { return localePath; }
 
-      // Check file for language exists
-      const languagePath = path.join(basePath, locale.split("-")[0], file);
-      const languageFileExists = await this._fileExists(languagePath);
+    // Check file for language exists
+    const languagePath = path.join(basePath, locale.split("-")[0], file);
+    const languageFileExists = await this._fileExists(languagePath);
 
-      // If file for language exists return file
-      if (languageFileExists) { return languagePath; }
+    // If file for language exists return file
+    if (languageFileExists) { return languagePath; }
 
-      // Return default file path
-      return filePath;
-
-    } catch (e) {
-      console.log("error in getLocalizedFilePath: " + e);
-
-      // Return default file path
-      return filePath;
-    }
+    // Return default file path
+    return filePath;
   }
 
   /**
