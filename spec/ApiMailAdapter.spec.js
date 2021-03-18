@@ -123,13 +123,36 @@ describe('ApiMailAdapter', () => {
       }
     });
 
-    it('fails with invalid placeholder callback configuration', async () => {
+    it('fails with invalid placeholder callback', async () => {
       const configs = [
         { apiCallback: df, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds, placeholderCallback: {} } } },
         { apiCallback: df, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds, placeholderCallback: ds } } }
       ];
       for (const config of configs) {
         expect(adapter(config)).toThrow(Errors.Error.templateCallbackNoFunction);
+      }
+    });
+
+    it('fails with missing or invalid API callback', async () => {
+      const configs = [
+        { sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds } } },
+        { apiCallback: null, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds } } },
+        { apiCallback: true, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds } } },
+        { apiCallback: ds, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds } } },
+      ];
+      for (const config of configs) {
+        expect(adapter(config)).toThrow(Errors.Error.apiCallbackNoFunction);
+      }
+    });
+
+    it('fails with invalid locale callback', async () => {
+      const configs = [
+        { apiCallback: df, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds, localeCallback: ds } } },
+        { apiCallback: df, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds, localeCallback: true } } },
+        { apiCallback: df, sender: ds, templates: { customEmail: { subjectPath: ds, textPath: ds, localeCallback: [] } } },
+      ];
+      for (const config of configs) {
+        expect(adapter(config)).toThrow(Errors.Error.localeCallbackNoFunction);
       }
     });
 
