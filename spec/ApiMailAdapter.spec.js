@@ -650,7 +650,7 @@ describe('ApiMailAdapter', () => {
       expect(htmlSpyData.toString('utf8')).toEqual(htmlFileData.toString('utf8'));
     });
 
-    it('falls back to default file if file reading throws', async () => {
+    it('falls back to default file if file access throws', async () => {
       const getLocalizedFilePathSpy = spyOn(adapter, '_getLocalizedFilePath').and.callThrough();
       spyOn(fs, 'access').and.callFake(async () => {
         throw 'Test file access error';
