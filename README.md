@@ -66,8 +66,8 @@ const server = new ParseServer({
     emailAdapter: {
         module: 'parse-server-api-mail-adapter',
         options: {
-            // The email address from which email are sent.
-            sender: 'sender@example.com', 
+            // The email address from which emails are sent.
+            sender: 'sender@example.com',
             // The email templates.
             templates: {
                 // The template used by Parse Server to send an email for password
