@@ -125,7 +125,7 @@ class ApiMailAdapter extends MailAdapter {
     const templateName = email.templateName;
 
     // If template name is not set
-    if (!templateName) {
+    if (!templateName && !email.direct) {
       throw Errors.Error.templateConfigurationNoName;
     }
 
@@ -133,7 +133,7 @@ class ApiMailAdapter extends MailAdapter {
     const template = this.templates[templateName];
 
     // If template does not exist
-    if (!template) {
+    if (!template && !email.direct) {
       throw Errors.Error.noTemplateWithName(templateName);
     }
 
@@ -142,7 +142,12 @@ class ApiMailAdapter extends MailAdapter {
     // 1. Placeholders set in the template (default)
     // 2. Placeholders set in the email
     // 3. Placeholders returned by the placeholder callback
-    const placeholders = template.placeholders || {};
+    let placeholders = {};
+
+    // Add template placeholders
+    if (template) {
+      placeholders = Object.assign(placeholders, template.placeholders || {});
+    }
 
     // If the email is sent directly via Cloud Code
     if (email.direct) {
@@ -218,7 +223,7 @@ class ApiMailAdapter extends MailAdapter {
    */
   async _createApiData(options) {
     let { message } = options;
-    const { template, user, placeholders = {} } = options;
+    const { template = {}, user, placeholders = {} } = options;
     const { placeholderCallback, localeCallback } = template;
     let locale;
 

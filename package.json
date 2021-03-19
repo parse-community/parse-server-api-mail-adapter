@@ -1,6 +1,6 @@
 {
   "name": "parse-server-api-mail-adapter",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "API Mail Adapter for Parse Server",
   "main": "./lib/index.js",
   "repository": {
@@ -10,7 +10,10 @@
   "keywords": [
     "parse",
     "parse-server",
-    "email-adapter"
+    "mail-adapter",
+    "email-adapter",
+    "mail",
+    "email"
   ],
   "author": "Manuel Trezza",
   "license": "MIT",
