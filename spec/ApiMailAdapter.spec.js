@@ -251,6 +251,26 @@ describe('ApiMailAdapter', () => {
       expect(_sendMail.calls.all()[0].args[0]).toEqual(expectedArguments);
     });
 
+    it('allows sendMail() without using a template', async () => {
+      const adapter = new ApiMailAdapter(config);
+      const apiCallbackSpy = spyOn(adapter, 'apiCallback').and.callFake(apiResponseSuccess);
+      const options = {
+        sender: config.sender,
+        recipient: 'to@example.com',
+        subject: 'ExampleSubject',
+        text: 'ExampleText',
+        html: 'ExampleHtml',
+      };
+
+      await expectAsync(adapter.sendMail(options)).toBeResolved();
+      const apiPayload = apiCallbackSpy.calls.all()[0].args[0].payload;
+      expect(apiPayload.from).toEqual(options.sender);
+      expect(apiPayload.to).toEqual(options.recipient);
+      expect(apiPayload.subject).toEqual(options.subject);
+      expect(apiPayload.text).toEqual(options.text);
+      expect(apiPayload.html).toEqual(options.html);
+    });
+
     it('passes user to callback when user is passed to sendMail()', async () => {
       const adapter = new ApiMailAdapter(config);
       const localeCallbackSpy = spyOn(config.templates.customEmailWithLocaleCallback, 'localeCallback').and.callThrough();
@@ -385,7 +405,6 @@ describe('ApiMailAdapter', () => {
       const adapter = new ApiMailAdapter(config);
       const configs = [
         { templateName: 'invalid' },
-        { templateName: 'invalid', direct: true }
       ];
       for (const config of configs) {
         await expectAsync(adapter._sendMail(config)).toBeRejectedWith(Errors.Error.noTemplateWithName('invalid'));
