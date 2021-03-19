@@ -3,6 +3,15 @@
 # main
 [Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.5...master)
 
+### ⚠️ Breaking Changes
+*(none)*
+
+### 🚀 Notable Changes
+*(none)*
+
+### 🧬 Other Changes
+- Fixes failing to send email in Cloud Code without template (Manuel Trezza) [#26](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/26)
+
 # 1.0.5
 [Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.4...1.0.5)
 
