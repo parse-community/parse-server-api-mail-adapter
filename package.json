@@ -10,7 +10,10 @@
   "keywords": [
     "parse",
     "parse-server",
-    "email-adapter"
+    "mail-adapter",
+    "email-adapter",
+    "mail",
+    "email"
   ],
   "author": "Manuel Trezza",
   "license": "MIT",
