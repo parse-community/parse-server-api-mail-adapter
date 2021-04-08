@@ -64,6 +64,8 @@ const mailgunClient = mailgun.client({
 });
 const mailgunDomain = process.env.MAILGUN_DOMAIN;
 
+const { ApiPayloadConverter } = require("parse-server-api-mail-adapter");
+
 // Configure Parse Server
 const server = new ParseServer({
     ...otherOptions,
