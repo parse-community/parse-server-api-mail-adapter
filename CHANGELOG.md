@@ -22,7 +22,7 @@ Jump directly to a version:
 *(none)*
 
 ### 🧬 Other Changes
-*(none)*
+- Bump postcss from 8.2.9 to 8.2.15 (dependabot) [#37](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/37)
 
 # 1.0.6
 [Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.5...1.0.6)
