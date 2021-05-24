@@ -4,7 +4,8 @@ Jump directly to a version:
 
 | 1.x                                |
 |------------------------------------|
-| [**1.0.6 (latest release)**](#106) |
+| [**1.0.7 (latest release)**](#107) |
+| [1.0.6](#106) |
 | [1.0.5](#105)                      |
 | [1.0.4](#104)                      |
 | [1.0.3](#103)                      |
@@ -13,7 +14,19 @@ Jump directly to a version:
 | [1.0.0](#100)                      |
 
 # Unreleased (Main Branch)
-[Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.6...master)
+[Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.7...master)
+
+### ⚠️ Breaking Changes
+*(none)*
+
+### 🚀 Notable Changes
+*(none)*
+
+### 🧬 Other Changes
+*(none)*
+
+# 1.0.7
+[Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.6...1.0.7)
 
 ### ⚠️ Breaking Changes
 *(none)*
