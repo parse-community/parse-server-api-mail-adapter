@@ -22,6 +22,7 @@ Jump directly to a version:
 *(none)*
 
 ### 🧬 Other Changes
+- Added supported providers to README (Manuel Trezza) [#34](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/34)
 - Bump postcss from 8.2.9 to 8.2.15 (dependabot) [#37](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/37)
 
 # 1.0.6
