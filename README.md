@@ -21,6 +21,10 @@ The Parse Server API Mail Adapter enables Parse Server to send emails using any 
 - [Cloud Code](#cloud-code)
   - [Example](#example)
   - [Parameters](#parameters)
+- [Supported APIs](#supported-apis)
+  - [Providers](#providers)
+    - [Example for Mailgun](#example-for-mailgun)
+  - [Custom API](#custom-api)
 - [Need help?](#need-help)
 
 # Installation
@@ -68,7 +72,7 @@ const { ApiPayloadConverter } = require("parse-server-api-mail-adapter");
 
 // Configure Parse Server
 const server = new ParseServer({
-    ...otherOptions,
+    ...otherServerOptions,
 
     emailAdapter: {
         module: 'parse-server-api-mail-adapter',
@@ -92,7 +96,7 @@ const server = new ParseServer({
                     htmlPath: './files/verification_email.html'
                 },
                 // A custom email template that can be used when sending emails
-                // from Cloud Code; the template name can be choosen freely; it
+                // from Cloud Code; the template name can be chosen freely; it
                 // is possible to add various custom templates.
                 customEmail: {
                     subjectPath: './files/custom_email_subject.txt',
@@ -126,7 +130,7 @@ const server = new ParseServer({
                     }
                 }
             },
-            // The asynronous callback that contains the composed email payload to
+            // The asynchronous callback that contains the composed email payload to
             // be passed on to an 3rd party API and optional meta data. The payload
             // may need to be converted specifically for the API; conversion for
             // common APIs is conveniently available in the `ApiPayloadConverter`.
@@ -181,9 +185,9 @@ Localization allows to use a specific template depending on the user locale. To 
 
 The locale returned by `localeCallback` will be used to look for locale-specific template files. If the callback returns an invalid locale or nothing at all (`undefined`), localization will be ignored and the default files will be used.
 
-The locale-specific files are placed in subfolders with the name of either the whole locale (e.g. `de-AT`), or only the language (e.g. `de`). The locale has to be in format `[language]-[country]` as specified in [IETF BCP 47](https://tools.ietf.org/html/bcp47), e.g. `de-AT`.
+The locale-specific files are placed in sub-folders with the name of either the whole locale (e.g. `de-AT`), or only the language (e.g. `de`). The locale has to be in format `[language]-[country]` as specified in [IETF BCP 47](https://tools.ietf.org/html/bcp47), e.g. `de-AT`.
 
-Localized files are placed in subfolders of the given path, for example:
+Localized files are placed in sub-folders of the given path, for example:
 ```js
 base/
 ├── example.html         // default file
@@ -228,7 +232,77 @@ Parse.Cloud.sendEmail({
 | `extra`        | `Object`     | yes      | `{}`          | `{ key: value }`            | Any additional variables to pass to the mail provider API.                                     |
 | `user`         | `Parse.User` | yes      | `undefined`   | -                           | The Parse User that the is the recipient of the email.                                         |
 
+# Supported APIs
 
+This adapter supports any REST API by adapting the API payload in the adapter configuration `apiCallback` according to the API specification.
+
+## Providers
+
+For convenience, support for common APIs is already built into this adapter and available via the `ApiPayloadConverter`. The following is a list of currently supported API providers:
+
+- [Mailgun](https://www.mailgun.com)
+
+If the provider you are using is not already supported, please feel free to open a PR.
+
+### Example for Mailgun
+
+This is an example for the Mailgun client:
+
+```js
+// Configure mail client
+const mailgun = require('mailgun.js');
+const mailgunClient = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY });
+const mailgunDomain = process.env.MAILGUN_DOMAIN;
+
+// Configure Parse Server
+const server = new ParseServer({
+    ...otherServerOptions,
+
+    emailAdapter: {
+        module: 'parse-server-api-mail-adapter',
+        options: {
+            ... otherAdapterOptions,
+
+            apiCallback: async ({ payload, locale }) => {
+                const mailgunPayload = ApiPayloadConverter.mailgun(payload);
+                await mailgunClient.messages.create(mailgunDomain, mailgunPayload);
+            }
+        }
+    }
+});
+```
+
+## Custom API
+
+This is an example of how the API payload can be adapted in the adapter configuration `apiCallback` according to a custom email provider's API specification.
+
+```js
+// Configure mail client
+const customMail = require('customMail.js');
+const customMailClient = customMail.configure({ ... });
+
+// Configure Parse Server
+const server = new ParseServer({
+    ...otherOptions,
+
+    emailAdapter: {
+        module: 'parse-server-api-mail-adapter',
+        options: {
+            ... otherOptions,
+
+            apiCallback: async ({ payload, locale }) => {
+                const customPayload = {
+                    customFrom: payload.from,
+                    customTo: payload.to,
+                    customSubject: payload.subject,
+                    customText: payload.text
+                };
+                await customMailClient.sendEmail(customPayload);
+            }
+        }
+    }
+});
+```
 
 # Need help?
 
