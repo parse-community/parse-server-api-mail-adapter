@@ -2,26 +2,39 @@
 
 Jump directly to a version:
 
-| 1.x                                |
-|------------------------------------|
-| [**1.0.7 (latest release)**](#107) |
-| [1.0.6](#106) |
-| [1.0.5](#105)                      |
-| [1.0.4](#104)                      |
-| [1.0.3](#103)                      |
-| [1.0.2](#102)                      |
-| [1.0.1](#101)                      |
-| [1.0.0](#100)                      |
+| 2.x                               |
+|-----------------------------------|
+| [*2.0.0 (latest release)**](#200) |
+
+<details>
+<summary>Older versions</summary>
+
+| 1.x                               |
+|-----------------------------------|
+| [1.0.7](#107)                     |
+| [1.0.6](#106)                     |
+| [1.0.5](#105)                     |
+| [1.0.4](#104)                     |
+| [1.0.3](#103)                     |
+| [1.0.2](#102)                     |
+| [1.0.1](#101)                     |
+| [1.0.0](#100)                     |
+</details>
 
 # Unreleased (Main Branch)
-[Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.7...master)
+[Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/2.0.0...master)
 
 ### ⚠️ Breaking Changes
 *(none)*
-
 ### 🚀 Notable Changes
 *(none)*
+### 🧬 Other Changes
+*(none)*
 
+# 2.0.0
+[Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.7...2.0.0)
+### ⚠️ Breaking Changes
+- Bumped Node.js version requirement to >=12 (Manuel Trezza) [#39](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/39)
 ### 🧬 Other Changes
 - Fixed demo script and README for `mailgun.js` 3.x which requires `form-data` (Stefan Trauth, Manuel Trezza) [#32](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/32)
 
