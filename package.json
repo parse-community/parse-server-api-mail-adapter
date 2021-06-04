@@ -27,26 +27,26 @@
     "demo"
   ],
   "dependencies": {
-    "mustache": "4.1.0"
+    "mustache": "4.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.13.10",
-    "@babel/core": "7.13.10",
-    "@babel/plugin-proposal-object-rest-spread": "7.13.8",
+    "@babel/cli": "7.14.3",
+    "@babel/core": "7.14.3",
+    "@babel/plugin-proposal-object-rest-spread": "7.14.4",
     "@babel/plugin-transform-flow-strip-types": "7.13.0",
-    "@babel/preset-env": "7.13.10",
+    "@babel/preset-env": "7.14.4",
     "babel-eslint": "10.1.0",
-    "codecov": "3.8.1",
-    "eslint": "7.22.0",
-    "eslint-plugin-flowtype": "5.4.0",
+    "codecov": "3.8.2",
+    "eslint": "7.27.0",
+    "eslint-plugin-flowtype": "5.7.2",
     "form-data": "4.0.0",
-    "jasmine": "3.6.4",
+    "jasmine": "3.7.0",
     "madge": "4.0.2",
-    "mailgun.js": "3.2.1",
+    "mailgun.js": "3.3.2",
     "nyc": "15.1.0"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=12"
   },
   "scripts": {
     "build:watch": "babel src --out-dir lib --source-maps --watch",
