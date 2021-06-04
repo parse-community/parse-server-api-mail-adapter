@@ -46,7 +46,7 @@
     "nyc": "15.1.0"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=12"
   },
   "scripts": {
     "build:watch": "babel src --out-dir lib --source-maps --watch",
