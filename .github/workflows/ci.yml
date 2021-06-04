@@ -67,7 +67,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-
       - run: npm ci
-      - run: npm run lint
       - run: npm test
         env:
           CI: true

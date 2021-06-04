@@ -58,8 +58,12 @@ You can modify the script to use any other API you like or debug-step through th
 An example configuration to add the API Mail Adapter to Parse Server could look like this:
 
 ```js
+const Mailgun = require('mailgun.js');
+const formData = require('form-data');
+const { ApiPayloadConverter } = require('parse-server-api-mail-adapter');
+
 // Configure mail client
-const mailgun = require('mailgun.js');
+const mailgun = new Mailgun(formData);
 const mailgunClient = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY });
 const mailgunDomain = process.env.MAILGUN_DOMAIN;
 
@@ -77,24 +81,24 @@ const server = new ParseServer({
                 // The template used by Parse Server to send an email for password
                 // reset; this is a reserved template name.
                 passwordResetEmail: {
-                    subjectPath: './files/password_reset_email_subject.txt'),
-                    textPath: './files/password_reset_email.txt'),
-                    htmlPath: './files/password_reset_email.html')
+                    subjectPath: './files/password_reset_email_subject.txt',
+                    textPath: './files/password_reset_email.txt',
+                    htmlPath: './files/password_reset_email.html'
                 },
                 // The template used by Parse Server to send an email for email
                 // address verification; this is a reserved template name.
                 verificationEmail: {
-                    subjectPath: './files/verification_email_subject.txt'),
-                    textPath: './files/verification_email.txt'),
-                    htmlPath: './files/verification_email.html')
+                    subjectPath: './files/verification_email_subject.txt',
+                    textPath: './files/verification_email.txt',
+                    htmlPath: './files/verification_email.html'
                 },
                 // A custom email template that can be used when sending emails
                 // from Cloud Code; the template name can be chosen freely; it
                 // is possible to add various custom templates.
                 customEmail: {
-                    subjectPath: './files/custom_email_subject.txt'),
-                    textPath: './files/custom_email.txt'),
-                    htmlPath: './files/custom_email.html'),
+                    subjectPath: './files/custom_email_subject.txt',
+                    textPath: './files/custom_email.txt',
+                    htmlPath: './files/custom_email.html',
                     // Placeholders are filled into the template file contents.
                     // For example, the placeholder `{{appName}}` in the email
                     // will be replaced the value defined here.
@@ -144,9 +148,9 @@ Emails are composed using templates. A template defines the paths to its content
 ```js
 templates: {
     exampleTemplate: {
-        subjectPath: './files/custom_email_subject.txt'),
-        textPath: './files/custom_email.txt'),
-        htmlPath: './files/custom_email.html'),
+        subjectPath: './files/custom_email_subject.txt',
+        textPath: './files/custom_email.txt',
+        htmlPath: './files/custom_email.html',
     }
 },
 ```
