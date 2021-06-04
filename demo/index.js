@@ -1,11 +1,14 @@
+'use strict';
+
 /**
  * ==============================================================
  * Demo script to send an email using the Mailgun API.
  * ==============================================================
  * Instructions:
  *
- * 1. Create a file `mailgun.json` in the root directory with the
- * following keys to configure the test script:
+ * 1. Create a file `mailgun.json` in the directory of this demo
+ * script with the following keys to configure the demo script:
+ * 
  * ```
  * {
  *   key: "xxx", // The Mailgun API key.
@@ -16,13 +19,14 @@
  * }
  * ```
  *
- * 2. Run this script with `node ./demo` to send the email.
+ * 2. Run this script with `node ./demo` to send an email. 🤞
  * ==============================================================
  */
 
 const ApiMailAdapter = require('../src/ApiMailAdapter');
 const ApiPayloadConverter = require('../src/ApiPayloadConverter');
-const mailgun = require('mailgun.js');
+const formData = require("form-data");
+const Mailgun = require('mailgun.js');
 const path = require('path');
 
 const {
@@ -32,7 +36,11 @@ const {
   recipient
 } = require('./mailgun.json');
 
-const mailgunClient = mailgun.client({ username: 'api', key: key });
+// Declare mail client
+const mailgun = new Mailgun(formData);
+const mailgunClient = mailgun.client({ username: "api", key });
+
+// Configure mail client
 const filePath = (file) => path.resolve(__dirname, '../spec/templates/', file);
 const config = {
   sender: sender,
