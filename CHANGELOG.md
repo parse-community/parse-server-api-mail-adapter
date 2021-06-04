@@ -23,16 +23,10 @@ Jump directly to a version:
 *(none)*
 
 ### 🧬 Other Changes
-*(none)*
+- Fixed demo script and README for `mailgun.js` 3.x which requires `form-data` (Stefan Trauth, Manuel Trezza) [#32](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/32)
 
 # 1.0.7
 [Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.6...1.0.7)
-
-### ⚠️ Breaking Changes
-*(none)*
-
-### 🚀 Notable Changes
-*(none)*
 
 ### 🧬 Other Changes
 - Added supported providers to README (Manuel Trezza) [#34](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/34)
@@ -41,23 +35,11 @@ Jump directly to a version:
 # 1.0.6
 [Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.5...1.0.6)
 
-### ⚠️ Breaking Changes
-*(none)*
-
-### 🚀 Notable Changes
-*(none)*
-
 ### 🧬 Other Changes
 - Fixes failing to send email in Cloud Code without template (Manuel Trezza) [#26](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/26)
 
 # 1.0.5
 [Full Changelog](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/1.0.4...1.0.5)
-
-### ⚠️ Breaking Changes
-*(none)*
-
-### 🚀 Notable Changes
-*(none)*
 
 ### 🧬 Other Changes
 - Fixes undefined `user` in `localeCallback` when sending email via `Parse.Cloud.sendEmail()` (wlky, Manuel Trezza) [#18](https://github.com/mtrezza/parse-server-api-mail-adapter/pull/18)
