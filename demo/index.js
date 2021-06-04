@@ -8,7 +8,7 @@
  *
  * 1. Create a file `mailgun.json` in the directory of this demo
  * script with the following keys to configure the demo script:
- * 
+ *
  * ```
  * {
  *   key: "xxx", // The Mailgun API key.
