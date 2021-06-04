@@ -58,17 +58,14 @@ You can modify the script to use any other API you like or debug-step through th
 An example configuration to add the API Mail Adapter to Parse Server could look like this:
 
 ```js
-// Declare a mail client
-const formData = require("form-data");
 const Mailgun = require("mailgun.js");
-const mailgun = new Mailgun(formData);
-const mailgunClient = mailgun.client({
-  username: "api",
-  key: process.env.MAILGUN_API_KEY,
-});
-const mailgunDomain = process.env.MAILGUN_DOMAIN;
-
+const formData = require("form-data");
 const { ApiPayloadConverter } = require("parse-server-api-mail-adapter");
+
+// Configure mail client
+const mailgun = new Mailgun(formData);
+const mailgunClient = mailgun.client({ username: "api", key: process.env.MAILGUN_API_KEY });
+const mailgunDomain = process.env.MAILGUN_DOMAIN;
 
 // Configure Parse Server
 const server = new ParseServer({
