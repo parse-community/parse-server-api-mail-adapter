@@ -4,7 +4,7 @@ Jump directly to a version:
 
 | 2.x                               |
 |-----------------------------------|
-| [*2.0.0 (latest release)**](#200) |
+| [**2.0.0 (latest release)**](#200) |
 
 <details>
 <summary>Older versions</summary>
