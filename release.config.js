@@ -25,7 +25,7 @@ async function config() {
   console.log(`Running on branch: ${branch}`);
 
   // Set changelog file
-  const changelogFile = `CHANGELOG_${branch}.md`;
+  const changelogFile = `./changelogs/CHANGELOG_${branch}.md`;
   console.log(`Changelog file output to: ${changelogFile}`);
 
   // Load template file contents
