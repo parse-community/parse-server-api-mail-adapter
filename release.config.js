@@ -105,7 +105,7 @@ async function readFile(filePath) {
 }
 
 function getReleaseComment() {
-  const comment = '🎉 This issue has been resolved in version [${nextRelease.version}](<github_release_url>)!';
+  const comment = '🎉 This issue has been resolved in version [${nextRelease.version}](<github_release_url>)';
   return comment;
 }
 
