@@ -4,12 +4,12 @@ on:
     branches: [ main, alpha, beta ]
 jobs:
   publish-npm:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
-        node-version: '10.14'
+        node-version: 12
         registry-url: https://registry.npmjs.org/
     - name: Cache Node.js modules
       uses: actions/cache@v2
