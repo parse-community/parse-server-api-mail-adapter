@@ -45,7 +45,7 @@ async function config() {
       { name: '5.x.x', range: '5.x.x', channel: '5.x.x' },
       { name: '6.x.x', range: '6.x.x', channel: '6.x.x' },
     ],
-    dryRun: true,
+    dryRun: false,
     debug: true,
     ci: true,
     tagFormat: '${version}',
