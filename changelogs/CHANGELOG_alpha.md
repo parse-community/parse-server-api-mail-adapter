@@ -1,3 +1,10 @@
+# [2.1.0-alpha.3](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/2.1.0-alpha.2...2.1.0-alpha.3) (2021-10-08)
+
+
+### Bug Fixes
+
+* bump dev dependencies ([#48](https://github.com/mtrezza/parse-server-api-mail-adapter/issues/48)) ([8e371b7](https://github.com/mtrezza/parse-server-api-mail-adapter/commit/8e371b7499605ac57cfe985b92032bddd270153d))
+
 # [2.1.0-alpha.2](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/2.1.0-alpha.1...2.1.0-alpha.2) (2021-10-08)
 
 
