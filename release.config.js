@@ -33,17 +33,17 @@ async function config() {
 
   const config = {
     branches: [
-      'main',
+      'release',
       { name: 'alpha', prerelease: true },
       { name: 'beta', prerelease: true },
       'next-major',
       // Long-Term-Support branches
-      { name: '1.x.x', range: '1.x.x', channel: '1.x.x' },
-      { name: '2.x.x', range: '2.x.x', channel: '2.x.x' },
-      { name: '3.x.x', range: '3.x.x', channel: '3.x.x' },
-      { name: '4.x.x', range: '4.x.x', channel: '4.x.x' },
-      { name: '5.x.x', range: '5.x.x', channel: '5.x.x' },
-      { name: '6.x.x', range: '6.x.x', channel: '6.x.x' },
+      // { name: '1.x.x', range: '1.x.x', channel: '1.x.x' },
+      // { name: '2.x.x', range: '2.x.x', channel: '2.x.x' },
+      // { name: '3.x.x', range: '3.x.x', channel: '3.x.x' },
+      // { name: '4.x.x', range: '4.x.x', channel: '4.x.x' },
+      // { name: '5.x.x', range: '5.x.x', channel: '5.x.x' },
+      // { name: '6.x.x', range: '6.x.x', channel: '6.x.x' },
     ],
     dryRun: false,
     debug: true,
@@ -54,8 +54,6 @@ async function config() {
         preset: 'angular',
         releaseRules: [
           { type: 'docs', scope: 'README', release: 'patch' },
-          { type: 'refactor', scope: 'core-*', release: 'minor' },
-          { type: 'refactor', release: 'patch' },
           { scope: 'no-release', release: false },
         ],
         parserOpts: {
