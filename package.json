@@ -30,11 +30,11 @@
     "mustache": "4.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.14.8",
-    "@babel/core": "7.15.0",
-    "@babel/plugin-proposal-object-rest-spread": "7.14.7",
+    "@babel/cli": "7.15.7",
+    "@babel/core": "7.15.8",
+    "@babel/plugin-proposal-object-rest-spread": "7.15.6",
     "@babel/plugin-transform-flow-strip-types": "7.14.5",
-    "@babel/preset-env": "7.15.0",
+    "@babel/preset-env": "7.15.8",
     "@semantic-release/changelog": "5.0.1",
     "@semantic-release/commit-analyzer": "8.0.1",
     "@semantic-release/git": "9.0.0",
@@ -46,8 +46,8 @@
     "eslint-plugin-flowtype": "5.9.0",
     "form-data": "4.0.0",
     "jasmine": "3.9.0",
-    "madge": "4.0.2",
-    "mailgun.js": "3.5.7",
+    "madge": "5.0.1",
+    "mailgun.js": "3.5.9",
     "nyc": "15.1.0",
     "semantic-release": "17.4.7"
   },
