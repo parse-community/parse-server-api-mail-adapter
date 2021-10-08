@@ -7,6 +7,9 @@ const path = require('path');
 
 // Get env vars
 const ref = process.env.GITHUB_REF;
+const serverUrl = process.env.GITHUB_SERVER_URL;
+const repository = process.env.GITHUB_REPOSITORY;
+const repositoryUrl = serverUrl + '/' + repository;
 
 // Declare params
 const resourcePath = './.releaserc/';
@@ -84,6 +87,8 @@ async function config() {
       }],
       ["@semantic-release/github", {
         successComment: getReleaseComment(),
+        labels: ['type:ci'],
+        releasedLabels: ['state:released<%= nextRelease.channel ? `-\${nextRelease.channel}` : "" %>']
       }],
     ],
   };
@@ -103,7 +108,8 @@ async function readFile(filePath) {
 }
 
 function getReleaseComment() {
-  const comment = '🎉 This issue has been resolved in version [${nextRelease.version}](<github_release_url>)';
+  const url = repositoryUrl + '/releases/tag/${nextRelease.gitTag}';
+  const comment = '🎉 This pull request has been released in version [${nextRelease.version}](' + url + ')';
   return comment;
 }
 
