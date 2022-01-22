@@ -1,3 +1,10 @@
+# [2.1.0-alpha.5](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/2.1.0-alpha.4...2.1.0-alpha.5) (2022-01-22)
+
+
+### Bug Fixes
+
+* bump trim-off-newlines from 1.0.1 to 1.0.3 ([#57](https://github.com/mtrezza/parse-server-api-mail-adapter/issues/57)) ([794cfb6](https://github.com/mtrezza/parse-server-api-mail-adapter/commit/794cfb642678ac83b22c2c666eb9e109cc84e0df))
+
 # [2.1.0-alpha.4](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/2.1.0-alpha.3...2.1.0-alpha.4) (2022-01-22)
 
 
