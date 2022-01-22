@@ -1,3 +1,10 @@
+# [2.1.0-alpha.4](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/2.1.0-alpha.3...2.1.0-alpha.4) (2022-01-22)
+
+
+### Bug Fixes
+
+* bump nanoid from 3.1.29 to 3.2.0 ([#56](https://github.com/mtrezza/parse-server-api-mail-adapter/issues/56)) ([76a374b](https://github.com/mtrezza/parse-server-api-mail-adapter/commit/76a374b52100e1ce05823300da8a2df21d64ac6c))
+
 # [2.1.0-alpha.3](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/2.1.0-alpha.2...2.1.0-alpha.3) (2021-10-08)
 
 
