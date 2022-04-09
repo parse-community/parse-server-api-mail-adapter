@@ -1,3 +1,10 @@
+# [2.1.0-alpha.6](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/2.1.0-alpha.5...2.1.0-alpha.6) (2022-04-09)
+
+
+### Bug Fixes
+
+* security upgrade minimist from 1.2.5 to 1.2.6 ([#59](https://github.com/mtrezza/parse-server-api-mail-adapter/issues/59)) ([1a5253f](https://github.com/mtrezza/parse-server-api-mail-adapter/commit/1a5253fd81d763c7f123fa14d788edbc83e04027))
+
 # [2.1.0-alpha.5](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/2.1.0-alpha.4...2.1.0-alpha.5) (2022-01-22)
 
 
