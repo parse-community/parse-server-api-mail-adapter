@@ -1,3 +1,10 @@
+# [2.1.0-alpha.7](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/2.1.0-alpha.6...2.1.0-alpha.7) (2022-04-10)
+
+
+### Bug Fixes
+
+* security upgrade node-fetch from 2.6.1 to 2.6.7 ([#60](https://github.com/mtrezza/parse-server-api-mail-adapter/issues/60)) ([576d336](https://github.com/mtrezza/parse-server-api-mail-adapter/commit/576d3365c296adfb0ccd5706d56fae6477f1946c))
+
 # [2.1.0-alpha.6](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/2.1.0-alpha.5...2.1.0-alpha.6) (2022-04-09)
 
 
