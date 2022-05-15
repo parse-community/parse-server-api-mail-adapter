@@ -1,4 +1,4 @@
-# Parse Server API Mail Aapter <!-- omit in toc -->
+# Parse Server API Mail Adapter <!-- omit in toc -->
 
 [![npm version](https://badge.fury.io/js/parse-server-api-mail-adapter.svg)](https://badge.fury.io/js/parse-server-api-mail-adapter)
 [![build status](https://github.com/mtrezza/parse-server-api-mail-adapter/workflows/ci/badge.svg?branch=main)](https://github.com/mtrezza/parse-server-api-mail-adapter/actions?query=workflow%3Aci+branch%3Amain)
