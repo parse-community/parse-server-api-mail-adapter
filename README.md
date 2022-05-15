@@ -1,4 +1,4 @@
-# parse-server-api-mail-adapter <!-- omit in toc -->
+# Parse Server API Mail Aapter <!-- omit in toc -->
 
 [![npm version](https://badge.fury.io/js/parse-server-api-mail-adapter.svg)](https://badge.fury.io/js/parse-server-api-mail-adapter)
 [![build status](https://github.com/mtrezza/parse-server-api-mail-adapter/workflows/ci/badge.svg?branch=main)](https://github.com/mtrezza/parse-server-api-mail-adapter/actions?query=workflow%3Aci+branch%3Amain)
@@ -7,7 +7,15 @@
 [![dependency up-to-date](https://img.shields.io/librariesio/release/npm/parse-server-api-mail-adapter)](https://libraries.io/npm/parse-server-api-mail-adapter)
 [![weekly downloads](https://img.shields.io/npm/dw/parse-server-api-mail-adapter)](https://www.npmjs.com/package/parse-server-api-mail-adapter)
 
+---
+
 The Parse Server API Mail Adapter enables Parse Server to send emails using any 3rd party API with built-in dynamic templates and localization.
+
+## Transfer <!-- omit in toc -->
+
+ℹ️ This repository has been tranferred to the Parse Platform Organization on May 15, 2022. Please update any links that you may have to this repository, for example if you cloned or forked this repository and maintain a remote link to this orginal repository, or if you are referencing a GitHub commit directly as your dependency.
+
+---
 
 # Content <!-- omit in toc -->
 
