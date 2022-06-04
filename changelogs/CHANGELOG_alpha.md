@@ -1,3 +1,10 @@
+# [2.1.0-alpha.8](https://github.com/parse-community/parse-server-api-mail-adapter/compare/2.1.0-alpha.7...2.1.0-alpha.8) (2022-06-04)
+
+
+### Bug Fixes
+
+* security upgrade semver-regex from 3.1.3 to 3.1.4 ([#62](https://github.com/parse-community/parse-server-api-mail-adapter/issues/62)) ([4db06d2](https://github.com/parse-community/parse-server-api-mail-adapter/commit/4db06d218f5b4358701c8f8601a271f2da650ca1))
+
 # [2.1.0-alpha.7](https://github.com/mtrezza/parse-server-api-mail-adapter/compare/2.1.0-alpha.6...2.1.0-alpha.7) (2022-04-10)
 
 
