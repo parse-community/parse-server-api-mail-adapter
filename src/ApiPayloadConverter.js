@@ -24,7 +24,7 @@ class ApiPayloadConverter {
   }
 
   /**
-   * @description Converts the mail payload for the official AWS v3 SDK.
+   * @description Converts the mail payload for the AWS Simple Mail Service (AWS JavaScript SDK v3).
    * @param {Object} originalPayload The original payload (provider agnostic).
    * @returns {Object} The payload according to AWS SDK specification.
    */

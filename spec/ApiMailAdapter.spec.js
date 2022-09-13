@@ -393,7 +393,7 @@ describe('ApiMailAdapter', () => {
       expect(payload.html).toBe(examplePayload.html);
     });
 
-    it('converts payload for AWS SES v3 SDK', () => {
+    it('converts payload for AWS SES (SDK v3)', () => {
       const payload = converter.awsSES(examplePayload);
       expect(payload.Source).toEqual([examplePayload.from]);
       expect(payload.Destination.ToAddresses).toEqual([examplePayload.to]);

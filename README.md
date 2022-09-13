@@ -246,7 +246,7 @@ This adapter supports any REST API by adapting the API payload in the adapter co
 For convenience, support for common APIs is already built into this adapter and available via the `ApiPayloadConverter`. The following is a list of currently supported API providers:
 
 - [Mailgun](https://www.mailgun.com)
-- [AWS SES - v3 SDK](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-ses/index.html)
+- [AWS Simple Email Service (AWS JavaScript SDK v3)](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-ses/index.html)
 
 If the provider you are using is not already supported, please feel free to open a PR.
 
@@ -278,57 +278,49 @@ const server = new ParseServer({
 });
 ```
 
-### Example for AWS SES v3 sdk
+### Example for AWS Simple Email Service
 
-This is an example for the SES client for the **v3 SDK**.  Please note that v2 works quite differently:
+This is an example for the AWS Simple Email Service client using the AWS JavaScript SDK v3:
 
 ```js
 // Configure mail client
 const { SES, SendEmailCommand } = require("@aws-sdk/client-ses");
 
-// `fromInstanceMetadata` is for dynamically getting credentials via IMDS on your AWS instance
-// `fromEnv` grabs your credentials from environment variables (I use this method for testing and the former for production)
-const { fromInstanceMetadata, fromEnv } = require("@aws-sdk/credential-providers");
+// `fromEnv` grabs your credentials from environment variables (I use this method for testing and `fromInstanceMetadata` for production)
+const {
+  fromInstanceMetadata, // gets credentials via IMDS from the AWS instance (when deployed on AWS instance)
+  fromEnv, // get AWS credentials from environment variables (when testing locally)
+} = require("@aws-sdk/credential-providers");
 
-let awsCredsProvider;
-if (process.env.NODE_ENV && process.env.NODE_ENV === "production") {
-    awsCredsProvider = fromInstanceMetadata();
-} else {
-    awsCredsProvider = fromEnv();
-}
+// Get AWS credential provider depending on environment
+let awsCredsProvider = process.env.NODE_ENV == "production" ? await fromInstanceMetadata() : await fromEnv();
 
 // `awsCredsProvider` returns a promise, once resolved, you get your credentials
-const getCreds = async () => {
-    return await awsCredsProvider();
-};
+const credentials = await awsCredsProvider(); // This assumes top level await.
 
-// Perhaps there's a better way to do this.  Top level await will be amazing.
-getCreds().then(credentials => {
-    const sesClient = new SES({
-        // credentials from `awsCredsProvider` provider
-        credentials,
-        region: 'eu-west-1',
-        apiVersion: '2010-12-01'
-    });
+const sesClient = new SES({
+    credentials,
+    region: 'eu-west-1',
+    apiVersion: '2010-12-01'
+});
 
-    // Configure Parse Server
-    const server = new ParseServer({
-        ...otherServerOptions,
+// Configure Parse Server
+const server = new ParseServer({
+    ...otherServerOptions,
 
-        emailAdapter: {
-            module: 'parse-server-api-mail-adapter',
-            options: {
-                ... otherAdapterOptions,
+    emailAdapter: {
+        module: 'parse-server-api-mail-adapter',
+        options: {
+            ... otherAdapterOptions,
 
-                apiCallback: async ({ payload, locale }) => {
-                    const awsSESPayload = ApiPayloadConverter.awsSES(payload);
-                    const command = new SendEmailCommand(awsSESPayload);
-                    await sesClient.send(command);
-                }
+            apiCallback: async ({ payload, locale }) => {
+                const awsSESPayload = ApiPayloadConverter.awsSES(payload);
+                const command = new SendEmailCommand(awsSESPayload);
+                await sesClient.send(command);
             }
         }
-    });
-})
+    }
+});
 ```
 
 ## Custom API
