@@ -28,11 +28,12 @@ class ApiPayloadConverter {
    * @param {Object} originalPayload The original payload (provider agnostic).
    * @returns {Object} The payload according to AWS SDK specification.
    */
-   static awsSES(originalPayload) {
+  static awsSES(originalPayload) {
 
     // Clone payload
     const payload = Object.assign({}, originalPayload);
 
+    // Substitute keys
     if (payload.to) {
       payload.Destination = {
         ToAddresses: [payload.to]
