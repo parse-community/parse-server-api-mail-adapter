@@ -278,9 +278,9 @@ const server = new ParseServer({
 });
 ```
 
-### Example for AWS SES
+### Example for AWS SES v3 sdk
 
-This is an example for the SES client:
+This is an example for the SES client for the **v3 SDK**.  Please note that v2 works quite differently:
 
 ```js
 // Configure mail client
@@ -302,30 +302,33 @@ const getCreds = async () => {
     return await awsCredsProvider();
 };
 
-const sesClient = new SES({
-    // credentials from `awsCredsProvider` provider
-    credentials,
-    region: 'eu-west-1',
-    apiVersion: '2010-12-01'
-});
+// Perhaps there's a better way to do this.  Top level await will be amazing.
+getCreds().then(credentials => {
+    const sesClient = new SES({
+        // credentials from `awsCredsProvider` provider
+        credentials,
+        region: 'eu-west-1',
+        apiVersion: '2010-12-01'
+    });
 
-// Configure Parse Server
-const server = new ParseServer({
-    ...otherServerOptions,
+    // Configure Parse Server
+    const server = new ParseServer({
+        ...otherServerOptions,
 
-    emailAdapter: {
-        module: 'parse-server-api-mail-adapter',
-        options: {
-            ... otherAdapterOptions,
+        emailAdapter: {
+            module: 'parse-server-api-mail-adapter',
+            options: {
+                ... otherAdapterOptions,
 
-            apiCallback: async ({ payload, locale }) => {
-                const awsSESPayload = ApiPayloadConverter.awsSES(payload);
-                const command = new SendEmailCommand(awsSESPayload);
-                await sesClient.send(command);
+                apiCallback: async ({ payload, locale }) => {
+                    const awsSESPayload = ApiPayloadConverter.awsSES(payload);
+                    const command = new SendEmailCommand(awsSESPayload);
+                    await sesClient.send(command);
+                }
             }
         }
-    }
-});
+    });
+})
 ```
 
 ## Custom API
