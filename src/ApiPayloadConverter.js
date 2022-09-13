@@ -70,22 +70,32 @@ class ApiPayloadConverter {
         payload.Message = {}
       }
 
-      payload.Message.Body = {
-        Html: {
-          Charset: 'UTF-8',
-          Data: payload.html
-        }
+      if (!payload.Message.Body) {
+        payload.Message.Body = {}
+      }
+
+      payload.Message.Body.Html = {
+        Charset: 'UTF-8',
+        Data: payload.html
       };
-    } else {
-      payload.Message.Body = {
-        Html: {
-          Charset: 'UTF-8',
-          Data: payload.text
-        }
-      };
+      delete payload.html;
     }
-    delete payload.html;
-    delete payload.text;
+
+    if (payload.text && payload.text !== '') {
+      if (!payload?.Message) {
+        payload.Message = {}
+      }
+
+      if (!payload.Message.Body) {
+        payload.Message.Body = {}
+      }
+
+      payload.Message.Body.Text = {
+        Charset: 'UTF-8',
+        Data: payload.text
+      };
+      delete payload.text;
+    }
 
     return payload;
   }
