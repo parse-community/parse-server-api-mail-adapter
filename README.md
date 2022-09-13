@@ -227,8 +227,8 @@ Parse.Cloud.sendEmail({
 
 | Parameter      | Type         | Optional | Default Value | Example Value               | Description                                                                                    |
 |----------------|--------------|----------|---------------|-----------------------------|------------------------------------------------------------------------------------------------|
-| `from`         | `String`     |          | -             | `from@example.com`          | The email sender address; overrides the sender address specified in the adapter configuration. |
-| `to`           | `String`     |          | -             | `to@example.com`            | The email recipient; if set overrides the email address of the `user`.                         |
+| `sender`       | `String`     |          | -             | `from@example.com`          | The email sender address; overrides the sender address specified in the adapter configuration. |
+| `recipient`    | `String`     |          | -             | `to@example.com`            | The email recipient; if set overrides the email address of the `user`.                         |
 | `subject`      | `String`     |          | -             | `Welcome`                   | The email subject.                                                                             |
 | `text`         | `String`     |          | -             | `Thank you for signing up!` | The plain-text email content.                                                                  |
 | `html`         | `String`     | yes      | `undefined`   | `<html>...</html>`          | The HTML email content.                                                                        |
