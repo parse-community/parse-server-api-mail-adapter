@@ -227,8 +227,8 @@ Parse.Cloud.sendEmail({
 
 | Parameter      | Type         | Optional | Default Value | Example Value               | Description                                                                                    |
 |----------------|--------------|----------|---------------|-----------------------------|------------------------------------------------------------------------------------------------|
-| `sender`       | `String`     |          | -             | `from@example.com`          | The email sender address; overrides the sender address specified in the adapter configuration. |
-| `recipient`    | `String`     |          | -             | `to@example.com`            | The email recipient; if set overrides the email address of the `user`.                         |
+| `from`         | `String`     |          | -             | `from@example.com`          | The email sender address; overrides the sender address specified in the adapter configuration. |
+| `to`           | `String`     |          | -             | `to@example.com`            | The email recipient; if set overrides the email address of the `user`.                         |
 | `subject`      | `String`     |          | -             | `Welcome`                   | The email subject.                                                                             |
 | `text`         | `String`     |          | -             | `Thank you for signing up!` | The plain-text email content.                                                                  |
 | `html`         | `String`     | yes      | `undefined`   | `<html>...</html>`          | The HTML email content.                                                                        |
@@ -246,6 +246,7 @@ This adapter supports any REST API by adapting the API payload in the adapter co
 For convenience, support for common APIs is already built into this adapter and available via the `ApiPayloadConverter`. The following is a list of currently supported API providers:
 
 - [Mailgun](https://www.mailgun.com)
+- [AWS SES - v3 SDK](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-ses/index.html)
 
 If the provider you are using is not already supported, please feel free to open a PR.
 
@@ -271,6 +272,56 @@ const server = new ParseServer({
             apiCallback: async ({ payload, locale }) => {
                 const mailgunPayload = ApiPayloadConverter.mailgun(payload);
                 await mailgunClient.messages.create(mailgunDomain, mailgunPayload);
+            }
+        }
+    }
+});
+```
+
+### Example for AWS SES
+
+This is an example for the SES client:
+
+```js
+// Configure mail client
+const { SES, SendEmailCommand } = require("@aws-sdk/client-ses");
+
+// `fromInstanceMetadata` is for dynamically getting credentials via IMDS on your AWS instance
+// `fromEnv` grabs your credentials from environment variables (I use this method for testing and the former for production)
+const { fromInstanceMetadata, fromEnv } = require("@aws-sdk/credential-providers");
+
+let awsCredsProvider;
+if (process.env.NODE_ENV && process.env.NODE_ENV === "production") {
+    awsCredsProvider = fromInstanceMetadata();
+} else {
+    awsCredsProvider = fromEnv();
+}
+
+// `awsCredsProvider` returns a promise, once resolved, you get your credentials
+const getCreds = async () => {
+    return await awsCredsProvider();
+};
+
+const sesClient = new SES({
+    // credentials from `awsCredsProvider` provider
+    credentials,
+    region: 'eu-west-1',
+    apiVersion: '2010-12-01'
+});
+
+// Configure Parse Server
+const server = new ParseServer({
+    ...otherServerOptions,
+
+    emailAdapter: {
+        module: 'parse-server-api-mail-adapter',
+        options: {
+            ... otherAdapterOptions,
+
+            apiCallback: async ({ payload, locale }) => {
+                const awsSESPayload = ApiPayloadConverter.awsSES(payload);
+                const command = new SendEmailCommand(awsSESPayload);
+                await sesClient.send(command);
             }
         }
     }
