@@ -28,7 +28,7 @@ class ApiPayloadConverter {
    * @param {Object} originalPayload The original payload (provider agnostic).
    * @returns {Object} The payload according to AWS SDK specification.
    */
-  static awsSES(originalPayload) {
+  static awsSes(originalPayload) {
 
     // Clone payload
     const payload = Object.assign({}, originalPayload);
@@ -65,7 +65,7 @@ class ApiPayloadConverter {
       delete payload.subject;
     }
 
-    if (payload.html && payload.html !== '') {
+    if (payload.html) {
       if (!payload?.Message) {
         payload.Message = {}
       }
@@ -81,7 +81,7 @@ class ApiPayloadConverter {
       delete payload.html;
     }
 
-    if (payload.text && payload.text !== '') {
+    if (payload.text) {
       if (!payload?.Message) {
         payload.Message = {}
       }
