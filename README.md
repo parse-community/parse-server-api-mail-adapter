@@ -292,7 +292,9 @@ const {
 } = require('@aws-sdk/credential-providers');
 
 // Get AWS credentials depending on environment
-const credentials = process.env.NODE_ENV == 'production' ? await fromInstanceMetadata() : await fromEnv();
+const credentialProvider= process.env.NODE_ENV == 'production' ? fromInstanceMetadata() : fromEnv();
+
+const credentials = await credentialProvider();
 
 const sesClient = new SES({
     credentials,
