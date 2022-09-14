@@ -286,7 +286,6 @@ This is an example for the AWS Simple Email Service client using the AWS JavaScr
 // Configure mail client
 const { SES, SendEmailCommand } = require('@aws-sdk/client-ses');
 
-// `fromEnv` grabs your credentials from environment variables (I use this method for testing and `fromInstanceMetadata` for production)
 const {
   fromInstanceMetadata, // gets credentials via IMDS from the AWS instance (when deployed on AWS instance)
   fromEnv, // get AWS credentials from environment variables (when testing locally)
@@ -295,8 +294,7 @@ const {
 // Get AWS credential provider depending on environment
 let awsCredsProvider = process.env.NODE_ENV === 'production' ? await fromInstanceMetadata() : await fromEnv();
 
-// `awsCredsProvider` returns a promise, once resolved, you get your credentials
-const credentials = await awsCredsProvider(); // This assumes top level await.
+const credentials = await awsCredsProvider();
 
 const sesClient = new SES({
     credentials,
@@ -314,8 +312,8 @@ const server = new ParseServer({
             ... otherAdapterOptions,
 
             apiCallback: async ({ payload, locale }) => {
-                const awsSESPayload = ApiPayloadConverter.awsSES(payload);
-                const command = new SendEmailCommand(awsSESPayload);
+                const awsSesPayload = ApiPayloadConverter.awsSes(payload);
+                const command = new SendEmailCommand(awsSesPayload);
                 await sesClient.send(command);
             }
         }
