@@ -287,8 +287,8 @@ This is an example for the AWS Simple Email Service client using the AWS JavaScr
 const { SES, SendEmailCommand } = require('@aws-sdk/client-ses');
 
 const {
-  fromInstanceMetadata, // gets credentials via IMDS from the AWS instance (when deployed on AWS instance)
-  fromEnv, // get AWS credentials from environment variables (when testing locally)
+  fromInstanceMetadata, // Get credentials via IMDS from the AWS instance (when deployed on AWS instance)
+  fromEnv, // Get AWS credentials from environment variables (when testing locally)
 } = require('@aws-sdk/credential-providers');
 
 // Get AWS credential provider depending on environment
