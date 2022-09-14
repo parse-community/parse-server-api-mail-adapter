@@ -291,10 +291,8 @@ const {
   fromEnv, // Get AWS credentials from environment variables (when testing locally)
 } = require('@aws-sdk/credential-providers');
 
-// Get AWS credential provider depending on environment
-let awsCredsProvider = process.env.NODE_ENV === 'production' ? await fromInstanceMetadata() : await fromEnv();
-
-const credentials = await awsCredsProvider();
+// Get AWS credentials depending on environment
+const credentials = process.env.NODE_ENV == 'production' ? await fromInstanceMetadata() : await fromEnv();
 
 const sesClient = new SES({
     credentials,
