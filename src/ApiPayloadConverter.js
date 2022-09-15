@@ -14,7 +14,7 @@ class ApiPayloadConverter {
     // Clone payload
     const payload = Object.assign({}, originalPayload);
 
-    // Substitute keys
+    // Transform reply-to
     if (payload.replyTo) {
       payload['h:Reply-To'] = payload.replyTo;
       delete payload.replyTo;
@@ -33,68 +33,56 @@ class ApiPayloadConverter {
     // Clone payload
     const payload = Object.assign({}, originalPayload);
 
-    // Substitute keys
-    if (payload.to) {
-      payload.Destination = {
-        ToAddresses: [payload.to]
-      };
-      delete payload.to;
-    }
+    // Transform recipient
+    payload.Destination = {
+      ToAddresses: [payload.to]
+    };
+    delete payload.to;
 
-    if (payload.from) {
-      payload.Source = [payload.from];
-      delete payload.from;
-    }
+    // Transform sender
+    payload.Source = [payload.from];
+    delete payload.from;
 
+    // Transform reply-to
     if (payload.replyTo) {
       payload.ReplyToAddresses = [payload.replyTo];
       delete payload.replyTo;
     }
 
+    // Transform subject
     if (payload.subject) {
-      if (!payload.Message) {
-        payload.Message = {}
-      }
-
-      if (!payload.Message.Subject) {
-        payload.Message.Subject = {}
-      }
-
-      payload.Message.Subject.Data = payload.subject;
-      payload.Message.Subject.Charset = 'UTF-8';
+      payload.Message.Subject = {
+        Data: payload.subject,
+        Charset: 'UTF-8',
+      };
       delete payload.subject;
     }
 
-    if (payload.html) {
-      if (!payload.Message) {
-        payload.Message = {}
-      }
+    // If message has body
+    if (payload.text || payload.html) {
 
-      if (!payload.Message.Body) {
-        payload.Message.Body = {}
-      }
-
-      payload.Message.Body.Html = {
-        Charset: 'UTF-8',
-        Data: payload.html
+      // Set default body
+      payload.Message = {
+        Body: {}
       };
-      delete payload.html;
-    }
 
-    if (payload.text) {
-      if (!payload.Message) {
-        payload.Message = {}
+      // Transform plain-text
+      if (payload.text) {
+        payload.Message.Body.Text = {
+          Charset: 'UTF-8',
+          Data: payload.text,
+        };
+        delete payload.text;
       }
 
-      if (!payload.Message.Body) {
-        payload.Message.Body = {}
+      // Transform HTML
+      if (payload.html) {
+        payload.Message.Body.Html = {
+          Charset: 'UTF-8',
+          Data: payload.html,
+        };
+        delete payload.html;
       }
-
-      payload.Message.Body.Text = {
-        Charset: 'UTF-8',
-        Data: payload.text
-      };
-      delete payload.text;
     }
 
     return payload;
