@@ -66,7 +66,7 @@ class ApiPayloadConverter {
     }
 
     if (payload.html) {
-      if (!payload?.Message) {
+      if (!payload.Message) {
         payload.Message = {}
       }
 
@@ -82,7 +82,7 @@ class ApiPayloadConverter {
     }
 
     if (payload.text) {
-      if (!payload?.Message) {
+      if (!payload.Message) {
         payload.Message = {}
       }
 
