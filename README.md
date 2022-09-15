@@ -246,6 +246,7 @@ This adapter supports any REST API by adapting the API payload in the adapter co
 For convenience, support for common APIs is already built into this adapter and available via the `ApiPayloadConverter`. The following is a list of currently supported API providers:
 
 - [Mailgun](https://www.mailgun.com)
+- [AWS Simple Email Service (AWS JavaScript SDK v3)](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-ses/index.html)
 
 If the provider you are using is not already supported, please feel free to open a PR.
 
@@ -271,6 +272,48 @@ const server = new ParseServer({
             apiCallback: async ({ payload, locale }) => {
                 const mailgunPayload = ApiPayloadConverter.mailgun(payload);
                 await mailgunClient.messages.create(mailgunDomain, mailgunPayload);
+            }
+        }
+    }
+});
+```
+
+### Example for AWS Simple Email Service
+
+This is an example for the AWS Simple Email Service client using the AWS JavaScript SDK v3:
+
+```js
+// Configure mail client
+const { SES, SendEmailCommand } = require('@aws-sdk/client-ses');
+
+const {
+  fromInstanceMetadata, // Get credentials via IMDS from the AWS instance (when deployed on AWS instance)
+  fromEnv, // Get AWS credentials from environment variables (when testing locally)
+} = require('@aws-sdk/credential-providers');
+
+// Get AWS credentials depending on environment
+const credentialProvider= process.env.NODE_ENV == 'production' ? fromInstanceMetadata() : fromEnv();
+const credentials = await credentialProvider();
+
+const sesClient = new SES({
+    credentials,
+    region: 'eu-west-1',
+    apiVersion: '2010-12-01'
+});
+
+// Configure Parse Server
+const server = new ParseServer({
+    ...otherServerOptions,
+
+    emailAdapter: {
+        module: 'parse-server-api-mail-adapter',
+        options: {
+            ... otherAdapterOptions,
+
+            apiCallback: async ({ payload, locale }) => {
+                const awsSesPayload = ApiPayloadConverter.awsSes(payload);
+                const command = new SendEmailCommand(awsSesPayload);
+                await sesClient.send(command);
             }
         }
     }

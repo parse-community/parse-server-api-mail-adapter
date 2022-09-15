@@ -391,7 +391,17 @@ describe('ApiMailAdapter', () => {
       expect(payload.subject).toBe(examplePayload.subject);
       expect(payload.text).toBe(examplePayload.text);
       expect(payload.html).toBe(examplePayload.html);
-    })
+    });
+
+    it('converts payload for AWS SES (SDK v3)', () => {
+      const payload = converter.awsSes(examplePayload);
+      expect(payload.Source).toEqual([examplePayload.from]);
+      expect(payload.Destination.ToAddresses).toEqual([examplePayload.to]);
+      expect(payload.ReplyToAddresses).toEqual([examplePayload.replyTo]);
+      expect(payload.Message.Subject.Data).toBe(examplePayload.subject);
+      expect(payload.Message.Body.Text.Data).toBe(examplePayload.text);
+      expect(payload.Message.Body.Html.Data).toBe(examplePayload.html);
+    });
   });
 
   describe('invoke _sendMail', function () {
