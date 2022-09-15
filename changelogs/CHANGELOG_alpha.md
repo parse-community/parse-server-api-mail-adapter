@@ -1,3 +1,10 @@
+# [2.1.0-alpha.9](https://github.com/parse-community/parse-server-api-mail-adapter/compare/2.1.0-alpha.8...2.1.0-alpha.9) (2022-09-15)
+
+
+### Features
+
+* add AWS SES payload adapter ([#65](https://github.com/parse-community/parse-server-api-mail-adapter/issues/65)) ([4ecc4c9](https://github.com/parse-community/parse-server-api-mail-adapter/commit/4ecc4c9a119fbfcfd658dc7b73e28acaceba9c67))
+
 # [2.1.0-alpha.8](https://github.com/parse-community/parse-server-api-mail-adapter/compare/2.1.0-alpha.7...2.1.0-alpha.8) (2022-06-04)
 
 
