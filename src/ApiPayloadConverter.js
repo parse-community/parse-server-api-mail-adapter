@@ -14,10 +14,80 @@ class ApiPayloadConverter {
     // Clone payload
     const payload = Object.assign({}, originalPayload);
 
-    // Substitute keys
+    // Transform reply-to
     if (payload.replyTo) {
       payload['h:Reply-To'] = payload.replyTo;
       delete payload.replyTo;
+    }
+
+    return payload;
+  }
+
+  /**
+   * @description Converts the mail payload for the AWS Simple Mail Service (AWS JavaScript SDK v3).
+   * @param {Object} originalPayload The original payload (provider agnostic).
+   * @returns {Object} The payload according to AWS SDK specification.
+   */
+  static awsSes(originalPayload) {
+
+    // Clone payload
+    const payload = Object.assign({}, originalPayload);
+
+    // Transform sender
+    payload.Source = [payload.from];
+    delete payload.from;
+
+    // Transform recipient
+    payload.Destination = {
+      ToAddresses: [payload.to]
+    };
+    delete payload.to;
+
+    // Transform reply-to
+    if (payload.replyTo) {
+      payload.ReplyToAddresses = [payload.replyTo];
+      delete payload.replyTo;
+    }
+
+    // If message has content
+    if (payload.subject || payload.text || payload.html) {
+
+      // Set default message
+      payload.Message = {};
+
+      // Transform subject
+      if (payload.subject) {
+        payload.Message.Subject = {
+          Data: payload.subject,
+          Charset: 'UTF-8',
+        };
+        delete payload.subject;
+      }
+
+      // If message has body
+      if (payload.text || payload.html) {
+
+        // Set default body
+        payload.Message.Body = {};
+
+        // Transform plain-text
+        if (payload.text) {
+          payload.Message.Body.Text = {
+            Charset: 'UTF-8',
+            Data: payload.text,
+          };
+          delete payload.text;
+        }
+
+        // Transform HTML
+        if (payload.html) {
+          payload.Message.Body.Html = {
+            Charset: 'UTF-8',
+            Data: payload.html,
+          };
+          delete payload.html;
+        }
+      }
     }
 
     return payload;
