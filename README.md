@@ -20,7 +20,7 @@ The Parse Server API Mail Adapter enables Parse Server to send emails using any 
 
 ## Transfer <!-- omit in toc -->
 
-ℹ️ This repository has been tranferred to the Parse Platform Organization on May 15, 2022. Please update any links that you may have to this repository, for example if you cloned or forked this repository and maintain a remote link to this orginal repository, or if you are referencing a GitHub commit directly as your dependency.
+ℹ️ This repository has been transferred to the Parse Platform Organization on May 15, 2022. Please update any links that you may have to this repository, for example if you cloned or forked this repository and maintain a remote link to this original repository, or if you are referencing a GitHub commit directly as your dependency.
 
 ---
 
