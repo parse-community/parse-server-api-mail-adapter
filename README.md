@@ -1,18 +1,13 @@
 # Parse Server API Mail Adapter <!-- omit in toc -->
 
-[![Build Status](https://github.com/parse-community/parse-server-api-mail-adapter/workflows/ci/badge.svg?branch=main)](https://github.com/parse-community/parse-server-api-mail-adapter/actions?query=workflow%3Aci+branch%3Amain)
+[![Build Status](https://github.com/parse-community/parse-server-api-mail-adapter/workflows/ci/badge.svg?branch=release)](https://github.com/parse-community/parse-server-api-mail-adapter/actions?query=workflow%3Aci+branch%3Arelease)
 [![Snyk Badge](https://snyk.io/test/github/parse-community/parse-server-api-mail-adapter/badge.svg)](https://snyk.io/test/github/parse-community/parse-server-api-mail-adapter)
 [![Coverage](https://codecov.io/gh/parse-community/parse-server-api-mail-adapter/branch/alpha/graph/badge.svg)](https://codecov.io/gh/parse-community/parse-server-api-mail-adapter)
 [![auto-release](https://img.shields.io/badge/%F0%9F%9A%80-auto--release-9e34eb.svg)](https://github.com/parse-community/parse-dashboard/releases)
 
 [![Node Version](https://img.shields.io/badge/nodejs-14,_16,_18-green.svg?logo=node.js&style=flat)](https://nodejs.org)
 
-[![dependency up-to-date](https://img.shields.io/librariesio/release/npm/parse-server-api-mail-adapter)](https://libraries.io/npm/parse-server-api-mail-adapter)
-[![weekly downloads](https://img.shields.io/npm/dw/parse-server-api-mail-adapter)](https://www.npmjs.com/package/parse-server-api-mail-adapter)
-
 [![npm latest version](https://img.shields.io/npm/v/parse-server-api-mail-adapter/latest.svg)](https://www.npmjs.com/package/parse-server-api-mail-adapter)
-[![npm beta version](https://img.shields.io/npm/v/parse-server-api-mail-adapter/beta.svg)](https://www.npmjs.com/package/parse-server-api-mail-adapter)
-[![npm alpha version](https://img.shields.io/npm/v/parse-server-api-mail-adapter/alpha.svg)](https://www.npmjs.com/package/parse-server-api-mail-adapter)
 
 ---
 
