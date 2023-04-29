@@ -49,7 +49,7 @@
     "madge": "5.0.1",
     "mailgun.js": "3.5.9",
     "nyc": "15.1.0",
-    "semantic-release": "19.0.5"
+    "semantic-release": "21.0.1"
   },
   "engines": {
     "node": ">=12"
