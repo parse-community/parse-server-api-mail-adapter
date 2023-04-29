@@ -1,3 +1,15 @@
+# [3.0.0-beta.1](https://github.com/parse-community/parse-server-api-mail-adapter/compare/2.1.0-beta.2...3.0.0-beta.1) (2023-04-29)
+
+
+### Features
+
+* Remove support for Node 12 ([#79](https://github.com/parse-community/parse-server-api-mail-adapter/issues/79)) ([3a480d9](https://github.com/parse-community/parse-server-api-mail-adapter/commit/3a480d98f58be723945cd78e3eaa18a2062af1ed))
+
+
+### BREAKING CHANGES
+
+* Remove support for Node 12. ([3a480d9](3a480d9))
+
 # [2.1.0-beta.2](https://github.com/parse-community/parse-server-api-mail-adapter/compare/2.1.0-beta.1...2.1.0-beta.2) (2023-01-24)
 
 
