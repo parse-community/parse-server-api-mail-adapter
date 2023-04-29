@@ -53,8 +53,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: Node 12
-            NODE_VERSION: 12
           - name: Node 14
             NODE_VERSION: 14
           - name: Node 16
