@@ -1,6 +1,6 @@
 {
   "name": "parse-server-api-mail-adapter",
-  "version": "2.2.0",
+  "version": "3.0.0-beta.1",
   "description": "Universal Mail Adapter for Parse Server, supports any email provider REST API, with localization and templates.",
   "main": "./lib/index.js",
   "repository": {
@@ -35,11 +35,12 @@
     "@babel/plugin-proposal-object-rest-spread": "7.15.6",
     "@babel/plugin-transform-flow-strip-types": "7.14.5",
     "@babel/preset-env": "7.15.8",
-    "@semantic-release/changelog": "6.0.1",
+    "@saithodev/semantic-release-backmerge": "3.1.0",
+    "@semantic-release/changelog": "6.0.3",
     "@semantic-release/commit-analyzer": "9.0.2",
     "@semantic-release/git": "10.0.1",
-    "@semantic-release/npm": "9.0.1",
-    "@semantic-release/release-notes-generator": "10.0.3",
+    "@semantic-release/npm": "10.0.3",
+    "@semantic-release/release-notes-generator": "11.0.1",
     "babel-eslint": "10.1.0",
     "codecov": "3.8.3",
     "eslint": "7.32.0",
@@ -49,7 +50,7 @@
     "madge": "5.0.1",
     "mailgun.js": "3.5.9",
     "nyc": "15.1.0",
-    "semantic-release": "19.0.5"
+    "semantic-release": "21.0.2"
   },
   "engines": {
     "node": ">=12"
