@@ -5,7 +5,7 @@
 [![Coverage](https://codecov.io/gh/parse-community/parse-server-api-mail-adapter/branch/alpha/graph/badge.svg)](https://codecov.io/gh/parse-community/parse-server-api-mail-adapter)
 [![auto-release](https://img.shields.io/badge/%F0%9F%9A%80-auto--release-9e34eb.svg)](https://github.com/parse-community/parse-dashboard/releases)
 
-[![Node Version](https://img.shields.io/badge/nodejs-12,_14,_16,_18-green.svg?logo=node.js&style=flat)](https://nodejs.org)
+[![Node Version](https://img.shields.io/badge/nodejs-14,_16,_18-green.svg?logo=node.js&style=flat)](https://nodejs.org)
 
 [![dependency up-to-date](https://img.shields.io/librariesio/release/npm/parse-server-api-mail-adapter)](https://libraries.io/npm/parse-server-api-mail-adapter)
 [![weekly downloads](https://img.shields.io/npm/dw/parse-server-api-mail-adapter)](https://www.npmjs.com/package/parse-server-api-mail-adapter)
@@ -20,7 +20,7 @@ The Parse Server API Mail Adapter enables Parse Server to send emails using any 
 
 ## Transfer <!-- omit in toc -->
 
-ℹ️ This repository has been tranferred to the Parse Platform Organization on May 15, 2022. Please update any links that you may have to this repository, for example if you cloned or forked this repository and maintain a remote link to this orginal repository, or if you are referencing a GitHub commit directly as your dependency.
+ℹ️ This repository has been transferred to the Parse Platform Organization on May 15, 2022. Please update any links that you may have to this repository, for example if you cloned or forked this repository and maintain a remote link to this original repository, or if you are referencing a GitHub commit directly as your dependency.
 
 ---
 
