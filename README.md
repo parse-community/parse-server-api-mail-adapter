@@ -87,6 +87,8 @@ const server = new ParseServer({
         options: {
             // The email address from which emails are sent.
             sender: 'sender@example.com',
+            // Sets the adapter to by pass local template file processing and call the apiCallback directly.
+            external: true, // Default is false
             // The email templates.
             templates: {
                 // The template used by Parse Server to send an email for password
@@ -222,7 +224,8 @@ If the `user` provided has an email address set, it is not necessary to set a `r
 Parse.Cloud.sendEmail({
   templateName: "next_level_email",
   placeholders: { gameScore: 100, nextLevel: 2 },
-  user: parseUser // user with email address
+  user: parseUser, // user with email address
+  external: true // Bypass locale mail generation - default is false
 });
 ```
 
@@ -238,7 +241,8 @@ Parse.Cloud.sendEmail({
 | `templateName` | `String`     | yes      | `undefined`   | `customTemplate`            | The template name.                                                                             |
 | `placeholders` | `Object`     | yes      | `{}`          | `{ key: value }`            | The template placeholders.                                                                     |
 | `extra`        | `Object`     | yes      | `{}`          | `{ key: value }`            | Any additional variables to pass to the mail provider API.                                     |
-| `user`         | `Parse.User` | yes      | `undefined`   | -                           | The Parse User that the is the recipient of the email.                                         |
+| `user`         | `Parse.User` | yes      | `undefined`   | -                           | The Parse User that the is the recipient of the email.
+| `external`         | `Boolean` | yes      | `false`   | `true`                           | Whether to generate and send email externally.
 
 # Supported APIs
 
@@ -272,7 +276,7 @@ const server = new ParseServer({
         options: {
             ... otherAdapterOptions,
 
-            apiCallback: async ({ payload, locale }) => {
+            apiCallback: async ({ payload, locale, options }) => {
                 const mailgunPayload = ApiPayloadConverter.mailgun(payload);
                 await mailgunClient.messages.create(mailgunDomain, mailgunPayload);
             }
@@ -313,7 +317,7 @@ const server = new ParseServer({
         options: {
             ... otherAdapterOptions,
 
-            apiCallback: async ({ payload, locale }) => {
+            apiCallback: async ({ payload, locale, options }) => {
                 const awsSesPayload = ApiPayloadConverter.awsSes(payload);
                 const command = new SendEmailCommand(awsSesPayload);
                 await sesClient.send(command);
@@ -341,7 +345,7 @@ const server = new ParseServer({
         options: {
             ... otherOptions,
 
-            apiCallback: async ({ payload, locale }) => {
+            apiCallback: async ({ payload, locale, options }) => {
                 const customPayload = {
                     customFrom: payload.from,
                     customTo: payload.to,
