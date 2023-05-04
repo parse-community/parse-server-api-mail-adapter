@@ -16,7 +16,7 @@ class ApiMailAdapter extends MailAdapter {
   constructor(options) {
 
     // Get parameters
-    const { sender, templates, thirdParty = false, apiCallback } = options || {};
+    const { sender, templates, external = false, apiCallback } = options || {};
 
     // Ensure required parameters are set
     if (!sender) {
@@ -45,7 +45,7 @@ class ApiMailAdapter extends MailAdapter {
     this.sender = sender;
     this.templates = templates;
     this.apiCallback = apiCallback;
-    this.thirdParty = thirdParty;
+    this.external = external;
   }
 
   /**
@@ -62,7 +62,7 @@ class ApiMailAdapter extends MailAdapter {
       link,
       appName,
       user,
-      thirdParty: this.thirdParty
+      external: this.external
     });
   }
 
@@ -80,7 +80,7 @@ class ApiMailAdapter extends MailAdapter {
       link,
       appName,
       user,
-      thirdParty: this.thirdParty
+      external: this.external
     });
   }
 
@@ -96,10 +96,10 @@ class ApiMailAdapter extends MailAdapter {
    * @param {Object} [placeholders] The template placeholders.
    * @param {Object} [extra] Any additional variables to pass to the mail provider API.
    * @param {Parse.User} [user] The Parse User that the is the recipient of the email.
-   * @param {Boolean} [thirdParty] Whether or not the email is to be handled externally by a thirdParty - overrides the default passed as option during class instantiation.
+   * @param {Boolean} [external] Whether or not the email is to be handled externally by a external - overrides the default passed as option during class instantiation.
    * @returns {Promise<Any>} The mail provider API response.
    */
-  async sendMail({ sender, recipient, subject, text, html, templateName, placeholders, extra, user, thirdParty}) {
+  async sendMail({ sender, recipient, subject, text, html, templateName, placeholders, extra, user, external}) {
     return await this._sendMail({
       sender,
       recipient,
@@ -110,7 +110,7 @@ class ApiMailAdapter extends MailAdapter {
       placeholders,
       extra,
       user,
-      thirdParty,
+      external,
       direct: true
     });
   }
@@ -123,10 +123,10 @@ class ApiMailAdapter extends MailAdapter {
    */
   async _sendMail(email) {
 
-    const thirdParty = email.thirdParty ?? this.thirdParty;
+    const external = email.external ?? this.external;
 
     // If the mail sending feature is to be handled by a third party, then we call the apiCallback directly
-    if (thirdParty){
+    if (external){
       return await this.apiCallback({options:email});
     }
 
