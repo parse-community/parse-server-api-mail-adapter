@@ -10,10 +10,12 @@ const { Parse } = require('./helper');
 const user = new Parse.User();
 const link = 'http://example.com';
 const appName = 'ExampleApp';
+const external = false;
 const apiResponseSuccess = async () => "Success";
 const config = {
   apiCallback: apiResponseSuccess,
   sender: 'from@example.com',
+  external: external,
   templates: {
     passwordResetEmail: {
       subjectPath: path.join(__dirname, 'templates/password_reset_email_subject.txt'),
@@ -171,7 +173,7 @@ describe('ApiMailAdapter', () => {
 
     it('returns promise', async () => {
       const adapter = new ApiMailAdapter(config);
-      const options = { link, appName, user };
+      const options = { link, appName, user , external};
 
       const promise = adapter.sendPasswordResetEmail(options);
       expect(promise).toBeInstanceOf(Promise);
@@ -183,7 +185,7 @@ describe('ApiMailAdapter', () => {
       const apiCallback = spyOn(adapter, 'apiCallback').and.callThrough();
       const templateName = 'passwordResetEmail';
       const options = { link, appName, user };
-      const expectedArguments = { templateName, link, appName, user };
+      const expectedArguments = { templateName, link, appName, user, external };
 
       await adapter.sendPasswordResetEmail(options);
       expect(_sendMail.calls.all()[0].args[0]).toEqual(expectedArguments);
@@ -199,7 +201,7 @@ describe('ApiMailAdapter', () => {
 
     it('returns promise', async () => {
       const adapter = new ApiMailAdapter(config);
-      const options = { link, appName, user };
+      const options = { link, appName, user, external };
 
       const promise = adapter.sendVerificationEmail(options);
       expect(promise).toBeInstanceOf(Promise);
@@ -211,7 +213,7 @@ describe('ApiMailAdapter', () => {
       const apiCallback = spyOn(adapter, 'apiCallback').and.callThrough();
       const templateName = 'verificationEmail';
       const options = { link, appName, user };
-      const expectedArguments = { templateName, link, appName, user };
+      const expectedArguments = { templateName, link, appName, user, external };
 
       await adapter.sendVerificationEmail(options);
       expect(_sendMail.calls.all()[0].args[0]).toEqual(expectedArguments);
@@ -244,6 +246,7 @@ describe('ApiMailAdapter', () => {
           field: "ExampleExtra"
         },
         user: undefined,
+        external: false
       };
       const expectedArguments = Object.assign({}, options, { direct: true });
 
@@ -434,7 +437,8 @@ describe('ApiMailAdapter', () => {
         templateName: 'passwordResetEmail',
         link: 'http://example.com',
         appName: 'ExampleApp',
-        user: user
+        user: user,
+        external: false
       }
       await expectAsync(adapter._sendMail(options)).toBeRejectedWith(error);
     });
@@ -446,7 +450,8 @@ describe('ApiMailAdapter', () => {
       const options = {
         templateName: 'customEmail',
         recipient: 'to@example.com',
-        direct: true
+        direct: true,
+        external: false
       }
       await expectAsync(adapter._sendMail(options)).toBeRejectedWith(error);
     });
