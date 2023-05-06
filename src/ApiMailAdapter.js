@@ -206,8 +206,8 @@ class ApiMailAdapter extends MailAdapter {
     // Create API data
     const apiData = await this._createApiData({ message, template, placeholders, user });
 
-    // Send email
-    return await this.apiCallback({...apiData, options:email }); // Pass down original/raw email options to the mail client
+    // Send email, passing down original/raw email options to the mail client and more :)
+    return await this.apiCallback({...apiData, options: {...email, message, template, placeholders} });
   }
 
   /**
