@@ -1,13 +1,13 @@
 # Parse Server API Mail Adapter <!-- omit in toc -->
 
-[![Build Status](https://github.com/parse-community/parse-server-api-mail-adapter/workflows/ci/badge.svg?branch=release)](https://github.com/parse-community/parse-server-api-mail-adapter/actions?query=workflow%3Aci+branch%3Arelease)
-[![Snyk Badge](https://snyk.io/test/github/parse-community/parse-server-api-mail-adapter/badge.svg)](https://snyk.io/test/github/parse-community/parse-server-api-mail-adapter)
-[![Coverage](https://codecov.io/gh/parse-community/parse-server-api-mail-adapter/branch/alpha/graph/badge.svg)](https://codecov.io/gh/parse-community/parse-server-api-mail-adapter)
+[![Build Status](https://github.com/valerycolong/parse-server-api-mail-adapter/workflows/ci/badge.svg?branch=release)](https://github.com/valerycolong/parse-server-api-mail-adapter/actions?query=workflow%3Aci+branch%3Arelease)
+[![Snyk Badge](https://snyk.io/test/github/valerycolong/parse-server-api-mail-adapter/badge.svg)](https://snyk.io/test/github/valerycolong/parse-server-api-mail-adapter)
+[![Coverage](https://codecov.io/gh/valerycolong/parse-server-api-mail-adapter/branch/alpha/graph/badge.svg)](https://codecov.io/gh/parse-community/parse-server-api-mail-adapter)
 [![auto-release](https://img.shields.io/badge/%F0%9F%9A%80-auto--release-9e34eb.svg)](https://github.com/parse-community/parse-dashboard/releases)
 
 [![Node Version](https://img.shields.io/badge/nodejs-14,_16,_18-green.svg?logo=node.js&style=flat)](https://nodejs.org)
 
-[![npm latest version](https://img.shields.io/npm/v/parse-server-api-mail-adapter/latest.svg)](https://www.npmjs.com/package/parse-server-api-mail-adapter)
+[![npm latest version](https://img.shields.io/npm/v/@zingersystems/parse-server-api-mail-adapter/latest.svg)](https://www.npmjs.com/package/@zingersystems/parse-server-api-mail-adapter)
 
 ---
 
@@ -44,7 +44,7 @@ The Parse Server API Mail Adapter enables Parse Server to send emails using any 
 
 1. Install adapter:
     ```
-    npm install --save parse-server-api-mail-adapter
+    npm install --save @zingersystems/parse-server-api-mail-adapter
     ```
 2. Add [template files](#templates) to a subdirectory.
 2. Add [adapter configuration](#configuration) to Parse Server.
@@ -73,7 +73,7 @@ An example configuration to add the API Mail Adapter to Parse Server could look 
 ```js
 const Mailgun = require('mailgun.js');
 const formData = require('form-data');
-const { ApiPayloadConverter } = require('parse-server-api-mail-adapter');
+const { ApiPayloadConverter } = require('@zingersystems/parse-server-api-mail-adapter');
 
 // Configure mail client
 const mailgun = new Mailgun(formData);
@@ -85,7 +85,7 @@ const server = new ParseServer({
     ...otherServerOptions,
 
     emailAdapter: {
-        module: 'parse-server-api-mail-adapter',
+        module: '@zingersystems/parse-server-api-mail-adapter',
         options: {
             // The email address from which emails are sent.
             sender: 'sender@example.com',
@@ -175,7 +175,7 @@ There are different files for different parts of the email:
 - plain-text content (`textPath`)
 - HTML content (`htmlPath`)
 
-See the [templates](https://github.com/parse-community/parse-server-api-mail-adapter/tree/main/spec/templates) for examples how placeholders can be used.
+See the [templates](https://github.com/valerycolong/parse-server-api-mail-adapter/tree/main/spec/templates) for examples how placeholders can be used.
 
 # Placeholders
 Placeholders allow to dynamically insert text into the template content. The placeholder values are filled in according to the key-value definitions returned by the placeholder callback in the adapter configuration.
@@ -274,7 +274,7 @@ const server = new ParseServer({
     ...otherServerOptions,
 
     emailAdapter: {
-        module: 'parse-server-api-mail-adapter',
+        module: '@zingersystems/parse-server-api-mail-adapter',
         options: {
             ... otherAdapterOptions,
 
@@ -315,7 +315,7 @@ const server = new ParseServer({
     ...otherServerOptions,
 
     emailAdapter: {
-        module: 'parse-server-api-mail-adapter',
+        module: '@zingersystems/parse-server-api-mail-adapter',
         options: {
             ... otherAdapterOptions,
 
@@ -343,7 +343,7 @@ const server = new ParseServer({
     ...otherOptions,
 
     emailAdapter: {
-        module: 'parse-server-api-mail-adapter',
+        module: '@zingersystems/parse-server-api-mail-adapter',
         options: {
             ... otherOptions,
 
@@ -364,4 +364,4 @@ const server = new ParseServer({
 # Need help?
 
 - Ask on StackOverflow using the [parse-server](https://stackoverflow.com/questions/tagged/parse-server) tag.
-- Search through existing [issues](https://github.com/parse-community/parse-server-api-mail-adapter/issues) or open a new issue.
+- Search through existing [issues](https://github.com/valerycolong/parse-server-api-mail-adapter/issues) or open a new issue.
