@@ -13,9 +13,11 @@
 
 The Parse Server API Mail Adapter enables Parse Server to send emails using any 3rd party API with built-in dynamic templates and localization.
 
-## Transfer <!-- omit in toc -->
+## Fork Notice <!-- omit in toc -->
 
-ℹ️ This repository has been transferred to the Parse Platform Organization on May 15, 2022. Please update any links that you may have to this repository, for example if you cloned or forked this repository and maintain a remote link to this original repository, or if you are referencing a GitHub commit directly as your dependency.
+ℹ️ This repository is a forked from [parse-community/parse-server-api-mail-adapter](https://github.com/parse-community/parse-server-api-mail-adapter) by [Manuel Trezza](https://github.com/mtrezza). This fork simply adds two features we needed:
+- A boolean property/parameter named external to the options passed to MailAdapter and sendMail method respectively. Setting this parameter to true by passes local processing of the email delegates directly to the apiCallback.
+- With local processing enabled i.e. setting external to false, in addition to `payload` and `locale` properties passed to the apiCallback, the original params as passed as `options`.  
 
 ---
 

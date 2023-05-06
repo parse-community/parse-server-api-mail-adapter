@@ -1,11 +1,11 @@
 {
-  "name": "parse-server-api-mail-adapter",
-  "version": "3.0.0",
+  "name": "@zingersystems/parse-server-api-mail-adapter",
+  "version": "3.0.1",
   "description": "Universal Mail Adapter for Parse Server, supports any email provider REST API, with localization and templates.",
   "main": "./lib/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/parse-community/parse-server-api-mail-adapter.git"
+    "url": "git+https://github.com/valerycolong/parse-server-api-mail-adapter.git"
   },
   "keywords": [
     "parse",
@@ -15,12 +15,12 @@
     "mail",
     "email"
   ],
-  "author": "Manuel Trezza",
+  "author": "Valery Colong",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/parse-community/parse-server-api-mail-adapter/issues"
+    "url": "https://github.com/valerycolong/parse-server-api-mail-adapter/issues"
   },
-  "homepage": "https://github.com/parse-community/parse-server-api-mail-adapter",
+  "homepage": "https://github.com/valerycolong/parse-server-api-mail-adapter",
   "files": [
     "src",
     "lib",
