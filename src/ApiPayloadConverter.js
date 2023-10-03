@@ -4,6 +4,33 @@
  */
 class ApiPayloadConverter {
 
+  static brevo(originalPayload) {
+    console.log("originalPayload");
+    console.log(originalPayload);
+    // Clone payload
+    const payload = Object.assign({}, originalPayload);
+
+    // set sender
+    payload.sender = {email: payload.from};
+    delete payload.from;
+
+    // set to
+    payload.to = [{email: payload.to}];
+
+    // set template ID
+    // payload.templateId = payload.templateId;
+
+    // // set text message
+    // payload.textContent = payload.text;
+    // delete payload.text;
+
+    // // set html message
+    // payload.htmlContent = payload.html;
+    // delete payload.html;
+
+    return payload;
+  }
+
   /**
    * @description Converts the mail payload for the official Mailgun client.
    * @param {Object} originalPayload The original payload (provider agnostic).
