@@ -116,6 +116,87 @@ class ApiMailAdapter extends MailAdapter {
    * @param {Object} email The email to send.
    * @returns {Promise} The mail provider API response.
    */
+  // async _sendMail(email) {
+
+  //   // Define parameters
+  //   let message;
+  //   const user = email.user;
+  //   const userEmail = user ? user.get('email') : undefined;
+  //   const templateName = email.templateName;
+
+  //   // If template name is not set
+  //   if (!templateName && !email.direct) {
+  //     throw Errors.Error.templateConfigurationNoName;
+  //   }
+
+  //   // Get template
+  //   const template = this.templates[templateName];
+
+  //   // If template does not exist
+  //   if (!template && !email.direct) {
+  //     throw Errors.Error.noTemplateWithName(templateName);
+  //   }
+
+  //   // Add template placeholders;
+  //   // Placeholders sources override each other in this order:
+  //   // 1. Placeholders set in the template (default)
+  //   // 2. Placeholders set in the email
+  //   // 3. Placeholders returned by the placeholder callback
+  //   let placeholders = {};
+
+  //   // Add template placeholders
+  //   if (template) {
+  //     placeholders = Object.assign(placeholders, template.placeholders || {});
+  //   }
+
+  //   // If the email is sent directly via Cloud Code
+  //   if (email.direct) {
+
+  //     // If recipient is not set
+  //     if (!email.recipient && !userEmail) {
+  //       throw Errors.Error.noRecipient;
+  //     }
+
+  //     // Add placeholders specified in email
+  //     Object.assign(placeholders, email.placeholders || {});
+
+  //     // Set message properties
+  //     message = Object.assign(
+  //       {
+  //         from: email.sender || this.sender,
+  //         to: email.recipient || userEmail,
+  //         subject: email.subject,
+  //         text: email.text,
+  //         html: email.html
+  //       },
+  //       email.extra || {}
+  //     );
+
+  //   } else {
+  //     // Get email parameters
+  //     const { link, appName } = email;
+
+  //     // Add default placeholders for templates
+  //     Object.assign(placeholders, {
+  //       link,
+  //       appName,
+  //       email: userEmail,
+  //       username: user.get('username')
+  //     });
+
+  //     // Set message properties
+  //     message = {
+  //       from: this.sender,
+  //       to: userEmail
+  //     };
+  //   }
+
+  //   // Create API data
+  //   const apiData = await this._createApiData({ message, template, placeholders, user });
+
+  //   // Send email
+  //   return await this.apiCallback(apiData);
+  // }
   async _sendMail(email) {
 
     // Define parameters
@@ -131,6 +212,8 @@ class ApiMailAdapter extends MailAdapter {
 
     // Get template
     const template = this.templates[templateName];
+    console.log("template");
+    console.log(template);
 
     // If template does not exist
     if (!template && !email.direct) {
@@ -165,9 +248,7 @@ class ApiMailAdapter extends MailAdapter {
         {
           from: email.sender || this.sender,
           to: email.recipient || userEmail,
-          subject: email.subject,
-          text: email.text,
-          html: email.html
+          templateId: template.templateId,
         },
         email.extra || {}
       );
@@ -187,7 +268,9 @@ class ApiMailAdapter extends MailAdapter {
       // Set message properties
       message = {
         from: this.sender,
-        to: userEmail
+        to: userEmail,
+        templateId: template.templateId,
+        link: link
       };
     }
 
@@ -247,44 +330,44 @@ class ApiMailAdapter extends MailAdapter {
       Object.assign(placeholders, callbackPlaceholders);
     }
 
-    // Get subject content
-    const subject = message.subject || await this._loadFile(template.subjectPath, locale);
+    // // Get subject content
+    // const subject = message.subject || await this._loadFile(template.subjectPath, locale);
 
-    // If subject is available
-    if (subject) {
+    // // If subject is available
+    // if (subject) {
 
-      // Set email subject
-      message.subject = subject.toString('utf8');
+    //   // Set email subject
+    //   message.subject = subject.toString('utf8');
 
-      // Fill placeholders in subject
-      message.subject = this._fillPlaceholders(message.subject, placeholders);
-    }
+    //   // Fill placeholders in subject
+    //   message.subject = this._fillPlaceholders(message.subject, placeholders);
+    // }
 
-    // Get text content
-    const text = message.text || await this._loadFile(template.textPath, locale);
+    // // Get text content
+    // const text = message.text || await this._loadFile(template.textPath, locale);
 
-    // If text content is available
-    if (text) {
+    // // If text content is available
+    // if (text) {
 
-      // Set email text content
-      message.text = text.toString('utf8');
+    //   // Set email text content
+    //   message.text = text.toString('utf8');
 
-      // Fill placeholders in text
-      message.text = this._fillPlaceholders(message.text, placeholders);
-    }
+    //   // Fill placeholders in text
+    //   message.text = this._fillPlaceholders(message.text, placeholders);
+    // }
 
-    // Get HTML content
-    const html = message.html || (template.htmlPath ? await this._loadFile(template.htmlPath, locale) : undefined);
+    // // Get HTML content
+    // const html = message.html || (template.htmlPath ? await this._loadFile(template.htmlPath, locale) : undefined);
 
-    // If HTML content is available
-    if (html) {
+    // // If HTML content is available
+    // if (html) {
 
-      // Set email HTML content
-      message.html = html.toString('utf8');
+    //   // Set email HTML content
+    //   message.html = html.toString('utf8');
 
-      // Fill placeholders in HTML
-      message.html = this._fillPlaceholders(message.html, placeholders);
-    }
+    //   // Fill placeholders in HTML
+    //   message.html = this._fillPlaceholders(message.html, placeholders);
+    // }
 
     // Append any additional message properties;
     // Extras sources override each other in this order:
@@ -296,17 +379,17 @@ class ApiMailAdapter extends MailAdapter {
     const payload = {
       from: message.from,
       to: message.to,
-      subject: message.subject,
-      text: message.text
+      templateId: message.templateId,
+      params: {link: message.link}
     };
 
-    // Add optional message properties
-    if (message.html) {
-      payload.html = message.html;
-    }
-    if (message.replyTo) {
-      payload.replyTo = message.replyTo;
-    }
+    // // Add optional message properties
+    // if (message.html) {
+    //   payload.html = message.html;
+    // }
+    // if (message.replyTo) {
+    //   payload.replyTo = message.replyTo;
+    // }
 
     return { payload, locale };
   }
@@ -351,13 +434,33 @@ class ApiMailAdapter extends MailAdapter {
    * @param {Object} template The template to validate.
    * @returns {}
    */
+  // _validateTemplate(template) {
+
+  //   // Get template properties
+  //   const { subjectPath, textPath, htmlPath, placeholderCallback, localeCallback } = template;
+
+  //   // Validate paths
+  //   if (typeof subjectPath !== 'string' || typeof textPath !== 'string' || (htmlPath && typeof htmlPath !== 'string')) {
+  //     throw Errors.Error.templateContentPathInvalid;
+  //   }
+
+  //   // Validate placeholder callback
+  //   if (placeholderCallback && typeof placeholderCallback !== 'function') {
+  //     throw Errors.Error.templateCallbackNoFunction;
+  //   }
+
+  //   // Validate locale callback
+  //   if (localeCallback && typeof localeCallback !== 'function') {
+  //     throw Errors.Error.localeCallbackNoFunction;
+  //   }
+  // }
   _validateTemplate(template) {
 
     // Get template properties
-    const { subjectPath, textPath, htmlPath, placeholderCallback, localeCallback } = template;
-
+    const { templateId, placeholderCallback, localeCallback } = template;
+    console.log(templateId);
     // Validate paths
-    if (typeof subjectPath !== 'string' || typeof textPath !== 'string' || (htmlPath && typeof htmlPath !== 'string')) {
+    if (typeof templateId !== 'number') {
       throw Errors.Error.templateContentPathInvalid;
     }
 
