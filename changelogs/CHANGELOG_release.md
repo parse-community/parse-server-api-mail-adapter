@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/parse-community/parse-server-api-mail-adapter/compare/3.0.0...3.1.0) (2023-10-12)
+
+
+### Features
+
+* Add TypeScript definitions ([#90](https://github.com/parse-community/parse-server-api-mail-adapter/issues/90)) ([9162a9a](https://github.com/parse-community/parse-server-api-mail-adapter/commit/9162a9a120ca2453d8018ed558aa7f9d4f9dcdfd))
+
 # [3.0.0](https://github.com/parse-community/parse-server-api-mail-adapter/compare/2.2.0...3.0.0) (2023-04-29)
 
 
