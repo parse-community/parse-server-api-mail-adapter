@@ -50,14 +50,15 @@
     "madge": "5.0.1",
     "mailgun.js": "3.5.9",
     "nyc": "15.1.0",
-    "semantic-release": "21.0.2"
+    "semantic-release": "21.0.2",
+    "typescript": "5.2.2"
   },
   "engines": {
     "node": ">=12"
   },
   "scripts": {
     "build:watch": "babel src --out-dir lib --source-maps --watch",
-    "build": "babel src --out-dir lib --source-maps",
+    "build": "babel src --out-dir lib --source-maps && tsc",
     "lint": "eslint '{src,spec,demo}/**/*.js' 'release.config.js'",
     "lint:fix": "eslint '{src,spec,demo}/**/*.js' --fix",
     "madge": "node_modules/.bin/madge ./src $npm_config_arg",
