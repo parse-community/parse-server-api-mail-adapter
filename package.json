@@ -51,7 +51,7 @@
     "mailgun.js": "3.5.9",
     "nyc": "15.1.0",
     "semantic-release": "21.0.2",
-    "typescript": "^5.2.2"
+    "typescript": "5.2.2"
   },
   "engines": {
     "node": ">=12"
