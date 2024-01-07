@@ -1,13 +1,23 @@
-# parse-server-api-mail-adapter <!-- omit in toc -->
+# Parse Server API Mail Adapter <!-- omit in toc -->
 
-[![npm version](https://badge.fury.io/js/parse-server-api-mail-adapter.svg)](https://badge.fury.io/js/parse-server-api-mail-adapter)
-[![build status](https://github.com/mtrezza/parse-server-api-mail-adapter/workflows/ci/badge.svg?branch=main)](https://github.com/mtrezza/parse-server-api-mail-adapter/actions?query=workflow%3Aci+branch%3Amain)
-[![codecov](https://codecov.io/gh/mtrezza/parse-server-api-mail-adapter/branch/main/graph/badge.svg)](https://codecov.io/gh/mtrezza/parse-server-api-mail-adapter)
-[![vulnerabilities](https://snyk.io/test/github/mtrezza/parse-server-api-mail-adapter/badge.svg)](https://snyk.io/test/github/mtrezza/parse-server-api-mail-adapter)
-[![dependency up-to-date](https://img.shields.io/librariesio/release/npm/parse-server-api-mail-adapter)](https://libraries.io/npm/parse-server-api-mail-adapter)
-[![weekly downloads](https://img.shields.io/npm/dw/parse-server-api-mail-adapter)](https://www.npmjs.com/package/parse-server-api-mail-adapter)
+[![Build Status](https://github.com/parse-community/parse-server-api-mail-adapter/workflows/ci/badge.svg?branch=release)](https://github.com/parse-community/parse-server-api-mail-adapter/actions?query=workflow%3Aci+branch%3Arelease)
+[![Snyk Badge](https://snyk.io/test/github/parse-community/parse-server-api-mail-adapter/badge.svg)](https://snyk.io/test/github/parse-community/parse-server-api-mail-adapter)
+[![Coverage](https://codecov.io/gh/parse-community/parse-server-api-mail-adapter/branch/alpha/graph/badge.svg)](https://codecov.io/gh/parse-community/parse-server-api-mail-adapter)
+[![auto-release](https://img.shields.io/badge/%F0%9F%9A%80-auto--release-9e34eb.svg)](https://github.com/parse-community/parse-dashboard/releases)
+
+[![Node Version](https://img.shields.io/badge/nodejs-14,_16,_18-green.svg?logo=node.js&style=flat)](https://nodejs.org)
+
+[![npm latest version](https://img.shields.io/npm/v/parse-server-api-mail-adapter/latest.svg)](https://www.npmjs.com/package/parse-server-api-mail-adapter)
+
+---
 
 The Parse Server API Mail Adapter enables Parse Server to send emails using any 3rd party API with built-in dynamic templates and localization.
+
+## Transfer <!-- omit in toc -->
+
+ℹ️ This repository has been transferred to the Parse Platform Organization on May 15, 2022. Please update any links that you may have to this repository, for example if you cloned or forked this repository and maintain a remote link to this original repository, or if you are referencing a GitHub commit directly as your dependency.
+
+---
 
 # Content <!-- omit in toc -->
 
@@ -24,6 +34,7 @@ The Parse Server API Mail Adapter enables Parse Server to send emails using any 
 - [Supported APIs](#supported-apis)
   - [Providers](#providers)
     - [Example for Mailgun](#example-for-mailgun)
+    - [Example for AWS Simple Email Service](#example-for-aws-simple-email-service)
   - [Custom API](#custom-api)
 - [Need help?](#need-help)
 
@@ -160,7 +171,7 @@ There are different files for different parts of the email:
 - plain-text content (`textPath`)
 - HTML content (`htmlPath`)
 
-See the [templates](https://github.com/mtrezza/parse-server-api-mail-adapter/tree/main/spec/templates) for examples how placeholders can be used.
+See the [templates](https://github.com/parse-community/parse-server-api-mail-adapter/tree/main/spec/templates) for examples how placeholders can be used.
 
 # Placeholders
 Placeholders allow to dynamically insert text into the template content. The placeholder values are filled in according to the key-value definitions returned by the placeholder callback in the adapter configuration.
@@ -238,6 +249,7 @@ This adapter supports any REST API by adapting the API payload in the adapter co
 For convenience, support for common APIs is already built into this adapter and available via the `ApiPayloadConverter`. The following is a list of currently supported API providers:
 
 - [Mailgun](https://www.mailgun.com)
+- [AWS Simple Email Service (AWS JavaScript SDK v3)](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-ses/index.html)
 
 If the provider you are using is not already supported, please feel free to open a PR.
 
@@ -263,6 +275,48 @@ const server = new ParseServer({
             apiCallback: async ({ payload, locale }) => {
                 const mailgunPayload = ApiPayloadConverter.mailgun(payload);
                 await mailgunClient.messages.create(mailgunDomain, mailgunPayload);
+            }
+        }
+    }
+});
+```
+
+### Example for AWS Simple Email Service
+
+This is an example for the AWS Simple Email Service client using the AWS JavaScript SDK v3:
+
+```js
+// Configure mail client
+const { SES, SendEmailCommand } = require('@aws-sdk/client-ses');
+
+const {
+  fromInstanceMetadata, // Get credentials via IMDS from the AWS instance (when deployed on AWS instance)
+  fromEnv, // Get AWS credentials from environment variables (when testing locally)
+} = require('@aws-sdk/credential-providers');
+
+// Get AWS credentials depending on environment
+const credentialProvider= process.env.NODE_ENV == 'production' ? fromInstanceMetadata() : fromEnv();
+const credentials = await credentialProvider();
+
+const sesClient = new SES({
+    credentials,
+    region: 'eu-west-1',
+    apiVersion: '2010-12-01'
+});
+
+// Configure Parse Server
+const server = new ParseServer({
+    ...otherServerOptions,
+
+    emailAdapter: {
+        module: 'parse-server-api-mail-adapter',
+        options: {
+            ... otherAdapterOptions,
+
+            apiCallback: async ({ payload, locale }) => {
+                const awsSesPayload = ApiPayloadConverter.awsSes(payload);
+                const command = new SendEmailCommand(awsSesPayload);
+                await sesClient.send(command);
             }
         }
     }
@@ -304,4 +358,4 @@ const server = new ParseServer({
 # Need help?
 
 - Ask on StackOverflow using the [parse-server](https://stackoverflow.com/questions/tagged/parse-server) tag.
-- Search through existing [issues](https://github.com/mtrezza/parse-server-api-mail-adapter/issues) or open a new issue.
+- Search through existing [issues](https://github.com/parse-community/parse-server-api-mail-adapter/issues) or open a new issue.

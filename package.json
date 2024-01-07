@@ -1,11 +1,11 @@
 {
   "name": "parse-server-api-mail-adapter",
-  "version": "2.1.0-alpha.3",
+  "version": "3.1.1",
   "description": "Universal Mail Adapter for Parse Server, supports any email provider REST API, with localization and templates.",
   "main": "./lib/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mtrezza/parse-server-api-mail-adapter.git"
+    "url": "git+https://github.com/parse-community/parse-server-api-mail-adapter.git"
   },
   "keywords": [
     "parse",
@@ -18,9 +18,9 @@
   "author": "Manuel Trezza",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mtrezza/parse-server-api-mail-adapter/issues"
+    "url": "https://github.com/parse-community/parse-server-api-mail-adapter/issues"
   },
-  "homepage": "https://github.com/mtrezza/parse-server-api-mail-adapter",
+  "homepage": "https://github.com/parse-community/parse-server-api-mail-adapter",
   "files": [
     "src",
     "lib",
@@ -35,11 +35,12 @@
     "@babel/plugin-proposal-object-rest-spread": "7.15.6",
     "@babel/plugin-transform-flow-strip-types": "7.14.5",
     "@babel/preset-env": "7.15.8",
-    "@semantic-release/changelog": "5.0.1",
-    "@semantic-release/commit-analyzer": "8.0.1",
-    "@semantic-release/git": "9.0.0",
-    "@semantic-release/npm": "7.1.3",
-    "@semantic-release/release-notes-generator": "9.0.3",
+    "@saithodev/semantic-release-backmerge": "3.1.0",
+    "@semantic-release/changelog": "6.0.3",
+    "@semantic-release/commit-analyzer": "9.0.2",
+    "@semantic-release/git": "10.0.1",
+    "@semantic-release/npm": "10.0.3",
+    "@semantic-release/release-notes-generator": "11.0.1",
     "babel-eslint": "10.1.0",
     "codecov": "3.8.3",
     "eslint": "7.32.0",
@@ -49,14 +50,15 @@
     "madge": "5.0.1",
     "mailgun.js": "3.5.9",
     "nyc": "15.1.0",
-    "semantic-release": "17.4.7"
+    "semantic-release": "21.0.2",
+    "typescript": "5.2.2"
   },
   "engines": {
     "node": ">=12"
   },
   "scripts": {
     "build:watch": "babel src --out-dir lib --source-maps --watch",
-    "build": "babel src --out-dir lib --source-maps",
+    "build": "babel src --out-dir lib --source-maps && tsc",
     "lint": "eslint '{src,spec,demo}/**/*.js' 'release.config.js'",
     "lint:fix": "eslint '{src,spec,demo}/**/*.js' --fix",
     "madge": "node_modules/.bin/madge ./src $npm_config_arg",

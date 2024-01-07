@@ -12,7 +12,7 @@ jobs:
   check-circular:
      name: Circular Dependencies
      timeout-minutes: 5
-     runs-on: ubuntu-18.04
+     runs-on: ubuntu-latest
      steps:
        - uses: actions/checkout@v2
        - name: Use Node.js ${{ matrix.NODE_VERSION }}
@@ -32,7 +32,7 @@ jobs:
   check-lint:
      name: Lint
      timeout-minutes: 5
-     runs-on: ubuntu-18.04
+     runs-on: ubuntu-latest
      steps:
        - uses: actions/checkout@v2
        - name: Use Node.js ${{ matrix.NODE_VERSION }}
@@ -50,9 +50,19 @@ jobs:
          run: npm ci
        - run: npm run lint
   check-tests:
+    strategy:
+      matrix:
+        include:
+          - name: Node 14
+            NODE_VERSION: 14
+          - name: Node 16
+            NODE_VERSION: 16
+          - name: Node 18
+            NODE_VERSION: 18
+      fail-fast: false
     name: Tests
     timeout-minutes: 5
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js

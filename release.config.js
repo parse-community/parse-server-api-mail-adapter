@@ -37,9 +37,9 @@ async function config() {
   const config = {
     branches: [
       'release',
-      { name: 'alpha', prerelease: true },
-      { name: 'beta', prerelease: true },
-      'next-major',
+      // { name: 'alpha', prerelease: true },
+      // { name: 'beta', prerelease: true },
+      // 'next-major',
       // Long-Term-Support branches
       // { name: '1.x.x', range: '1.x.x', channel: '1.x.x' },
       // { name: '2.x.x', range: '2.x.x', channel: '2.x.x' },
@@ -66,7 +66,7 @@ async function config() {
       ['@semantic-release/release-notes-generator', {
         preset: 'angular',
         parserOpts: {
-          noteKeywords: ['BREAKING CHANGE', 'BREAKING CHANGES', 'BREAKING']
+          noteKeywords: ['BREAKING CHANGE']
         },
         writerOpts: {
           commitsSort: ['subject', 'scope'],
@@ -90,6 +90,16 @@ async function config() {
         labels: ['type:ci'],
         releasedLabels: ['state:released<%= nextRelease.channel ? `-\${nextRelease.channel}` : "" %>']
       }],
+      // Back-merge module runs last because if it fails it should not impede the release process
+      // [
+      //   "@saithodev/semantic-release-backmerge",
+      //   {
+      //     "branches": [
+      //       { from: "beta", to: "alpha" },
+      //       { from: "release", to: "beta" },
+      //     ]
+      //   }
+      // ],
     ],
   };
 
