@@ -233,6 +233,7 @@ class ApiMailAdapter extends MailAdapter {
     }
 
     // If the email is sent directly via Cloud Code
+    console.log('##!##-email.direct',email);
     if (email.direct) {
 
       // If recipient is not set
@@ -253,6 +254,8 @@ class ApiMailAdapter extends MailAdapter {
         email.extra || {}
       );
 
+      console.log('##!##-message.direct',message);
+
     } else {
       // Get email parameters
       const { link, appName } = email;
@@ -272,8 +275,10 @@ class ApiMailAdapter extends MailAdapter {
         templateId: template.templateId,
         link: link
       };
+      console.log('##!##-message.notDirect',message);
     }
 
+    console.log('##!##-message.toBeSend',message);
     // Create API data
     const apiData = await this._createApiData({ message, template, placeholders, user });
 
@@ -380,7 +385,7 @@ class ApiMailAdapter extends MailAdapter {
       from: message.from,
       to: message.to,
       templateId: message.templateId,
-      params: {link: message.link}
+      params: {link: message.link, eventName: message.eventName, date: message.date, code: message.code }
     };
 
     // // Add optional message properties

@@ -28,6 +28,9 @@ class ApiPayloadConverter {
     // payload.htmlContent = payload.html;
     // delete payload.html;
 
+    console.log("modifiedPayload");
+    console.log(payload);
+
     return payload;
   }
 
