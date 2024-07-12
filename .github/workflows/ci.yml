@@ -53,12 +53,12 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: Node 14
-            NODE_VERSION: 14
-          - name: Node 16
-            NODE_VERSION: 16
+          - name: Node 22
+            NODE_VERSION: 22.4.1
+          - name: Node 20
+            NODE_VERSION: 20.15.1
           - name: Node 18
-            NODE_VERSION: 18
+            NODE_VERSION: 18.20.4
       fail-fast: false
     name: Tests
     timeout-minutes: 5

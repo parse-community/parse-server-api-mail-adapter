@@ -5,7 +5,7 @@
 [![Coverage](https://codecov.io/gh/parse-community/parse-server-api-mail-adapter/branch/alpha/graph/badge.svg)](https://codecov.io/gh/parse-community/parse-server-api-mail-adapter)
 [![auto-release](https://img.shields.io/badge/%F0%9F%9A%80-auto--release-9e34eb.svg)](https://github.com/parse-community/parse-dashboard/releases)
 
-[![Node Version](https://img.shields.io/badge/nodejs-14,_16,_18-green.svg?logo=node.js&style=flat)](https://nodejs.org)
+[![Node Version](https://img.shields.io/badge/nodejs-18,_20,_22-green.svg?logo=node.js&style=flat)](https://nodejs.org)
 
 [![npm latest version](https://img.shields.io/npm/v/parse-server-api-mail-adapter/latest.svg)](https://www.npmjs.com/package/parse-server-api-mail-adapter)
 
