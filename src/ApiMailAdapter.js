@@ -385,7 +385,7 @@ class ApiMailAdapter extends MailAdapter {
       from: message.from,
       to: message.to,
       templateId: message.templateId,
-      params: {link: message.link, eventName: message.eventName, date: message.date, code: message.code }
+      params: {link: message.link, eventName: message.eventName, date: message.date, code: message.code, ...message.addParams }
     };
 
     // // Add optional message properties
