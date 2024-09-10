@@ -1,3 +1,29 @@
+# [4.0.0](https://github.com/parse-community/parse-server-api-mail-adapter/compare/3.1.1...4.0.0) (2024-07-12)
+
+
+### Features
+
+* Add support for Node 20, 22; remove support for Node 14, 16 ([#94](https://github.com/parse-community/parse-server-api-mail-adapter/issues/94)) ([cfec252](https://github.com/parse-community/parse-server-api-mail-adapter/commit/cfec2527aa56484251870658c621d99a8d281de5))
+
+
+### BREAKING CHANGES
+
+* Removes support for Node 14, 16. ([cfec252](cfec252))
+
+## [3.1.1](https://github.com/parse-community/parse-server-api-mail-adapter/compare/3.1.0...3.1.1) (2023-10-18)
+
+
+### Bug Fixes
+
+* Security bump @babel/traverse from 7.15.0 to 7.23.2 ([#91](https://github.com/parse-community/parse-server-api-mail-adapter/issues/91)) ([36fd9c2](https://github.com/parse-community/parse-server-api-mail-adapter/commit/36fd9c24ee897751694b375ed92aeb50868e8623))
+
+# [3.1.0](https://github.com/parse-community/parse-server-api-mail-adapter/compare/3.0.0...3.1.0) (2023-10-12)
+
+
+### Features
+
+* Add TypeScript definitions ([#90](https://github.com/parse-community/parse-server-api-mail-adapter/issues/90)) ([9162a9a](https://github.com/parse-community/parse-server-api-mail-adapter/commit/9162a9a120ca2453d8018ed558aa7f9d4f9dcdfd))
+
 # [3.0.0](https://github.com/parse-community/parse-server-api-mail-adapter/compare/2.2.0...3.0.0) (2023-04-29)
 
 
