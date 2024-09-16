@@ -1,6 +1,6 @@
 {
   "name": "@zingersystems/parse-server-api-mail-adapter",
-  "version": "4.0.0+1",
+  "version": "4.0.0-rc1",
   "description": "Universal Mail Adapter for Parse Server, supports any email provider REST API, with localization and templates - both built-in and external.",
   "main": "./lib/index.js",
   "repository": {
@@ -61,11 +61,15 @@
     "build": "babel src --out-dir lib --source-maps && tsc",
     "lint": "eslint '{src,spec,demo}/**/*.js' 'release.config.js'",
     "lint:fix": "eslint '{src,spec,demo}/**/*.js' --fix",
-    "madge": "node_modules/.bin/madge ./src $npm_config_arg",
+    "madge": "madge ./src $npm_config_arg",
     "madge:circular": "npm run madge --arg=--circular",
     "test": "nyc --reporter=lcov jasmine",
     "posttest": "nyc report --reporter=json && codecov -f coverage/*.json",
     "prepare": "npm run build && npm test",
     "demo": "node ./demo"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "types": "./lib/index.d.ts"
 }
