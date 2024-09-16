@@ -92,6 +92,31 @@ class ApiPayloadConverter {
 
     return payload;
   }
+
+
+  /**
+   * @description Converts the mail payload for the official Sendgrid client.
+   * This is just for a very basic use case and discouraged for use with this version.
+   * @param {Object} originalPayload The original payload (provider agnostic).
+   * @returns {Object} The payload according to Mailgun client specification.
+   */
+  static sendgrid(originalPayload) {
+
+    const payload = {
+      to,
+      from, // Change to your verified sender
+      subject,
+      text,
+      html,
+      templateName:templateId,
+      dynamicTemplateData: {}
+    } = originalPayload;
+
+    msg.dynamicTemplateData = { ...originalPayload.extra, ...originalPayload.placeholders }
+
+    return payload;
+  }
+
 }
 
 module.exports = ApiPayloadConverter;

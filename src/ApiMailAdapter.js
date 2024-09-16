@@ -16,15 +16,15 @@ class ApiMailAdapter extends MailAdapter {
   constructor(options) {
 
     // Get parameters
-    const { sender, templates, external = false, apiCallback } = options || {};
+    const { external = true, sender, templates = {}, apiCallback } = options || {};
 
     // Ensure required parameters are set
     if (!sender) {
       throw Errors.Error.configurationInvalid;
     }
 
-    // Ensure email templates are set
-    if (!templates || Object.keys(templates).length === 0) {
+    // Ensure email templates are set if this is not for external mail adapter.
+    if (!external && !templates || Object.keys(templates).length === 0) {
       throw Errors.Error.templatesInvalid;
     }
 
@@ -36,16 +36,19 @@ class ApiMailAdapter extends MailAdapter {
     // Initialize
     super(options);
 
-    // Validate templates
-    for (const key in templates) {
-      this._validateTemplate(templates[key]);
+    // Validate templates if not external
+    if (!external){
+      for (const key in templates) {
+        this._validateTemplate(templates[key]);
+      }
     }
 
+
     // Set properties
+    this.external = external;
     this.sender = sender;
     this.templates = templates;
     this.apiCallback = apiCallback;
-    this.external = external;
   }
 
   /**
@@ -61,8 +64,7 @@ class ApiMailAdapter extends MailAdapter {
       templateName: 'passwordResetEmail',
       link,
       appName,
-      user,
-      external: this.external
+      user
     });
   }
 
@@ -79,8 +81,7 @@ class ApiMailAdapter extends MailAdapter {
       templateName: 'verificationEmail',
       link,
       appName,
-      user,
-      external: this.external
+      user
     });
   }
 
@@ -92,14 +93,13 @@ class ApiMailAdapter extends MailAdapter {
    * @param {String} [subject] The email subject.
    * @param {String} [text] The plain-text email content.
    * @param {String} [html] The HTML email content.
-   * @param {String} [templateName] The template name.
+   * @param {String} [templateName] The template name or Id.
    * @param {Object} [placeholders] The template placeholders.
    * @param {Object} [extra] Any additional variables to pass to the mail provider API.
    * @param {Parse.User} [user] The Parse User that the is the recipient of the email.
-   * @param {Boolean} [external] Whether or not the email is to be handled externally by a external - overrides the default passed as option during class instantiation.
    * @returns {Promise<Any>} The mail provider API response.
    */
-  async sendMail({ sender, recipient, subject, text, html, templateName, placeholders, extra, user, external}) {
+  async sendMail({ sender, recipient, subject, text, html, templateName, placeholders, extra, user }) {
     return await this._sendMail({
       sender,
       recipient,
@@ -110,7 +110,6 @@ class ApiMailAdapter extends MailAdapter {
       placeholders,
       extra,
       user,
-      external,
       direct: true
     });
   }
@@ -123,13 +122,6 @@ class ApiMailAdapter extends MailAdapter {
    */
   async _sendMail(email) {
 
-    const external = email.external ?? this.external;
-
-    // If the mail sending feature is to be handled by a third party, then we call the apiCallback directly
-    if (external){
-      return await this.apiCallback({options:email});
-    }
-
     // Define parameters
     let message;
     const user = email.user;
@@ -137,7 +129,7 @@ class ApiMailAdapter extends MailAdapter {
     const templateName = email.templateName;
 
     // If template name is not set
-    if (!templateName && !email.direct) {
+    if (!this.external && !templateName && !email.direct) {
       throw Errors.Error.templateConfigurationNoName;
     }
 
@@ -145,7 +137,7 @@ class ApiMailAdapter extends MailAdapter {
     const template = this.templates[templateName];
 
     // If template does not exist
-    if (!template && !email.direct) {
+    if (!this.external && !template && !email.direct) {
       throw Errors.Error.noTemplateWithName(templateName);
     }
 
@@ -204,10 +196,10 @@ class ApiMailAdapter extends MailAdapter {
     }
 
     // Create API data
-    const apiData = await this._createApiData({ message, template, placeholders, user });
+    const { payload, locale } = (!this.external) ? await this._createApiData({ message, template, placeholders, user }) : {};
 
-    // Send email, passing down original/raw email options to the mail client and more :)
-    return await this.apiCallback({...apiData, options: {...email, message, template, placeholders} });
+    // Send email
+    return await this.apiCallback({ ...email, ...message, ...payload, locale, template, placeholders, user });
   }
 
   /**
@@ -332,6 +324,8 @@ class ApiMailAdapter extends MailAdapter {
    * @returns {Promise<Buffer>} The file content.
    */
   async _loadFile(path, locale) {
+
+    if (!path) return; // If path is not defined.
 
     // If localized file should be returned
     if (locale) {

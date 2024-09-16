@@ -1,7 +1,7 @@
 {
   "name": "@zingersystems/parse-server-api-mail-adapter",
-  "version": "3.0.4",
-  "description": "Universal Mail Adapter for Parse Server, supports any email provider REST API, with localization and templates.",
+  "version": "4.0.0+1",
+  "description": "Universal Mail Adapter for Parse Server, supports any email provider REST API, with localization and templates - both built-in and external.",
   "main": "./lib/index.js",
   "repository": {
     "type": "git",
@@ -50,14 +50,15 @@
     "madge": "5.0.1",
     "mailgun.js": "3.5.9",
     "nyc": "15.1.0",
-    "semantic-release": "21.0.2"
+    "semantic-release": "21.0.2",
+    "typescript": "5.2.2"
   },
   "engines": {
-    "node": ">=12"
+    "node": "18 || 20 || 22"
   },
   "scripts": {
     "build:watch": "babel src --out-dir lib --source-maps --watch",
-    "build": "babel src --out-dir lib --source-maps",
+    "build": "babel src --out-dir lib --source-maps && tsc",
     "lint": "eslint '{src,spec,demo}/**/*.js' 'release.config.js'",
     "lint:fix": "eslint '{src,spec,demo}/**/*.js' --fix",
     "madge": "node_modules/.bin/madge ./src $npm_config_arg",

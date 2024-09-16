@@ -14,11 +14,11 @@ describe('MailAdapter', () => {
 
   it('should have a method called sendVerificationEmail', () => {
     expect(typeof adapter.sendVerificationEmail).toBe('function');
-    expect(adapter.sendVerificationEmail({ link: 'link', appName: 'appName', user: user, external: true })).toBeUndefined();
+    expect(adapter.sendVerificationEmail({ link: 'link', appName: 'appName', user: user })).toBeUndefined();
   });
 
   it('should have a method called sendPasswordResetEmail', () => {
     expect(typeof adapter.sendPasswordResetEmail).toBe('function');
-    expect(adapter.sendPasswordResetEmail({ link: 'link', appName: 'appName', user: user, external: true })).toBeUndefined();
+    expect(adapter.sendPasswordResetEmail({ link: 'link', appName: 'appName', user: user })).toBeUndefined();
   });
 });

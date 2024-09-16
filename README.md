@@ -1,16 +1,21 @@
 # Parse Server API Mail Adapter <!-- omit in toc -->
 
+[![Build Status](https://github.com/valerycolong/parse-server-api-mail-adapter/workflows/ci/badge.svg?branch=release)](https://github.com/valerycolong/parse-server-api-mail-adapter/actions?query=workflow%3Aci+branch%3Arelease)
+[![Snyk Badge](https://snyk.io/test/github/valerycolong/parse-server-api-mail-adapter/badge.svg)](https://snyk.io/test/github/parse-community/parse-server-api-mail-adapter)
+[![Coverage](https://codecov.io/gh/valerycolong/parse-server-api-mail-adapter/branch/alpha/graph/badge.svg)](https://codecov.io/gh/parse-community/parse-server-api-mail-adapter)
+[![auto-release](https://img.shields.io/badge/%F0%9F%9A%80-auto--release-9e34eb.svg)](https://github.com/parse-community/parse-dashboard/releases)
+
+[![Node Version](https://img.shields.io/badge/nodejs-18,_20,_22-green.svg?logo=node.js&style=flat)](https://nodejs.org)
+
 [![npm latest version](https://img.shields.io/npm/v/@zingersystems/parse-server-api-mail-adapter/latest.svg)](https://www.npmjs.com/package/@zingersystems/parse-server-api-mail-adapter)
 
 ---
 
-The Parse Server API Mail Adapter enables Parse Server to send emails using any 3rd party API with built-in dynamic templates and localization.
+This is a *fork* of The Parse Server API Mail Adapter enables Parse Server to send emails using any 3rd party API with *external or built-in* dynamic templates and localization.
 
-## Fork Notice <!-- omit in toc -->
+## Transfer <!-- omit in toc -->
 
-ℹ️ This repository is a forked from [parse-community/parse-server-api-mail-adapter](https://github.com/parse-community/parse-server-api-mail-adapter) by [Manuel Trezza](https://github.com/mtrezza). This fork simply adds two features we needed:
-- A boolean property/parameter named external to the options passed to MailAdapter and sendMail method respectively. Setting this parameter to true by passes local processing of the email delegates directly to the apiCallback.
-- With local processing enabled i.e. setting external to false, in addition to `payload` and `locale` properties passed to the apiCallback, the original params as passed as `options`.  
+ℹ️ This repository has been transferred to the Parse Platform Organization on May 15, 2022. Please update any links that you may have to this repository, for example if you cloned or forked this repository and maintain a remote link to this original repository, or if you are referencing a GitHub commit directly as your dependency.
 
 ---
 
@@ -80,11 +85,11 @@ const server = new ParseServer({
     emailAdapter: {
         module: '@zingersystems/parse-server-api-mail-adapter',
         options: {
-            // The email address from which emails are sent.
+            // Set to true if templates are to be processed by a thirdparty api like sendgrid. (Defaults to true).
+            external: true,
+            // The email address from which emails are sent (Required).
             sender: 'sender@example.com',
-            // Sets the adapter to by pass local template file processing and call the apiCallback directly.
-            external: true, // Default is false
-            // The email templates.
+            // The email templates - (Optional).
             templates: {
                 // The template used by Parse Server to send an email for password
                 // reset; this is a reserved template name.
@@ -139,9 +144,10 @@ const server = new ParseServer({
             // be passed on to an 3rd party API and optional meta data. The payload
             // may need to be converted specifically for the API; conversion for
             // common APIs is conveniently available in the `ApiPayloadConverter`.
-            // Below is an example for the Mailgun client.
-            apiCallback: async ({ payload, locale }) => {
-                const mailgunPayload = ApiPayloadConverter.mailgun(payload);
+            // Below is an example for the Mailgun client (Required).
+            apiCallback: async ({ to, from, subject, text, html, template, user, placeholders, locale, ...rest }) => {
+                // Call your mail client here to send.
+                const mailgunPayload = ApiPayloadConverter.mailgun({to, from, subject, text, html, template, user, placeholders, ...rest});
                 await mailgunClient.messages.create(mailgunDomain, mailgunPayload);
             }
         }
@@ -217,10 +223,9 @@ If the `user` provided has an email address set, it is not necessary to set a `r
 
 ```js
 Parse.Cloud.sendEmail({
-  templateName: "next_level_email",
+  templateName: "next_level_email", // Can also use sendgrid template Id 
   placeholders: { gameScore: 100, nextLevel: 2 },
-  user: parseUser, // user with email address
-  external: true // Bypass locale mail generation - default is false
+  user: parseUser // user with email address
 });
 ```
 
@@ -236,8 +241,7 @@ Parse.Cloud.sendEmail({
 | `templateName` | `String`     | yes      | `undefined`   | `customTemplate`            | The template name.                                                                             |
 | `placeholders` | `Object`     | yes      | `{}`          | `{ key: value }`            | The template placeholders.                                                                     |
 | `extra`        | `Object`     | yes      | `{}`          | `{ key: value }`            | Any additional variables to pass to the mail provider API.                                     |
-| `user`         | `Parse.User` | yes      | `undefined`   | -                           | The Parse User that the is the recipient of the email.
-| `external`         | `Boolean` | yes      | `false`   | `true`                           | Whether to generate and send email externally.
+| `user`         | `Parse.User` | yes      | `undefined`   | -                           | The Parse User that the is the recipient of the email.                                         |
 
 # Supported APIs
 
@@ -266,13 +270,14 @@ const mailgunDomain = process.env.MAILGUN_DOMAIN;
 const server = new ParseServer({
     ...otherServerOptions,
 
-    emailAdapter: {
+    emailAdapter: {,
         module: '@zingersystems/parse-server-api-mail-adapter',
         options: {
             ... otherAdapterOptions,
 
-            apiCallback: async ({ payload, locale, options }) => {
-                const mailgunPayload = ApiPayloadConverter.mailgun(payload);
+            apiCallback: async ({ to, from, subject, html, placeholders, locale, ...rest }) => {
+                // Call mail client send method here.
+                const mailgunPayload = ApiPayloadConverter.mailgun({to, from, subject, html, placeholders, locale, ...rest});
                 await mailgunClient.messages.create(mailgunDomain, mailgunPayload);
             }
         }
@@ -312,8 +317,8 @@ const server = new ParseServer({
         options: {
             ... otherAdapterOptions,
 
-            apiCallback: async ({ payload, locale, options }) => {
-                const awsSesPayload = ApiPayloadConverter.awsSes(payload);
+            apiCallback: async ({ to, from, subject, html, placeholders, locale, ...rest }) => {
+                const awsSesPayload = ApiPayloadConverter.awsSes({ to, from, subject, html, locale, ...rest});
                 const command = new SendEmailCommand(awsSesPayload);
                 await sesClient.send(command);
             }
@@ -340,12 +345,12 @@ const server = new ParseServer({
         options: {
             ... otherOptions,
 
-            apiCallback: async ({ payload, locale, options }) => {
+            apiCallback: async ({ to, from, subject, text, html, placeholders, locale, ...rest }) => {
                 const customPayload = {
-                    customFrom: payload.from,
-                    customTo: payload.to,
-                    customSubject: payload.subject,
-                    customText: payload.text
+                    customFrom: from,
+                    customTo: to,
+                    customSubject: subject,
+                    customText: text
                 };
                 await customMailClient.sendEmail(customPayload);
             }
