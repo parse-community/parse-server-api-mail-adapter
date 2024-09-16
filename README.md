@@ -81,7 +81,7 @@ const server = new ParseServer({
     emailAdapter: {
         module: '@zingersystems/parse-server-api-mail-adapter',
         options: {
-            // Set to true if templates are to be processed by a thirdparty api like sendgrid. (Defaults to true).
+            // Set to true if templates are to be processed by a thirdparty api like sendgrid. (Defaults to false).
             external: true,
             // The email address from which emails are sent (Required).
             sender: 'sender@example.com',

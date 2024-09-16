@@ -16,7 +16,7 @@ class ApiMailAdapter extends MailAdapter {
   constructor(options) {
 
     // Get parameters
-    const { external = true, sender, templates = {}, apiCallback } = options || {};
+    const { external = false, sender, templates = {}, apiCallback } = options || {};
 
     // Ensure required parameters are set
     if (!sender) {

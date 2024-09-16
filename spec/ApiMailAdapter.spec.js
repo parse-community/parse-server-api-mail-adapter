@@ -12,6 +12,7 @@ const link = 'http://example.com';
 const appName = 'ExampleApp';
 const apiResponseSuccess = async () => "Success";
 const config = {
+  external: false,
   apiCallback: apiResponseSuccess,
   sender: 'from@example.com',
   templates: {
@@ -187,11 +188,11 @@ describe('ApiMailAdapter', () => {
 
       await adapter.sendPasswordResetEmail(options);
       expect(_sendMail.calls.all()[0].args[0]).toEqual(expectedArguments);
-      expect(apiCallback.calls.all()[0].args[0].payload.from).toEqual(config.sender);
-      expect(apiCallback.calls.all()[0].args[0].payload.to).toEqual(user.get('email'));
-      expect(apiCallback.calls.all()[0].args[0].payload.subject).toMatch("Reset");
-      expect(apiCallback.calls.all()[0].args[0].payload.text).toMatch("reset");
-      expect(apiCallback.calls.all()[0].args[0].payload.html).toMatch("reset");
+      expect(apiCallback.calls.all()[0].args[0].from).toEqual(config.sender);
+      expect(apiCallback.calls.all()[0].args[0].to).toEqual(user.get('email'));
+      expect(apiCallback.calls.all()[0].args[0].subject).toMatch("Reset");
+      expect(apiCallback.calls.all()[0].args[0].text).toMatch("reset");
+      expect(apiCallback.calls.all()[0].args[0].html).toMatch("reset");
     });
   });
 
@@ -215,11 +216,11 @@ describe('ApiMailAdapter', () => {
 
       await adapter.sendVerificationEmail(options);
       expect(_sendMail.calls.all()[0].args[0]).toEqual(expectedArguments);
-      expect(apiCallback.calls.all()[0].args[0].payload.from).toEqual(config.sender);
-      expect(apiCallback.calls.all()[0].args[0].payload.to).toEqual(user.get('email'));
-      expect(apiCallback.calls.all()[0].args[0].payload.subject).toMatch("Verification");
-      expect(apiCallback.calls.all()[0].args[0].payload.text).toMatch("verify");
-      expect(apiCallback.calls.all()[0].args[0].payload.html).toMatch("verify");
+      expect(apiCallback.calls.all()[0].args[0].from).toEqual(config.sender);
+      expect(apiCallback.calls.all()[0].args[0].to).toEqual(user.get('email'));
+      expect(apiCallback.calls.all()[0].args[0].subject).toMatch("Verification");
+      expect(apiCallback.calls.all()[0].args[0].text).toMatch("verify");
+      expect(apiCallback.calls.all()[0].args[0].html).toMatch("verify");
     });
   });
 
@@ -263,7 +264,7 @@ describe('ApiMailAdapter', () => {
       };
 
       await expectAsync(adapter.sendMail(options)).toBeResolved();
-      const apiPayload = apiCallbackSpy.calls.all()[0].args[0].payload;
+      const apiPayload = apiCallbackSpy.calls.all()[0].args[0];
       expect(apiPayload.from).toEqual(options.sender);
       expect(apiPayload.to).toEqual(options.recipient);
       expect(apiPayload.subject).toEqual(options.subject);
@@ -292,7 +293,7 @@ describe('ApiMailAdapter', () => {
       };
 
       await expectAsync(adapter.sendMail(options)).toBeResolved();
-      expect(apiCallbackSpy.calls.all()[0].args[0].payload.to).toBe(options.user.get('email'));
+      expect(apiCallbackSpy.calls.all()[0].args[0].to).toBe(options.user.get('email'));
     });
 
     it('overrides user email if recipient is passed to sendMail()', async () => {
@@ -305,7 +306,7 @@ describe('ApiMailAdapter', () => {
       };
 
       await expectAsync(adapter.sendMail(options)).toBeResolved();
-      expect(apiCallbackSpy.calls.all()[0].args[0].payload.to).toBe(options.recipient);
+      expect(apiCallbackSpy.calls.all()[0].args[0].to).toBe(options.recipient);
     });
   });
 
@@ -535,8 +536,8 @@ describe('ApiMailAdapter', () => {
       spyOn(template, 'placeholderCallback').and.callFake(() => {});
 
       await adapter._sendMail(email);
-      expect(apiCallback.calls.all()[0].args[0].payload.text).toContain(templatePlaceholder);
-      expect(apiCallback.calls.all()[0].args[0].payload.text).not.toContain(callbackPlaceholder);
+      expect(apiCallback.calls.all()[0].args[0].text).toContain(templatePlaceholder);
+      expect(apiCallback.calls.all()[0].args[0].text).not.toContain(callbackPlaceholder);
     });
 
     it('overrides the template placeholder with the callback placeholder', async () => {
@@ -552,8 +553,8 @@ describe('ApiMailAdapter', () => {
       const callbackPlaceholder = (await template.placeholderCallback()).appName;
 
       await adapter._sendMail(email);
-      expect(apiCallback.calls.all()[0].args[0].payload.text).toContain(callbackPlaceholder);
-      expect(apiCallback.calls.all()[0].args[0].payload.text).not.toContain(templatePlaceholder);
+      expect(apiCallback.calls.all()[0].args[0].text).toContain(callbackPlaceholder);
+      expect(apiCallback.calls.all()[0].args[0].text).not.toContain(templatePlaceholder);
     });
 
     it('overrides the template placeholder with the email placeholder', async () => {
@@ -575,8 +576,8 @@ describe('ApiMailAdapter', () => {
       });
 
       await adapter._sendMail(email);
-      expect(apiCallback.calls.all()[0].args[0].payload.text).toContain(emailPlaceholder);
-      expect(apiCallback.calls.all()[0].args[0].payload.text).not.toContain(templatePlaceholder);
+      expect(apiCallback.calls.all()[0].args[0].text).toContain(emailPlaceholder);
+      expect(apiCallback.calls.all()[0].args[0].text).not.toContain(templatePlaceholder);
     });
 
     it('makes placeholders accessible in placeholder callback', async () => {

@@ -103,16 +103,14 @@ class ApiPayloadConverter {
   static sendgrid(originalPayload) {
 
     const payload = {
-      to,
-      from, // Change to your verified sender
-      subject,
-      text,
-      html,
-      templateName:templateId,
-      dynamicTemplateData: {}
-    } = originalPayload;
-
-    msg.dynamicTemplateData = { ...originalPayload.extra, ...originalPayload.placeholders }
+      to : originalPayload.to,
+      from: originalPayload.from, // Change to your verified sender
+      subject: originalPayload.subject,
+      text: originalPayload.text,
+      html: originalPayload.html,
+      templateId: originalPayload.templateName,
+      dynamicTemplateData: { ...originalPayload.extra, ...originalPayload.placeholders }
+    };
 
     return payload;
   }
