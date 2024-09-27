@@ -56,12 +56,21 @@ class ApiMailAdapter extends MailAdapter {
    * @returns {Promise<Any>} The mail provider API response.
    */
   sendPasswordResetEmail({ link, appName, user }) {
-    return this._sendMail({
-      templateName: 'passwordResetEmail',
-      link,
-      appName,
-      user
-    });
+    if(user.get('invitationStatus') !== 'invited') {
+      return this._sendMail({
+        templateName: 'passwordResetEmail',
+        link,
+        appName,
+        user
+      })
+    } else {
+      return this._sendMail({
+        templateName: 'briteStageInvitation',
+        link,
+        appName,
+        user
+      })
+    }
   }
 
   /**
