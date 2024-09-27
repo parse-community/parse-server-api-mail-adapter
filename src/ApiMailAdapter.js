@@ -74,9 +74,7 @@ class ApiMailAdapter extends MailAdapter {
    */
   sendVerificationEmail({ link, appName, user }) {
 
-    console.log('#MailAdapter-VerificationMail', user);
-
-    return this._sendMail({
+    if(user.get('invitationStatus') !== 'invited') return this._sendMail({
       templateName: 'verificationEmail',
       link,
       appName,
