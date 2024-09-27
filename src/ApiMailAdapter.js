@@ -73,6 +73,9 @@ class ApiMailAdapter extends MailAdapter {
    * @returns {Promise<Any>} The mail provider API response.
    */
   sendVerificationEmail({ link, appName, user }) {
+
+    console.log('#MailAdapter-VerificationMail', user);
+
     return this._sendMail({
       templateName: 'verificationEmail',
       link,
