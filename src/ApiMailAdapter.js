@@ -64,6 +64,9 @@ class ApiMailAdapter extends MailAdapter {
         user
       })
     } else {
+      // add ivited param so we can display different
+      // texts in the reset form for invitation signups
+      link = link + '&invited=true'
       return this._sendMail({
         templateName: 'briteStageInvitation',
         link,
