@@ -95,19 +95,20 @@ class ApiPayloadConverter {
 
   /**
    * @description Converts the mail payload for the ZeptoMail.
-   * @param {Object} originalPayload The original payload (provider agnostic).
+   * @param {Object} originalPayload The original payload (provider agnostic). originalPayload has two components 1. api and 2. payload. 
    * @returns {Object} The payload according to ZeptoMail SDK specification.
    */
   static zeptomail(originalPayload) {
 
     // Clone payload
-    const payload = Object.assign({}, originalPayload);
+    const payload =   Object.assign({}, originalPayload.payload);
 
-    // Transform sender
-    payload.from = {
+    if (originalPayload.api === '1.1') {
+
+      // Transform sender
+      payload.from = {
         address: payload.from          
     }
-
     // Extract the string of email addresses, need to be comma separated if multiple
     const emailString = payload.to;
     const emailAddresses = emailString.split(',').map(email => email.trim());
@@ -152,6 +153,10 @@ class ApiPayloadConverter {
     }
 
     return payload;
+    } else {
+
+      throw new Error('Unsupported ZeptoMail API version');
+    }
   }
 
 }
