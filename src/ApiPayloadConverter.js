@@ -101,7 +101,7 @@ class ApiPayloadConverter {
   static zeptomail(originalPayload) {
 
     // Clone payload
-    const payload =   Object.assign({}, originalPayload.payload);
+    const payload =   Object.assign({}, originalPayload.originalPayload);
 
     if (originalPayload.api === '1.1') {
 

@@ -406,7 +406,7 @@ describe('ApiMailAdapter', () => {
     it('converts payload for ZeptoMail for single recepient', () => {
       //test works for ZeptoMail v1.1 which is current version
 
-      const payload = converter.zeptomail({api: '1.1',payload: examplePayload});
+      const payload = converter.zeptomail({api: '1.1',originalPayload: examplePayload});
       expect(payload.from.address).toEqual(examplePayload.from);
       // Check if 'to' is an array
       expect(payload.to).toBeInstanceOf(Array);    
@@ -436,7 +436,7 @@ describe('ApiMailAdapter', () => {
         html: "ExampleHtml"
       }
 
-      const payload = converter.zeptomail({api: '1.1',payload: multipleRecepientExamplePayload});
+      const payload = converter.zeptomail({api: '1.1',originalPayload: multipleRecepientExamplePayload});
 
       expect(payload.from.address).toEqual(multipleRecepientExamplePayload.from);
 
