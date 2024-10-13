@@ -402,6 +402,65 @@ describe('ApiMailAdapter', () => {
       expect(payload.Message.Body.Text.Data).toBe(examplePayload.text);
       expect(payload.Message.Body.Html.Data).toBe(examplePayload.html);
     });
+
+    it('converts payload for ZeptoMail for single recepient', () => {
+      const payload = converter.zeptomail(examplePayload);
+      expect(payload.from.address).toEqual(examplePayload.from);
+      // Check if 'to' is an array
+      expect(payload.to).toBeInstanceOf(Array);    
+      // Check if the array has at least one element
+      expect(payload.to.length).toBe(1);
+      expect(payload.to[0].email_address.address).toEqual(examplePayload.to);
+
+      // Check if 'to' is an array
+      expect(payload.reply_to).toBeInstanceOf(Array);
+
+      // Check if the array has at least one element
+      expect(payload.reply_to.length).toBe(1);   
+      expect(payload.reply_to[0].address).toEqual(examplePayload.replyTo);
+      expect(payload.subject).toBe(examplePayload.subject);
+      expect(payload.textbody).toBe(examplePayload.text);
+      expect(payload.htmlbody).toBe(examplePayload.html);
+    });
+
+    it('converts payload for ZeptoMail for multiple recepients', () => {
+
+      const multipleRecepientExamplePayload = {
+        from: "from@example.com",
+        to: "to@example.com,toanother@example.com",
+        replyTo: "replyto@example.com, replytoanother@example.com",
+        subject: "ExampleSubject",
+        text: "ExampleText",
+        html: "ExampleHtml"
+      }
+
+      const payload = converter.zeptomail(multipleRecepientExamplePayload);
+
+      expect(payload.from.address).toEqual(examplePayload.from);
+
+      // Check if 'to' is an array
+      expect(payload.to).toBeInstanceOf(Array);    
+      //test multiple to addresses
+      const toAddresses = payload.to.map(entry => entry.email_address.address);
+      payload.to.forEach((entry, index) => {
+        
+        expect(entry.email_address.address).toBe(toAddresses[index]);
+
+      });
+
+      // Check if 'reply_to' is an array
+      expect(payload.reply_to).toBeInstanceOf(Array);
+      //test multiple to addresses
+      const replyToAddresses = payload.reply_to[0].address.split(',').map(addr => addr.trim());
+      const [firstAddress, secondAddress] = replyToAddresses;
+      expect(replyToAddresses).toContain(firstAddress);
+      expect(replyToAddresses).toContain(secondAddress);
+
+      expect(payload.subject).toBe(multipleRecepientExamplePayload.subject);
+      expect(payload.textbody).toBe(multipleRecepientExamplePayload.text);
+      expect(payload.htmlbody).toBe(multipleRecepientExamplePayload.html);
+    });
+
   });
 
   describe('invoke _sendMail', function () {

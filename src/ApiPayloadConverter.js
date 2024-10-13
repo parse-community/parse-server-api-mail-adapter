@@ -92,6 +92,68 @@ class ApiPayloadConverter {
 
     return payload;
   }
+
+  /**
+   * @description Converts the mail payload for the ZeptoMail.
+   * @param {Object} originalPayload The original payload (provider agnostic).
+   * @returns {Object} The payload according to ZeptoMail SDK specification.
+   */
+  static zeptomail(originalPayload) {
+
+    // Clone payload
+    const payload = Object.assign({}, originalPayload);
+
+    // Transform sender
+    payload.from = {
+        address: payload.from          
+    }
+
+    // Extract the string of email addresses, need to be comma separated if multiple
+    const emailString = payload.to;
+    const emailAddresses = emailString.split(',').map(email => email.trim());
+    const formattedEmails = emailAddresses.map((address) => ({
+      email_address: {
+        address: address.trim()
+      }
+    }));  
+    payload.to = formattedEmails
+
+    // Transform reply-to
+    if (payload.replyTo) {
+        payload.reply_to = [{
+          address: payload.replyTo
+        }
+      ];
+      delete payload.replyTo;
+    }
+
+    // If message has content
+    if (payload.subject || payload.textbody || payload.htmlbody) {
+
+      // If message has body
+      
+      if (payload.text || payload.html) {
+
+        // Set default body
+        payload.textbody = {};
+
+        // Transform plain-text
+        if (payload.text) {
+          payload.textbody = payload.text,
+          delete payload.text;
+        }
+
+        // Transform HTML
+        if (payload.html) {
+          payload.htmlbody = payload.html
+          delete payload.html;
+        }
+      }
+    }
+
+    return payload;
+  }
+
 }
 
 module.exports = ApiPayloadConverter;
