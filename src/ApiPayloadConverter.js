@@ -101,64 +101,50 @@ class ApiPayloadConverter {
   static zeptomail(originalPayload) {
 
     // Clone payload
-    const payload =   Object.assign({}, originalPayload.originalPayload);
+    const payload =   Object.assign({}, originalPayload.payload);
+    switch (originalPayload.api) {
+      case '1.1':
 
-    if (originalPayload.api === '1.1') {
+          // Transform sender
+          payload.from = {
+            address: payload.from          
+          }
+          const emailString = payload.to;
+          const emailAddresses = emailString.split(',').map(email => email.trim());
+          const formattedEmails = emailAddresses.map((address) => ({
+            email_address: {
+              address: address.trim()
+            }
+          }));  
+          payload.to = formattedEmails
+          if (payload.replyTo) {
+              payload.reply_to = [{
+                address: payload.replyTo
+              }
+            ];
+            delete payload.replyTo;
+          }
 
-      // Transform sender
-      payload.from = {
-        address: payload.from          
+          // If message has content
+          if (payload.subject || payload.textbody || payload.htmlbody) {
+            if (payload.text || payload.html) {
+              payload.textbody = {};
+              if (payload.text) {
+                payload.textbody = payload.text,
+                delete payload.text;
+              }
+              if (payload.html) {
+                payload.htmlbody = payload.html
+                delete payload.html;
+              }
+            }
+          }
+          break;
+      default:
+        throw new Error('Unsupported ZeptoMail API version');
     }
-    // Extract the string of email addresses, need to be comma separated if multiple
-    const emailString = payload.to;
-    const emailAddresses = emailString.split(',').map(email => email.trim());
-    const formattedEmails = emailAddresses.map((address) => ({
-      email_address: {
-        address: address.trim()
-      }
-    }));  
-    payload.to = formattedEmails
-
-    // Transform reply-to
-    if (payload.replyTo) {
-        payload.reply_to = [{
-          address: payload.replyTo
-        }
-      ];
-      delete payload.replyTo;
-    }
-
-    // If message has content
-    if (payload.subject || payload.textbody || payload.htmlbody) {
-
-      // If message has body
-      
-      if (payload.text || payload.html) {
-
-        // Set default body
-        payload.textbody = {};
-
-        // Transform plain-text
-        if (payload.text) {
-          payload.textbody = payload.text,
-          delete payload.text;
-        }
-
-        // Transform HTML
-        if (payload.html) {
-          payload.htmlbody = payload.html
-          delete payload.html;
-        }
-      }
-    }
-
     return payload;
-    } else {
-
-      throw new Error('Unsupported ZeptoMail API version');
-    }
   }
-
 }
 
 module.exports = ApiPayloadConverter;

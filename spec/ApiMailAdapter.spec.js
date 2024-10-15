@@ -403,65 +403,47 @@ describe('ApiMailAdapter', () => {
       expect(payload.Message.Body.Html.Data).toBe(examplePayload.html);
     });
 
-    it('converts payload for ZeptoMail for single recepient', () => {
-      //test works for ZeptoMail v1.1 which is current version
-
-      const payload = converter.zeptomail({api: '1.1',originalPayload: examplePayload});
-      expect(payload.from.address).toEqual(examplePayload.from);
-      // Check if 'to' is an array
-      expect(payload.to).toBeInstanceOf(Array);    
-      // Check if the array has at least one element
-      expect(payload.to.length).toBe(1);
-      expect(payload.to[0].email_address.address).toEqual(examplePayload.to);
-
-      // Check if 'to' is an array
-      expect(payload.reply_to).toBeInstanceOf(Array);
-
-      // Check if the array has at least one element
-      expect(payload.reply_to.length).toBe(1);   
-      expect(payload.reply_to[0].address).toEqual(examplePayload.replyTo);
-      expect(payload.subject).toBe(examplePayload.subject);
-      expect(payload.textbody).toBe(examplePayload.text);
-      expect(payload.htmlbody).toBe(examplePayload.html);
-    });
-
-    it('converts payload for ZeptoMail for multiple recepients', () => {
-      //test works for ZeptoMail v1.1 which is current version
-      const multipleRecepientExamplePayload = {
-        from: "from@example.com",
-        to: "to@example.com,toanother@example.com",
-        replyTo: "replyto@example.com, replytoanother@example.com",
-        subject: "ExampleSubject",
-        text: "ExampleText",
-        html: "ExampleHtml"
-      }
-
-      const payload = converter.zeptomail({api: '1.1',originalPayload: multipleRecepientExamplePayload});
-
-      expect(payload.from.address).toEqual(multipleRecepientExamplePayload.from);
-
-      // Check if 'to' is an array
-      expect(payload.to).toBeInstanceOf(Array);    
-      //test multiple to addresses
-      const toAddresses = payload.to.map(entry => entry.email_address.address);
-      payload.to.forEach((entry, index) => {
-        
-        expect(entry.email_address.address).toBe(toAddresses[index]);
-
+      describe('convert ZeptoMail API v1.1 payload', () => {
+      it('converts payload for ZeptoMail for single recepient', () => {
+        const payload = converter.zeptomail({api: '1.1',payload: examplePayload});
+        expect(payload.from.address).toEqual(examplePayload.from);
+        expect(payload.to).toBeInstanceOf(Array);    
+        expect(payload.to.length).toBe(1);
+        expect(payload.to[0].email_address.address).toEqual(examplePayload.to);
+        expect(payload.reply_to).toBeInstanceOf(Array);
+        expect(payload.reply_to.length).toBe(1);   
+        expect(payload.reply_to[0].address).toEqual(examplePayload.replyTo);
+        expect(payload.subject).toBe(examplePayload.subject);
+        expect(payload.textbody).toBe(examplePayload.text);
+        expect(payload.htmlbody).toBe(examplePayload.html);
       });
 
-      // Check if 'reply_to' is an array
-      expect(payload.reply_to).toBeInstanceOf(Array);
-      //test multiple to addresses
-      const replyToAddresses = payload.reply_to[0].address.split(',').map(addr => addr.trim());
-      const [firstAddress, secondAddress] = replyToAddresses;
-      expect(replyToAddresses).toContain(firstAddress);
-      expect(replyToAddresses).toContain(secondAddress);
-
-      expect(payload.subject).toBe(multipleRecepientExamplePayload.subject);
-      expect(payload.textbody).toBe(multipleRecepientExamplePayload.text);
-      expect(payload.htmlbody).toBe(multipleRecepientExamplePayload.html);
-    });
+      it('converts payload for ZeptoMail for multiple recepients', () => {
+        const multipleRecepientExamplePayload = {
+          from: "from@example.com",
+          to: "to@example.com,toanother@example.com",
+          replyTo: "replyto@example.com, replytoanother@example.com",
+          subject: "ExampleSubject",
+          text: "ExampleText",
+          html: "ExampleHtml"
+        }
+        const payload = converter.zeptomail({api: '1.1',payload: multipleRecepientExamplePayload});
+        expect(payload.from.address).toEqual(multipleRecepientExamplePayload.from);
+        expect(payload.to).toBeInstanceOf(Array);    
+        const toAddresses = payload.to.map(entry => entry.email_address.address);
+        payload.to.forEach((entry, index) => {
+          expect(entry.email_address.address).toBe(toAddresses[index]);
+        });
+        expect(payload.reply_to).toBeInstanceOf(Array);
+        const replyToAddresses = payload.reply_to[0].address.split(',').map(addr => addr.trim());
+        const [firstAddress, secondAddress] = replyToAddresses;
+        expect(replyToAddresses).toContain(firstAddress);
+        expect(replyToAddresses).toContain(secondAddress);
+        expect(payload.subject).toBe(multipleRecepientExamplePayload.subject);
+        expect(payload.textbody).toBe(multipleRecepientExamplePayload.text);
+        expect(payload.htmlbody).toBe(multipleRecepientExamplePayload.html);
+      });
+  });
 
   });
 
