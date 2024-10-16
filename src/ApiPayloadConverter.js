@@ -94,10 +94,10 @@ class ApiPayloadConverter {
   }
 
   /**
-   * @description Converts the mail payload for the ZeptoMail.
+   * Converts the mail payload for the ZeptoMail.
    * @param {Object} originalPayload The original payload
    * @param {String} originalPayload.api The provider API version.
-   * @param {String} originalPayload.payload The payload to convert to be compatible with the provider API.
+   * @param {Object} originalPayload.payload The payload to convert to be compatible with the provider API.
    * @returns {Object} The payload according to ZeptoMail SDK specification.
    */
   static zeptomail(originalPayload) {
