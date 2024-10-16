@@ -347,9 +347,9 @@ const server = new ParseServer({
             ... otherAdapterOptions,
 
             apiCallback: async ({ payload, locale }) => {
-                const zeptoMailPayload = ApiPayloadConverter.zeptomail({api: '1.1', originalPayload: payload});
+                const zeptoMailPayload = ApiPayloadConverter.zeptomail({ api: '1.1', originalPayload: payload});
                 await zeptoMaiClient.sendMail(zeptoMailPayload);
-      },
+            },
         }
     }
 });

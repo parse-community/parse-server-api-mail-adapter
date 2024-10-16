@@ -65,7 +65,7 @@
     "madge:circular": "npm run madge --arg=--circular",
     "test": "nyc --reporter=lcov jasmine",
     "posttest": "nyc report --reporter=json && codecov -f coverage/*.json",
-    "prepare": "npm run build && nopm test",
+    "prepare": "npm run build && npm test",
     "demo": "node ./demo"
   }
 }

@@ -95,7 +95,7 @@ class ApiPayloadConverter {
 
   /**
    * @description Converts the mail payload for the ZeptoMail.
-   * @param {Object} originalPayload The original payload (provider agnostic). originalPayload has two components 1. api and 2. payload. 
+   * @param {Object} originalPayload The original payload (provider agnostic). originalPayload has two components 1. api and 2. payload.
    * @returns {Object} The payload according to ZeptoMail SDK specification.
    */
   static zeptomail(originalPayload) {
@@ -103,45 +103,46 @@ class ApiPayloadConverter {
     // Clone payload
     const payload =   Object.assign({}, originalPayload.payload);
     switch (originalPayload.api) {
-      case '1.1':
+      case '1.1': {
 
-          // Transform sender
-          payload.from = {
-            address: payload.from          
+        // Transform sender
+        payload.from = {
+          address: payload.from
+        }
+        const emailString = payload.to;
+        const emailAddresses = emailString.split(',').map(email => email.trim());
+        const formattedEmails = emailAddresses.map((address) => ({
+          email_address: {
+            address: address.trim()
           }
-          const emailString = payload.to;
-          const emailAddresses = emailString.split(',').map(email => email.trim());
-          const formattedEmails = emailAddresses.map((address) => ({
-            email_address: {
-              address: address.trim()
-            }
-          }));  
-          payload.to = formattedEmails
-          if (payload.replyTo) {
-              payload.reply_to = [{
-                address: payload.replyTo
-              }
-            ];
-            delete payload.replyTo;
+        }));
+        payload.to = formattedEmails;
+        if (payload.replyTo) {
+          payload.reply_to = [{
+            address: payload.replyTo
           }
+          ];
+          delete payload.replyTo;
+        }
 
-          // If message has content
-          if (payload.subject || payload.textbody || payload.htmlbody) {
-            if (payload.text || payload.html) {
-              payload.textbody = {};
-              if (payload.text) {
-                payload.textbody = payload.text,
-                delete payload.text;
-              }
-              if (payload.html) {
-                payload.htmlbody = payload.html
-                delete payload.html;
-              }
+        // If message has content
+        if (payload.subject || payload.textbody || payload.htmlbody) {
+          if (payload.text || payload.html) {
+            payload.textbody = {};
+            if (payload.text) {
+              payload.textbody = payload.text;
+              delete payload.text;
+            }
+            if (payload.html) {
+              payload.htmlbody = payload.html;
+              delete payload.html;
             }
           }
-          break;
+        }
+        break;
+      }
       default:
-        throw new Error('Unsupported ZeptoMail API version');
+        throw new Error(`Unsupported ZeptoMail API version '${originalPayload.api}'.`);
     }
     return payload;
   }
