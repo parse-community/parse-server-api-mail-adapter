@@ -63,8 +63,7 @@
     "lint:fix": "eslint '{src,spec,demo}/**/*.js' --fix",
     "madge": "node_modules/.bin/madge ./src $npm_config_arg",
     "madge:circular": "npm run madge --arg=--circular",
-    "test": "nyc --reporter=lcov jasmine",
-    "posttest": "nyc report --reporter=json && codecov -f coverage/*.json",
+    "test": "nyc jasmine",
     "prepare": "npm run build && npm test",
     "demo": "node ./demo"
   }
