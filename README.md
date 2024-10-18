@@ -334,7 +334,7 @@ var { SendMailClient } = require('zeptomail');
 
 const url = process.env.ZEPTOMAIL_URL;
 const token = process.env.ZEPTOMAIL_TOKEN;
-let zeptoMaiClient = new SendMailClient({url, token});
+const zeptoMaiClient = new SendMailClient({ url, token });
 
 
 // Configure Parse Server
@@ -347,7 +347,7 @@ const server = new ParseServer({
             ... otherAdapterOptions,
 
             apiCallback: async ({ payload, locale }) => {
-                const zeptoMailPayload = ApiPayloadConverter.zeptomail({ api: '1.1', originalPayload: payload});
+                const zeptoMailPayload = ApiPayloadConverter.zeptomail({ api: '1.1', payload });
                 await zeptoMaiClient.sendMail(zeptoMailPayload);
             },
         }

@@ -6,13 +6,13 @@ class ApiPayloadConverter {
 
   /**
    * @description Converts the mail payload for the official Mailgun client.
-   * @param {Object} originalPayload The original payload (provider agnostic).
+   * @param {Object} data The original payload (provider agnostic).
    * @returns {Object} The payload according to Mailgun client specification.
    */
-  static mailgun(originalPayload) {
+  static mailgun(data) {
 
     // Clone payload
-    const payload = Object.assign({}, originalPayload);
+    const payload = Object.assign({}, data);
 
     // Transform reply-to
     if (payload.replyTo) {
@@ -25,13 +25,13 @@ class ApiPayloadConverter {
 
   /**
    * @description Converts the mail payload for the AWS Simple Mail Service (AWS JavaScript SDK v3).
-   * @param {Object} originalPayload The original payload (provider agnostic).
+   * @param {Object} data The original payload (provider agnostic).
    * @returns {Object} The payload according to AWS SDK specification.
    */
-  static awsSes(originalPayload) {
+  static awsSes(data) {
 
     // Clone payload
-    const payload = Object.assign({}, originalPayload);
+    const payload = Object.assign({}, data);
 
     // Transform sender
     payload.Source = [payload.from];
@@ -95,16 +95,16 @@ class ApiPayloadConverter {
 
   /**
    * Converts the mail payload for the ZeptoMail.
-   * @param {Object} originalPayload The original payload
-   * @param {String} originalPayload.api The provider API version.
-   * @param {Object} originalPayload.payload The payload to convert to be compatible with the provider API.
+   * @param {Object} data The original payload
+   * @param {String} data.api The provider API version.
+   * @param {Object} data.payload The payload to convert to be compatible with the provider API.
    * @returns {Object} The payload according to ZeptoMail SDK specification.
    */
-  static zeptomail(originalPayload) {
+  static zeptomail(data) {
 
     // Clone payload
-    const payload = Object.assign({}, originalPayload.payload);
-    switch (originalPayload.api) {
+    const payload = Object.assign({}, data.payload);
+    switch (data.api) {
       case '1.1': {
 
         // Transform sender
@@ -144,7 +144,7 @@ class ApiPayloadConverter {
         break;
       }
       default:
-        throw new Error(`Unsupported ZeptoMail API version '${originalPayload.api}'.`);
+        throw new Error(`Unsupported ZeptoMail API version '${ data.api }'.`);
     }
     return payload;
   }
