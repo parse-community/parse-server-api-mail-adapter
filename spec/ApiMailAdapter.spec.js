@@ -404,8 +404,7 @@ describe('ApiMailAdapter', () => {
     });
 
     describe('convert ZeptoMail API v1.1 payload', () => {
-
-      it('converts single recepient payload for ZeptoMail', () => {
+      it('converts single recipient payload', () => {
         const payload = converter.zeptomail({ api: '1.1', payload: examplePayload});
         expect(payload.from.address).toEqual(examplePayload.from);
         expect(payload.to).toBeInstanceOf(Array);
@@ -419,7 +418,7 @@ describe('ApiMailAdapter', () => {
         expect(payload.htmlbody).toBe(examplePayload.html);
       });
 
-      it('converts multiple recepients payload for ZeptoMail', () => {
+      it('converts multiple recipients payload', () => {
         const examplePayload = {
           from: "from@example.com",
           to: "to@example.com,toanother@example.com",

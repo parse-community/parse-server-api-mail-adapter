@@ -355,7 +355,6 @@ const server = new ParseServer({
 });
 ```
 
-
 ## Custom API
 
 This is an example of how the API payload can be adapted in the adapter configuration `apiCallback` according to a custom email provider's API specification.
