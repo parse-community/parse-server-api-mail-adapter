@@ -447,8 +447,7 @@ describe('ApiMailAdapter', () => {
       });
 
       it('throws if unsupported version', () => {
-        expect(() => converter.zeptomail({ api: '1.2', payload: examplePayload})).toThrow();
-        expect(() => converter.zeptomail({ api: '1.1', payload: examplePayload})).not.toThrow();
+        expect(() => converter.zeptomail({ api: 'invalidVersion', payload: examplePayload})).toThrowError(/invalidVersion/);
       });
     });
   });
