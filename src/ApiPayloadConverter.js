@@ -6,13 +6,13 @@ class ApiPayloadConverter {
 
   /**
    * @description Converts the mail payload for the official Mailgun client.
-   * @param {Object} originalPayload The original payload (provider agnostic).
+   * @param {Object} data The original payload (provider agnostic).
    * @returns {Object} The payload according to Mailgun client specification.
    */
-  static mailgun(originalPayload) {
+  static mailgun(data) {
 
     // Clone payload
-    const payload = Object.assign({}, originalPayload);
+    const payload = Object.assign({}, data);
 
     // Transform reply-to
     if (payload.replyTo) {
@@ -25,13 +25,13 @@ class ApiPayloadConverter {
 
   /**
    * @description Converts the mail payload for the AWS Simple Mail Service (AWS JavaScript SDK v3).
-   * @param {Object} originalPayload The original payload (provider agnostic).
+   * @param {Object} data The original payload (provider agnostic).
    * @returns {Object} The payload according to AWS SDK specification.
    */
-  static awsSes(originalPayload) {
+  static awsSes(data) {
 
     // Clone payload
-    const payload = Object.assign({}, originalPayload);
+    const payload = Object.assign({}, data);
 
     // Transform sender
     payload.Source = [payload.from];
@@ -90,6 +90,62 @@ class ApiPayloadConverter {
       }
     }
 
+    return payload;
+  }
+
+  /**
+   * Converts the mail payload for the ZeptoMail.
+   * @param {Object} data The original payload
+   * @param {String} data.api The provider API version.
+   * @param {Object} data.payload The payload to convert to be compatible with the provider API.
+   * @returns {Object} The payload according to ZeptoMail SDK specification.
+   */
+  static zeptomail(data) {
+
+    // Clone payload
+    const payload = Object.assign({}, data.payload);
+    switch (data.api) {
+      case '1.1': {
+
+        // Transform sender
+        payload.from = {
+          address: payload.from
+        }
+        const emailString = payload.to;
+        const emailAddresses = emailString.split(',').map(email => email.trim());
+        const formattedEmails = emailAddresses.map((address) => ({
+          email_address: {
+            address: address.trim()
+          }
+        }));
+        payload.to = formattedEmails;
+        if (payload.replyTo) {
+          payload.reply_to = [{
+            address: payload.replyTo
+          }
+          ];
+          delete payload.replyTo;
+        }
+
+        // If message has content
+        if (payload.subject || payload.textbody || payload.htmlbody) {
+          if (payload.text || payload.html) {
+            payload.textbody = {};
+            if (payload.text) {
+              payload.textbody = payload.text;
+              delete payload.text;
+            }
+            if (payload.html) {
+              payload.htmlbody = payload.html;
+              delete payload.html;
+            }
+          }
+        }
+        break;
+      }
+      default:
+        throw new Error(`Unsupported ZeptoMail API version '${ data.api }'.`);
+    }
     return payload;
   }
 }

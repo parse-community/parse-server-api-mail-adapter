@@ -402,6 +402,54 @@ describe('ApiMailAdapter', () => {
       expect(payload.Message.Body.Text.Data).toBe(examplePayload.text);
       expect(payload.Message.Body.Html.Data).toBe(examplePayload.html);
     });
+
+    describe('convert ZeptoMail API v1.1 payload', () => {
+      it('converts single recipient payload', () => {
+        const payload = converter.zeptomail({ api: '1.1', payload: examplePayload});
+        expect(payload.from.address).toEqual(examplePayload.from);
+        expect(payload.to).toBeInstanceOf(Array);
+        expect(payload.to.length).toBe(1);
+        expect(payload.to[0].email_address.address).toEqual(examplePayload.to);
+        expect(payload.reply_to).toBeInstanceOf(Array);
+        expect(payload.reply_to.length).toBe(1);
+        expect(payload.reply_to[0].address).toEqual(examplePayload.replyTo);
+        expect(payload.subject).toBe(examplePayload.subject);
+        expect(payload.textbody).toBe(examplePayload.text);
+        expect(payload.htmlbody).toBe(examplePayload.html);
+      });
+
+      it('converts multiple recipients payload', () => {
+        const examplePayload = {
+          from: "from@example.com",
+          to: "to@example.com,toanother@example.com",
+          replyTo: "replyto@example.com, replytoanother@example.com",
+          subject: "ExampleSubject",
+          text: "ExampleText",
+          html: "ExampleHtml"
+        }
+        const payload = converter.zeptomail({ api: '1.1', payload: examplePayload});
+        expect(payload.from.address).toEqual(examplePayload.from);
+        expect(payload.to).toBeInstanceOf(Array);
+        const exmplePayloadToAddresses = examplePayload.to.split(',');
+        const toAddresses = payload.to.map(entry => entry.email_address.address);
+        exmplePayloadToAddresses.forEach((address, index) => {
+          expect(address).toBe(toAddresses[index]);
+        });
+        expect(payload.reply_to).toBeInstanceOf(Array);
+        const exmpleReplyToAddresses = examplePayload.replyTo.split(',').map(addr => addr.trim());
+        const replyToAddresses = payload.reply_to[0].address.split(',').map(addr => addr.trim());
+        exmpleReplyToAddresses.forEach((exampleAddress, index) => {
+          expect(replyToAddresses[index]).toBe(exampleAddress);
+        });
+        expect(payload.subject).toBe(examplePayload.subject);
+        expect(payload.textbody).toBe(examplePayload.text);
+        expect(payload.htmlbody).toBe(examplePayload.html);
+      });
+
+      it('throws if unsupported version', () => {
+        expect(() => converter.zeptomail({ api: 'invalidVersion', payload: examplePayload})).toThrowError(/invalidVersion/);
+      });
+    });
   });
 
   describe('invoke _sendMail', function () {

@@ -323,6 +323,38 @@ const server = new ParseServer({
 });
 ```
 
+### Example for ZeptoMail Service
+
+This is an example for the ZeptoMail Service client using the ZeptoMail JavaScript SDK.
+Provide comma separated email adddresses in recepient parameter to send to multiple.
+
+```js
+// Configure mail client
+var { SendMailClient } = require('zeptomail');
+
+const url = process.env.ZEPTOMAIL_URL;
+const token = process.env.ZEPTOMAIL_TOKEN;
+const zeptoMaiClient = new SendMailClient({ url, token });
+
+
+// Configure Parse Server
+const server = new ParseServer({
+    ...otherServerOptions,
+
+    emailAdapter: {
+        module: 'parse-server-api-mail-adapter',
+        options: {
+            ... otherAdapterOptions,
+
+            apiCallback: async ({ payload, locale }) => {
+                const zeptoMailPayload = ApiPayloadConverter.zeptomail({ api: '1.1', payload });
+                await zeptoMaiClient.sendMail(zeptoMailPayload);
+            },
+        }
+    }
+});
+```
+
 ## Custom API
 
 This is an example of how the API payload can be adapted in the adapter configuration `apiCallback` according to a custom email provider's API specification.
