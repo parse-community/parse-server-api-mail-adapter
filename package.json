@@ -1,6 +1,6 @@
 {
   "name": "parse-server-api-mail-adapter",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Universal Mail Adapter for Parse Server, supports any email provider REST API, with localization and templates.",
   "main": "./lib/index.js",
   "repository": {

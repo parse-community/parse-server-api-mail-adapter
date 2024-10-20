@@ -1,3 +1,10 @@
+# [4.1.0](https://github.com/parse-community/parse-server-api-mail-adapter/compare/4.0.0...4.1.0) (2024-10-20)
+
+
+### Features
+
+* Add ZeptoMail support ([#98](https://github.com/parse-community/parse-server-api-mail-adapter/issues/98)) ([f211b99](https://github.com/parse-community/parse-server-api-mail-adapter/commit/f211b99a2b53fa476d48991f6dcf9e5bcd9fcc90))
+
 # Changelog
 
 Changelogs are separated by distribution channel for better overview:
