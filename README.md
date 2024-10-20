@@ -33,8 +33,9 @@ The Parse Server API Mail Adapter enables Parse Server to send emails using any 
   - [Parameters](#parameters)
 - [Supported APIs](#supported-apis)
   - [Providers](#providers)
-    - [Example for Mailgun](#example-for-mailgun)
-    - [Example for AWS Simple Email Service](#example-for-aws-simple-email-service)
+    - [AWS Simple Email Service](#aws-simple-email-service)
+    - [Mailgun](#mailgun)
+    - [ZeptoMail](#zeptomail)
   - [Custom API](#custom-api)
 - [Need help?](#need-help)
 
@@ -246,14 +247,55 @@ This adapter supports any REST API by adapting the API payload in the adapter co
 
 ## Providers
 
-For convenience, support for common APIs is already built into this adapter and available via the `ApiPayloadConverter`. The following is a list of currently supported API providers:
+For convenience, support for common email provider APIs is already built into this adapter and available via the `ApiPayloadConverter`. 
 
-- [Mailgun](https://www.mailgun.com)
-- [AWS Simple Email Service (AWS JavaScript SDK v3)](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-ses/index.html)
+The following is a list of currently supported API providers. If the provider you are using is not already supported, please feel free to open an issue.
 
-If the provider you are using is not already supported, please feel free to open a PR.
+> [!CAUTION] 
+> The code examples below may show sensitive data such as API keys to be stored as environment variables. This is not a recommended practice and only used for simplicity to demonstrate how an adapter can be set up for development.
 
-### Example for Mailgun
+### AWS Simple Email Service
+
+This is an example for the AWS Simple Email Service client using the AWS JavaScript SDK v3:
+
+```js
+const { SES, SendEmailCommand } = require('@aws-sdk/client-ses');
+const {
+  // Get credentials via IMDS from the AWS instance (when deployed on AWS instance)
+  fromInstanceMetadata, 
+  // Get AWS credentials from environment variables (when testing locally)
+  fromEnv,
+} = require('@aws-sdk/credential-providers');
+
+// Get AWS credentials depending on environment
+const credentialProvider= process.env.NODE_ENV == 'production' ? fromInstanceMetadata() : fromEnv();
+const credentials = await credentialProvider();
+
+// Configure mail client
+const sesClient = new SES({
+    credentials,
+    region: 'eu-west-1',
+    apiVersion: '2010-12-01'
+});
+
+// Configure Parse Server
+const server = new ParseServer({
+    // ... other server options
+    emailAdapter: {
+        module: 'parse-server-api-mail-adapter',
+        options: {
+            // ... other adapter options
+            apiCallback: async ({ payload, locale }) => {
+                const awsSesPayload = ApiPayloadConverter.awsSes(payload);
+                const command = new SendEmailCommand(awsSesPayload);
+                await sesClient.send(command);
+            }
+        }
+    }
+});
+```
+
+### Mailgun
 
 This is an example for the Mailgun client:
 
@@ -265,13 +307,11 @@ const mailgunDomain = process.env.MAILGUN_DOMAIN;
 
 // Configure Parse Server
 const server = new ParseServer({
-    ...otherServerOptions,
-
+    // ... other server options
     emailAdapter: {
         module: 'parse-server-api-mail-adapter',
         options: {
-            ... otherAdapterOptions,
-
+            // ... other adapter options
             apiCallback: async ({ payload, locale }) => {
                 const mailgunPayload = ApiPayloadConverter.mailgun(payload);
                 await mailgunClient.messages.create(mailgunDomain, mailgunPayload);
@@ -281,71 +321,26 @@ const server = new ParseServer({
 });
 ```
 
-### Example for AWS Simple Email Service
-
-This is an example for the AWS Simple Email Service client using the AWS JavaScript SDK v3:
-
-```js
-// Configure mail client
-const { SES, SendEmailCommand } = require('@aws-sdk/client-ses');
-
-const {
-  fromInstanceMetadata, // Get credentials via IMDS from the AWS instance (when deployed on AWS instance)
-  fromEnv, // Get AWS credentials from environment variables (when testing locally)
-} = require('@aws-sdk/credential-providers');
-
-// Get AWS credentials depending on environment
-const credentialProvider= process.env.NODE_ENV == 'production' ? fromInstanceMetadata() : fromEnv();
-const credentials = await credentialProvider();
-
-const sesClient = new SES({
-    credentials,
-    region: 'eu-west-1',
-    apiVersion: '2010-12-01'
-});
-
-// Configure Parse Server
-const server = new ParseServer({
-    ...otherServerOptions,
-
-    emailAdapter: {
-        module: 'parse-server-api-mail-adapter',
-        options: {
-            ... otherAdapterOptions,
-
-            apiCallback: async ({ payload, locale }) => {
-                const awsSesPayload = ApiPayloadConverter.awsSes(payload);
-                const command = new SendEmailCommand(awsSesPayload);
-                await sesClient.send(command);
-            }
-        }
-    }
-});
-```
-
-### Example for ZeptoMail Service
+### ZeptoMail
 
 This is an example for the ZeptoMail Service client using the ZeptoMail JavaScript SDK.
 Provide comma separated email adddresses in recepient parameter to send to multiple.
 
 ```js
-// Configure mail client
-var { SendMailClient } = require('zeptomail');
+const { SendMailClient } = require('zeptomail');
 
+// Configure mail client
 const url = process.env.ZEPTOMAIL_URL;
 const token = process.env.ZEPTOMAIL_TOKEN;
 const zeptoMaiClient = new SendMailClient({ url, token });
 
-
 // Configure Parse Server
 const server = new ParseServer({
-    ...otherServerOptions,
-
+    // ... other server options
     emailAdapter: {
         module: 'parse-server-api-mail-adapter',
         options: {
-            ... otherAdapterOptions,
-
+            // ... other adapter options
             apiCallback: async ({ payload, locale }) => {
                 const zeptoMailPayload = ApiPayloadConverter.zeptomail({ api: '1.1', payload });
                 await zeptoMaiClient.sendMail(zeptoMailPayload);
@@ -366,13 +361,11 @@ const customMailClient = customMail.configure({ ... });
 
 // Configure Parse Server
 const server = new ParseServer({
-    ...otherOptions,
-
+    // ... other server options
     emailAdapter: {
         module: 'parse-server-api-mail-adapter',
         options: {
-            ... otherOptions,
-
+            // ... other adapter options
             apiCallback: async ({ payload, locale }) => {
                 const customPayload = {
                     customFrom: payload.from,
