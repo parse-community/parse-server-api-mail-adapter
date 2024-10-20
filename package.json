@@ -61,7 +61,7 @@
   "scripts": {
     "build:watch": "babel src --out-dir lib --source-maps --watch",
     "build": "babel src --out-dir lib --source-maps && tsc",
-    "lint": "eslint '{src,spec,demo}/**/*.js' 'release.config.js'",
+    "lint": "eslint '{src,spec,demo}/**/*.js' '.releaserc.js'",
     "lint:fix": "eslint '{src,spec,demo}/**/*.js' --fix",
     "madge": "node_modules/.bin/madge ./src $npm_config_arg",
     "madge:circular": "npm run madge --arg=--circular",
