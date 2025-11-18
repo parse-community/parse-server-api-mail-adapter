@@ -5,7 +5,7 @@
 [![Coverage](https://codecov.io/gh/parse-community/parse-server-api-mail-adapter/branch/alpha/graph/badge.svg)](https://codecov.io/gh/parse-community/parse-server-api-mail-adapter)
 [![auto-release](https://img.shields.io/badge/%F0%9F%9A%80-auto--release-9e34eb.svg)](https://github.com/parse-community/parse-dashboard/releases)
 
-[![Node Version](https://img.shields.io/badge/nodejs-18,_20,_22-green.svg?logo=node.js&style=flat)](https://nodejs.org)
+[![Node Version](https://img.shields.io/badge/nodejs-20,_22,_24-green.svg?logo=node.js&style=flat)](https://nodejs.org)
 
 [![npm latest version](https://img.shields.io/npm/v/parse-server-api-mail-adapter/latest.svg)](https://www.npmjs.com/package/parse-server-api-mail-adapter)
 
@@ -37,7 +37,6 @@ The Parse Server API Mail Adapter enables Parse Server to send emails using any 
     - [Mailgun](#mailgun)
     - [ZeptoMail](#zeptomail)
   - [Custom API](#custom-api)
-- [Need help?](#need-help)
 
 # Installation
 
@@ -379,8 +378,3 @@ const server = new ParseServer({
     }
 });
 ```
-
-# Need help?
-
-- Ask on StackOverflow using the [parse-server](https://stackoverflow.com/questions/tagged/parse-server) tag.
-- Search through existing [issues](https://github.com/parse-community/parse-server-api-mail-adapter/issues) or open a new issue.
