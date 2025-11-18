@@ -1,3 +1,15 @@
+# [5.0.0](https://github.com/parse-community/parse-server-api-mail-adapter/compare/4.1.0...5.0.0) (2025-11-18)
+
+
+### Features
+
+* Add support for Node 24; remove support for Node 18 ([#107](https://github.com/parse-community/parse-server-api-mail-adapter/issues/107)) ([6e87815](https://github.com/parse-community/parse-server-api-mail-adapter/commit/6e878156692a79916a103467ac6d64b9027b031f))
+
+
+### BREAKING CHANGES
+
+* Removes support for Node 18. ([6e87815](6e87815))
+
 # [4.1.0](https://github.com/parse-community/parse-server-api-mail-adapter/compare/4.0.0...4.1.0) (2024-10-20)
 
 
