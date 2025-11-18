@@ -42,11 +42,11 @@ jobs:
       matrix:
         include:
           - name: Node 24
-            NODE_VERSION: 24
+            NODE_VERSION: 24.11.1
           - name: Node 22
-            NODE_VERSION: 22
+            NODE_VERSION: 22.21.1
           - name: Node 20
-            NODE_VERSION: 20
+            NODE_VERSION: 20.19.5
       fail-fast: false
     name: Tests
     timeout-minutes: 5
