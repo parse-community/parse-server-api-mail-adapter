@@ -1,27 +1,16 @@
-### New Pull Request Checklist
-<!--
-    Please check the following boxes [x] before submitting your issue.
-    Click the "Preview" tab for better readability.
-    Thanks for contributing!
--->
+## Pull Request
 
-- [ ] I am not disclosing a [vulnerability](https://github.com/mtrezza/parse-server-api-mail-adapter/security/policy).
-- [ ] I am creating this PR in reference to an [issue](https://github.com/mtrezza/parse-server-api-mail-adapter/issues?q=is%3Aissue).
+- Report security issues [confidentially](https://parseplatform.org/security).
+- Any contribution is under this license of this repository.
 
-### Issue Description
-<!-- Add a brief description of the issue this PR solves. -->
+## Issue
+<!-- Add the link to the issue that this PR closes. -->
 
-Related issue: FILL_THIS_OUT
+## Approach
+<!-- Describe the changes in this PR. -->
 
-### Approach
-<!-- Add a description of the approach in this PR. -->
+## Tasks
+<!-- Delete tasks that don't apply. -->
 
-### TODOs before merging
-<!--
-    Add TODOs that need to be completed before merging this PR.
-    Delete suggested TODOs that do not apply to this PR.
--->
-
-- [ ] Add test cases
-- [ ] Add entry to changelog
-- [ ] Add changes to documentation (guides, repository pages, in-code descriptions)
+- [ ] Add tests
+- [ ] Add changes to documentation (guides, repository pages, code comments)
