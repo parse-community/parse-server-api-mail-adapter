@@ -7,25 +7,19 @@ on:
     branches:
       - '**'
 env:
-  NODE_VERSION: 14.16.1
+  NODE_VERSION: 24
 jobs:
   check-circular:
      name: Circular Dependencies
      timeout-minutes: 5
      runs-on: ubuntu-latest
      steps:
-       - uses: actions/checkout@v2
+       - uses: actions/checkout@v4
        - name: Use Node.js ${{ matrix.NODE_VERSION }}
-         uses: actions/setup-node@v1
+         uses: actions/setup-node@v4
          with:
            node-version: ${{ matrix.NODE_VERSION }}
-       - name: Cache Node.js modules
-         uses: actions/cache@v2
-         with:
-           path: ~/.npm
-           key: ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
-           restore-keys: |
-             ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-
+           cache: 'npm'
        - name: Install dependencies
          run: npm ci
        - run: npm run madge:circular
@@ -34,18 +28,12 @@ jobs:
      timeout-minutes: 5
      runs-on: ubuntu-latest
      steps:
-       - uses: actions/checkout@v2
+       - uses: actions/checkout@v4
        - name: Use Node.js ${{ matrix.NODE_VERSION }}
-         uses: actions/setup-node@v1
+         uses: actions/setup-node@v4
          with:
-           node-version: ${{ matrix.node-version }}
-       - name: Cache Node.js modules
-         uses: actions/cache@v2
-         with:
-           path: ~/.npm
-           key: ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
-           restore-keys: |
-             ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-
+           node-version: ${{ matrix.NODE_VERSION }}
+           cache: 'npm'
        - name: Install dependencies
          run: npm ci
        - run: npm run lint
@@ -53,29 +41,23 @@ jobs:
     strategy:
       matrix:
         include:
+          - name: Node 24
+            NODE_VERSION: 24.11.1
           - name: Node 22
-            NODE_VERSION: 22.4.1
+            NODE_VERSION: 22.21.1
           - name: Node 20
-            NODE_VERSION: 20.15.1
-          - name: Node 18
-            NODE_VERSION: 18.20.4
+            NODE_VERSION: 20.19.5
       fail-fast: false
     name: Tests
     timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.NODE_VERSION }}
-      - name: Cache Node.js modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-
+          cache: 'npm'
       - run: npm ci
       - run: npm test
         env:
