@@ -51,7 +51,7 @@
     "jasmine-spec-reporter": "7.0.0",
     "madge": "5.0.1",
     "mailgun.js": "3.5.9",
-    "nyc": "15.1.0",
+    "nyc": "17.1.0",
     "semantic-release": "25.0.2",
     "typescript": "5.2.2"
   },
