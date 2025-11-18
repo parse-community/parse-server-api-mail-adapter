@@ -7,38 +7,14 @@ assignees: ''
 
 ---
 
-### New Issue Checklist
-<!--
-    Please check the following boxes [x] before submitting your issue.
-    Click the "Preview" tab for better readability.
-    Thanks for contributing!
--->
+- Report security issues [confidentially](https://parseplatform.org/security).
+- Any contribution is under this [license](https://github.com/parse-community/parse-server-api-mail-adapter/blob/alpha/LICENSE).
+- Before posting search [existing issues](https://github.com/parse-community/parse-server-api-mail-adapter/issues?q=is%3Aissue).
 
-- [ ] I am not disclosing a [vulnerability](https://github.com/mtrezza/parse-server-api-mail-adapter/security/policy).
-- [ ] I am not just asking a [question](https://github.com/mtrezza/parse-server-api-mail-adapter#need-help).
-- [ ] I have searched through [existing issues](https://github.com/mtrezza/parse-server-api-mail-adapter/issues?q=is%3Aissue).
-- [ ] I can reproduce the issue with the [latest version](https://github.com/mtrezza/parse-server-api-mail-adapter/releases). <!-- We don't investigate issues for outdated releases. -->
+### Issue
+<!-- Describe the issue, the actual outcome, and the expected outcome. -->
 
-### Issue Description
-<!-- What is the specific issue? -->
-
-### Steps to reproduce
-<!-- How can someone else reproduce the issue? -->
-
-### Actual Outcome
-<!-- What outcome, for example query result, did you get? -->
-
-### Expected Outcome
-<!-- What outcome, for example query result, did you expect? -->
-
-### Failing Test Case / Pull Request
-<!--
-    Add a reference if you submitted a PR.
-    A PR with a failing test case helps us to analyze the issue.
-    A PR with a test case and a fix helps us to close this issue.
--->
-
-###  Environment
+### Environment
 <!-- Be specific with versions, don't use "latest" or semver ranges like "~x.y.z" or "^x.y.z". -->
 
 - API Mail Adapter version: `FILL_THIS_OUT`
