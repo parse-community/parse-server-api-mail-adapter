@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/parse-community/parse-server-api-mail-adapter/compare/5.0.0...5.0.1) (2025-11-18)
+
+
+### Bug Fixes
+
+* Node engine specification missing Node 24 support and incorrectly supports Node 18 ([#109](https://github.com/parse-community/parse-server-api-mail-adapter/issues/109)) ([ba9b91d](https://github.com/parse-community/parse-server-api-mail-adapter/commit/ba9b91de8c88521da9dbb89d7a9bd9ec8dc269fe))
+
 # [5.0.0](https://github.com/parse-community/parse-server-api-mail-adapter/compare/4.1.0...5.0.0) (2025-11-18)
 
 
