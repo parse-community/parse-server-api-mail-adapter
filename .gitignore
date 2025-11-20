@@ -30,3 +30,6 @@ lib
 
 # Demo configuration
 mailgun.json
+
+# AI agents
+.claude
