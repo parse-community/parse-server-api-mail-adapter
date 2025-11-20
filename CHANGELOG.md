@@ -1,3 +1,11 @@
+## [5.0.2](https://github.com/parse-community/parse-server-api-mail-adapter/compare/5.0.1...5.0.2) (2025-11-20)
+
+
+### Bug Fixes
+
+* `package-lock.json` not in-sync with `package.json` ([#122](https://github.com/parse-community/parse-server-api-mail-adapter/issues/122)) ([c4c8865](https://github.com/parse-community/parse-server-api-mail-adapter/commit/c4c8865b5ee790fb763e08f3c3ab690236ad9f58))
+* `package-lock.json` not in-sync with `package.json` ([#123](https://github.com/parse-community/parse-server-api-mail-adapter/issues/123)) ([2df901f](https://github.com/parse-community/parse-server-api-mail-adapter/commit/2df901f6197390667e5c5b80571b4fd8985040db))
+
 ## [5.0.1](https://github.com/parse-community/parse-server-api-mail-adapter/compare/5.0.0...5.0.1) (2025-11-18)
 
 
