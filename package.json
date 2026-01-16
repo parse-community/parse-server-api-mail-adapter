@@ -30,7 +30,7 @@
     "mustache": "4.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.28.3",
+    "@babel/cli": "7.28.6",
     "@babel/core": "7.28.6",
     "@babel/plugin-proposal-object-rest-spread": "7.20.7",
     "@babel/plugin-transform-flow-strip-types": "7.27.1",
