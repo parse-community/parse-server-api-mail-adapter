@@ -1,3 +1,17 @@
+## [5.0.4](https://github.com/parse-community/parse-server-api-mail-adapter/compare/5.0.3...5.0.4) (2026-01-25)
+
+
+### Bug Fixes
+
+* Security upgrade tar and npm ([#161](https://github.com/parse-community/parse-server-api-mail-adapter/issues/161)) ([df8d6d5](https://github.com/parse-community/parse-server-api-mail-adapter/commit/df8d6d5befefc669eec865ad17f070954e049055))
+
+## [5.0.3](https://github.com/parse-community/parse-server-api-mail-adapter/compare/5.0.2...5.0.3) (2026-01-23)
+
+
+### Bug Fixes
+
+* Security upgrade lodash from 4.17.21 to 4.17.23 ([#160](https://github.com/parse-community/parse-server-api-mail-adapter/issues/160)) ([49c914c](https://github.com/parse-community/parse-server-api-mail-adapter/commit/49c914c62d524f959ad5ff6b20b8eeb2a5398dc3))
+
 ## [5.0.2](https://github.com/parse-community/parse-server-api-mail-adapter/compare/5.0.1...5.0.2) (2025-11-20)
 
 
