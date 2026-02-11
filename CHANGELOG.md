@@ -1,3 +1,10 @@
+## [5.0.5](https://github.com/parse-community/parse-server-api-mail-adapter/compare/5.0.4...5.0.5) (2026-02-11)
+
+
+### Bug Fixes
+
+* Security upgrade to undici 7.21.0 ([#177](https://github.com/parse-community/parse-server-api-mail-adapter/issues/177)) ([9b89cd7](https://github.com/parse-community/parse-server-api-mail-adapter/commit/9b89cd7b4f6cb70bff68e80f39c294f87cef6376))
+
 ## [5.0.4](https://github.com/parse-community/parse-server-api-mail-adapter/compare/5.0.3...5.0.4) (2026-01-25)
 
 
