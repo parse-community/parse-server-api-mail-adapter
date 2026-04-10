@@ -43,7 +43,7 @@
     "@semantic-release/npm": "13.1.5",
     "@semantic-release/release-notes-generator": "14.1.0",
     "@types/jasmine": "6.0.0",
-    "@types/node": "25.5.0",
+    "@types/node": "25.5.2",
     "eslint": "10.1.0",
     "form-data": "4.0.5",
     "globals": "17.4.0",
