@@ -121,7 +121,7 @@ class ApiMailAdapter extends MailAdapter {
     // Define parameters
     let message;
     const user = email.user;
-    const userEmail = user ? user.get('email') : undefined;
+    const userEmail = user ? user.get('email') || user.get('username') : undefined;
     const templateName = email.templateName;
 
     // If template name is not set
